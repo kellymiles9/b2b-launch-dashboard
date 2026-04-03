@@ -673,55 +673,12 @@
 
   <!-- Sub tabs -->
   <div class="tabs">
-    <div class="tab active" id="tab-progress" onclick="switchTab('progress')">To Do</div>
-    <div class="tab"        id="tab-adoption" onclick="switchTab('adoption')">Launch Progress</div>
+    <div class="tab active" id="tab-adoption" onclick="switchTab('adoption')">Launch Progress</div>
     <div class="tab"        id="tab-active"   onclick="switchTab('active')">Active</div>
   </div>
 
   <!-- ── Panel 1: Launch Progress ── -->
-  <div id="panel-progress" class="tab-panel active">
-    <div class="table-wrapper">
-      <table id="progress-table">
-        <colgroup>
-          <col style="width:200px">
-          <col style="width:90px">
-          <col style="width:90px">
-          <col style="width:75px">
-          <col style="width:75px">
-          <col style="width:75px">
-          <col style="width:395px">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Account</th>
-            <th>Close Date</th>
-            <th>Target Launch</th>
-            <th class="center progress-check-col">Launch Cadence</th>
-            <th class="center progress-check-col">To Do List Sent</th>
-            <th class="center progress-check-col">Kick Off Scheduled</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody id="opp-table-body"></tbody>
-      </table>
-    </div>
-
-    <div class="save-bar">
-      <div>
-        <div class="progress-bar-wrap">
-          <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
-        </div>
-        <div class="progress-label" id="progress-label">0 of 9 fully launched</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:16px;">
-        <span class="save-status" id="save-status">All changes auto-saved</span>
-        <button class="save-btn" onclick="saveData()">Save</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── Panel 2: B2B Adoption ── -->
-  <div id="panel-adoption" class="tab-panel">
+  <div id="panel-adoption" class="tab-panel active">
     <div class="table-wrapper">
       <table id="adoption-table">
         <colgroup>
@@ -921,7 +878,7 @@
 
     function switchTab(name) {
       document.querySelectorAll(".tab").forEach((t, i) => {
-        t.classList.toggle("active", ["progress","adoption","active"][i] === name);
+        t.classList.toggle("active", ["adoption","active"][i] === name);
       });
       document.querySelectorAll(".tab-panel").forEach(p => {
         p.classList.toggle("active", p.id === `panel-${name}`);
@@ -950,35 +907,6 @@
     }
 
     /* ── Panel 1: Launch Progress ── */
-    function loadData() {
-      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
-      catch { return {}; }
-    }
-
-    function saveData() {
-      const data = {};
-      OPPS.forEach(opp => {
-        data[opp.id] = {
-          cadence : document.getElementById(`cadence-${opp.id}`).checked,
-          todo    : document.getElementById(`todo-${opp.id}`).checked,
-          kickoff : document.getElementById(`kickoff-${opp.id}`).checked,
-          notes   : document.getElementById(`notes-${opp.id}`).value,
-        };
-      });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      flashSaved("save-status");
-      updateStats();
-    }
-
-    function updateStats() {
-      let cadenceCount = 0;
-      OPPS.forEach(opp => {
-        const cadence = document.getElementById(`cadence-${opp.id}`).checked;
-        if (cadence) cadenceCount++;
-      });
-      updateLaunchedCount();
-    }
-
     function updateLaunchedCount() {
       const adoptionData = loadAdoptionData();
       let launchedCount = 0;
@@ -988,82 +916,15 @@
       });
       document.getElementById("stat-launched").textContent = launchedCount;
       document.getElementById("launch-badge").textContent  = `${launchedCount} Launched`;
-      const pct = Math.round((launchedCount / OPPS.length) * 100);
-      document.getElementById("progress-fill").style.width = pct + "%";
-      document.getElementById("progress-label").textContent = `${launchedCount} of ${OPPS.length} fully launched`;
       updateTabCounts(launchedCount);
     }
 
     function updateTabCounts(launchedCount) {
       const total = OPPS.length;
       const notLaunched = total - launchedCount;
-      document.getElementById("tab-q1").textContent        = `Q1 2026 (${total})`;
-      document.getElementById("tab-progress").textContent  = `To Do (${total})`;
-      document.getElementById("tab-adoption").textContent  = `Launch Progress (${notLaunched})`;
-      document.getElementById("tab-active").textContent    = `Active (${launchedCount})`;
-    }
-
-    function renderProgress() {
-      const saved = loadData();
-      const tbody = document.getElementById("opp-table-body");
-      tbody.innerHTML = "";
-      const sorted = [...OPPS].sort((a, b) => new Date(b.closeDate) - new Date(a.closeDate));
-      let lastMonth = null;
-      sorted.forEach(opp => {
-        const monthKey = new Date(opp.closeDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        if (monthKey !== lastMonth) {
-          const hdr = document.createElement("tr");
-          hdr.classList.add("section-header");
-          hdr.innerHTML = `<td colspan="7">${monthKey}</td>`;
-          tbody.appendChild(hdr);
-          lastMonth = monthKey;
-        }
-        const s = saved[opp.id] || { cadence: false, todo: false, kickoff: false, notes: "" };
-        const tr = document.createElement("tr");
-        tr.id = `row-${opp.id}`;
-        if (s.cadence && s.todo) tr.classList.add("launched");
-        tr.innerHTML = `
-          <td class="account-name">${opp.name}</td>
-          <td class="close-date">${formatDate(opp.closeDate)}</td>
-          <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
-          <td class="check-cell">
-            <div class="check-wrapper">
-              <label class="step-label">
-                <input type="checkbox" id="cadence-${opp.id}" ${s.cadence ? "checked" : ""} onchange="saveData()">
-                <span class="step-circle"></span>
-              </label>
-            </div>
-          </td>
-          <td class="check-cell">
-            <div class="check-wrapper">
-              <label class="step-label">
-                <input type="checkbox" id="todo-${opp.id}" ${s.todo ? "checked" : ""} onchange="saveData()">
-                <span class="step-circle"></span>
-              </label>
-            </div>
-          </td>
-          <td class="check-cell">
-            <div class="check-wrapper">
-              <label class="step-label">
-                <input type="checkbox" id="kickoff-${opp.id}" ${s.kickoff ? "checked" : ""} onchange="saveData()">
-                <span class="step-circle"></span>
-              </label>
-            </div>
-          </td>
-          <td class="notes-cell">
-            <textarea id="notes-${opp.id}" class="notes-input" placeholder="Add notes…"
-              oninput="autoResize(this); saveData()"
-              onkeydown="if(event.key==='Tab'){event.preventDefault();this.blur();}"
-              rows="1">${s.notes || ""}</textarea>
-          </td>
-        `;
-        tbody.appendChild(tr);
-        requestAnimationFrame(() => {
-          const ta = document.getElementById(`notes-${opp.id}`);
-          if (ta.value) autoResize(ta);
-        });
-      });
-      updateStats();
+      document.getElementById("tab-q1").textContent       = `Q1 2026 (${total})`;
+      document.getElementById("tab-adoption").textContent = `Launch Progress (${notLaunched})`;
+      document.getElementById("tab-active").textContent   = `Active (${launchedCount})`;
     }
 
     /* ── PBR (Projected_Billed_Revenue__c from Salesforce, pulled 2026-03-26) ── */
@@ -1150,7 +1011,14 @@
     }
 
     function renderAdoption() {
+      // Seed cadence/todo/kickoff from old To Do storage if not yet saved in adoption data
+      const todoSaved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
       const saved = loadAdoptionData();
+      OPPS.forEach(opp => {
+        const td = todoSaved[opp.id] || {};
+        const ad = saved[opp.id] || {};
+        if (!("cadence" in ad) && "cadence" in td) { ad.cadence = td.cadence; ad.todo = td.todo; ad.kickoff = td.kickoff; saved[opp.id] = ad; }
+      });
       const tbody = document.getElementById("adoption-table-body");
       tbody.innerHTML = "";
       const unlaunched = OPPS.filter(opp => {
@@ -1184,9 +1052,9 @@
           </td>
           <td class="metric-cell">${launchBadge(opp.launchDate)}</td>
           <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
-          <td class="check-cell"><input type="checkbox" id="adoption-cadence-${opp.id}" ${s.cadence ? "checked" : ""} onchange="saveAdoptionData()" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;"></td>
-          <td class="check-cell"><input type="checkbox" id="adoption-todo-${opp.id}" ${s.todo ? "checked" : ""} onchange="saveAdoptionData()" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;"></td>
-          <td class="check-cell"><input type="checkbox" id="adoption-kickoff-${opp.id}" ${s.kickoff ? "checked" : ""} onchange="saveAdoptionData()" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;"></td>
+          <td class="check-cell"><div class="check-wrapper"><label class="step-label"><input type="checkbox" id="adoption-cadence-${opp.id}" ${s.cadence ? "checked" : ""} onchange="saveAdoptionData()"><span class="step-circle"></span></label></div></td>
+          <td class="check-cell"><div class="check-wrapper"><label class="step-label"><input type="checkbox" id="adoption-todo-${opp.id}" ${s.todo ? "checked" : ""} onchange="saveAdoptionData()"><span class="step-circle"></span></label></div></td>
+          <td class="check-cell"><div class="check-wrapper"><label class="step-label"><input type="checkbox" id="adoption-kickoff-${opp.id}" ${s.kickoff ? "checked" : ""} onchange="saveAdoptionData()"><span class="step-circle"></span></label></div></td>
           <td class="metric-cell"><span class="metric-val">${b2b.companies ?? "—"}</span></td>
           <td class="metric-cell"><span class="metric-val">${b2b.catalogs ?? "—"}</span></td>
           <td class="metric-cell"><span class="metric-val">${b2b.orders ?? "—"}</span></td>
@@ -1335,7 +1203,6 @@
     }
 
     /* ── Init ── */
-    renderProgress();
     renderAdoption();
     renderActive();
     OPPS.forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
