@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>B2B Launch Dashboard — Sales B2B Cross-Sell MM LA</title>
+  <title>B2B Launch Dashboard — Kelly Miles</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -32,29 +32,6 @@
       gap: 5px;
       flex-shrink: 0;
     }
-
-    .header-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .rep-select {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 9px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-      cursor: pointer;
-      font-family: inherit;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      appearance: auto;
-      min-width: 160px;
-    }
-    .rep-select:hover  { border-color: #d1d5db; }
-    .rep-select:focus  { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.08); }
 
     .refresh-btn {
       display: flex;
@@ -320,7 +297,6 @@
       box-shadow: 0 0 0 3px rgba(99,102,241,0.08);
     }
     .notes-input::placeholder { color: #d1d5db; }
-    .notes-input:disabled { opacity: 0.5; cursor: default; pointer-events: none; }
 
     /* ── Metric input (single-line) ── */
     td.metric-cell { padding: 10px 16px; text-align: center; }
@@ -378,12 +354,6 @@
     }
 
     .save-status.saved { color: #059669; }
-
-    .all-reps-msg {
-      font-size: 12px;
-      color: #9ca3af;
-      font-style: italic;
-    }
 
     .progress-bar-wrap {
       background: #e5e7eb;
@@ -507,7 +477,6 @@
       color: #fff;
     }
     .step-label input[type="checkbox"]:checked ~ .step-circle::after { content: '✓'; }
-    .step-label input[type="checkbox"]:disabled ~ .step-circle { opacity: 0.5; cursor: default; }
 
     .badge {
       display: inline-block;
@@ -653,10 +622,6 @@
     #progress-table td:nth-child(3), #progress-table th:nth-child(3) {
       text-align: center;
     }
-
-    /* ── Rep column ── */
-    .rep-th { font-size: 12px !important; min-width: 100px; }
-    .rep-td { font-size: 12px; color: #6b7280; white-space: nowrap; padding: 14px 10px !important; }
   </style>
 </head>
 <body>
@@ -664,26 +629,19 @@
   <header>
     <div class="header-left">
       <h1>B2B Launch Dashboard <span class="badge" id="launch-badge">0 Launched</span></h1>
-      <p id="dash-subtitle">Track launch progress · All Reps · Q1/Q2 2026</p>
+      <p>Track launch progress for all closed-won B2B opportunities · Kelly Miles · Q1/Q2 2026</p>
     </div>
     <div class="refresh-wrap">
-      <div class="header-actions">
-        <select id="rep-filter" class="rep-select" onchange="setRep(this.value)">
-          <option value="">All Reps</option>
-          <option value="Kelly Miles">Kelly Miles</option>
-          <!-- Add more reps here as you onboard the team -->
-        </select>
-        <button class="refresh-btn" onclick="copyRefreshPrompt()">
-          <span class="icon">↻</span> Refresh Data
-        </button>
-      </div>
-      <span class="refresh-status" id="refresh-status">Last refreshed: never</span>
+      <button class="refresh-btn" onclick="copyRefreshPrompt()">
+        <span class="icon">↻</span> Refresh Data
+      </button>
+      <span class="refresh-status" id="refresh-status">Last refreshed: Mar 30 at 12:00 PM</span>
     </div>
   </header>
 
   <div class="stats-bar">
     <div class="stat">
-      <div class="stat-value" id="stat-total">0</div>
+      <div class="stat-value" id="stat-total">9</div>
       <div class="stat-label">Total Opps</div>
     </div>
     <div class="stat green">
@@ -720,30 +678,28 @@
     <div class="tab"        id="tab-active"   onclick="switchTab('active')">Active</div>
   </div>
 
-  <!-- ── Panel 1: To Do ── -->
+  <!-- ── Panel 1: Launch Progress ── -->
   <div id="panel-progress" class="tab-panel active">
     <div class="table-wrapper">
       <table id="progress-table">
         <colgroup>
-          <col style="width:190px">
-          <col class="rep-col-prog" style="width:100px">
+          <col style="width:200px">
           <col style="width:90px">
           <col style="width:90px">
           <col style="width:75px">
           <col style="width:75px">
           <col style="width:75px">
-          <col>
+          <col style="width:395px">
         </colgroup>
         <thead>
           <tr>
-            <th style="text-align:left">Account</th>
-            <th class="rep-th" style="display:none">Rep</th>
+            <th>Account</th>
             <th>Close Date</th>
             <th>Target Launch</th>
             <th class="center progress-check-col">Launch Cadence</th>
             <th class="center progress-check-col">To Do List Sent</th>
             <th class="center progress-check-col">Kick Off Scheduled</th>
-            <th style="text-align:left">Notes</th>
+            <th>Notes</th>
           </tr>
         </thead>
         <tbody id="opp-table-body"></tbody>
@@ -755,25 +711,26 @@
         <div class="progress-bar-wrap">
           <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
         </div>
-        <div class="progress-label" id="progress-label">0 of 0 fully launched</div>
+        <div class="progress-label" id="progress-label">0 of 9 fully launched</div>
       </div>
       <div style="display:flex;align-items:center;gap:16px;">
         <span class="save-status" id="save-status">All changes auto-saved</span>
-        <span class="all-reps-msg" id="all-reps-msg-progress" style="display:none">Select a rep above to edit</span>
-        <button class="save-btn" id="save-btn-progress" onclick="saveData()">Save</button>
+        <button class="save-btn" onclick="saveData()">Save</button>
       </div>
     </div>
   </div>
 
-  <!-- ── Panel 2: Launch Progress ── -->
+  <!-- ── Panel 2: B2B Adoption ── -->
   <div id="panel-adoption" class="tab-panel">
     <div class="table-wrapper">
       <table id="adoption-table">
         <colgroup>
           <col class="col-account">
-          <col class="rep-col-adopt" style="width:100px">
           <col style="width:90px">
           <col class="col-date">
+          <col style="width:75px">
+          <col style="width:75px">
+          <col style="width:75px">
           <col class="col-metric">
           <col class="col-metric">
           <col class="col-metric">
@@ -787,9 +744,11 @@
         <thead>
           <tr>
             <th>Account</th>
-            <th class="rep-th" style="display:none">Rep</th>
             <th>Status</th>
             <th>Launch Date</th>
+            <th class="center progress-check-col">Launch Cadence</th>
+            <th class="center progress-check-col">To Do List Sent</th>
+            <th class="center progress-check-col">Kick Off Scheduled</th>
             <th>Companies</th>
             <th>Catalogs</th>
             <th>B2B Orders</th>
@@ -809,8 +768,7 @@
       <div></div>
       <div style="display:flex;align-items:center;gap:16px;">
         <span class="save-status" id="save-status-adoption">All changes auto-saved</span>
-        <span class="all-reps-msg" id="all-reps-msg-adoption" style="display:none">Select a rep above to edit</span>
-        <button class="save-btn" id="save-btn-adoption" onclick="saveAdoptionData()">Save</button>
+        <button class="save-btn" onclick="saveAdoptionData()">Save</button>
       </div>
     </div>
   </div>
@@ -820,8 +778,7 @@
     <div class="table-wrapper">
       <table id="active-table">
         <colgroup>
-          <col style="width:190px">
-          <col class="rep-col-active" style="width:100px">
+          <col style="width:200px">
           <col style="width:165px">
           <col style="width:85px">
           <col style="width:85px">
@@ -835,7 +792,6 @@
         <thead>
           <tr>
             <th>Account</th>
-            <th class="rep-th" style="display:none">Rep</th>
             <th class="center">Monthly GMV Trend</th>
             <th>B2B Orders</th>
             <th>B2B GMV</th>
@@ -854,8 +810,7 @@
       <div></div>
       <div style="display:flex;align-items:center;gap:16px;">
         <span class="save-status" id="save-status-active">All changes auto-saved</span>
-        <span class="all-reps-msg" id="all-reps-msg-active" style="display:none">Select a rep above to edit</span>
-        <button class="save-btn" id="save-btn-active" onclick="saveAdoptionData('save-status-active')">Save</button>
+        <button class="save-btn" onclick="saveAdoptionData('save-status-active')">Save</button>
       </div>
     </div>
   </div>
@@ -863,107 +818,104 @@
   </div> <!-- /master-panel-q1 -->
 
   <script>
-    // ── Team reps ── Add new reps to this list and add their opps to OPPS below
-    const TEAM_REPS = [
-      "Kelly Miles",
-      // "Rep Name Two",
-      // "Rep Name Three",
-    ];
-
     const SIDEKICK_SIGNALS = {
+      "006OG00000LkQHxYAN": { date: "01/07/26", text: "Can you tell me a total volume of wholesale orders in 2025 | Who made these orders and what was the volume | Does that include Anthropologie", url: "https://sidekick.shopify.ai/internal/conversations/01KEBRKMFBBETKAPZ2H9TT3VFB" },
       "006OG00000KwMizYAF": { date: "03/04/26", text: "I WANT ORDERS PLACED BY A COMPANY AKA A WHOLESALE ORDER TO BE TAGGED WITH WHOLESALE | HOW DO I KNOW MY STORE CREATES COMPANY IDS | OKAY SO MAKE ME THE FLOW", url: "https://sidekick.shopify.ai/internal/conversations/01KJV55ZSTF0790E966YK6Y1C0" },
-      "006OG00000KejcQYAR": { date: "02/24/26", text: "how to prevent customers from signing in? we want an invites only b2b store", url: "https://sidekick.shopify.ai/internal/conversations/01KJ7VH33PQ1G8FQJN3601VS77" },
+      "006OG00000KejcQYAR": { date: "03/27/26", text: "can you restrict ship methods to companies | It is an order for a company | how do I change the bcc list on emailing an invoice from draft orders", url: "https://sidekick.shopify.ai/internal/conversations/01KMRJA5WQTCMMSKF8RRQ2MJ4H" },
     };
 
-    // ── Opportunities ── Each entry needs a rep field matching a name in TEAM_REPS
+    // shopType P = all shops under account; E = expansion shop only (per SF Primary Shop ID)
     const OPPS = [
-      { id: "006OG00000M9hFZYAZ", name: "FHI Heat™ (P)",                   closeDate: "2026-03-26", launchDate: "2026-07-01", shopType: "P", shopIds: [16315482212],                                                    rep: "Kelly Miles" },
-      { id: "006OG00000Kicu5YAB", name: "Kala Brand Music Co. (P)",         closeDate: "2026-03-25", launchDate: "2026-07-01", shopType: "P", shopIds: [8060141, 57105481888],                                           rep: "Kelly Miles" },
-      { id: "006OG00000LkQHxYAN", name: "thedailyessentialco.com (P)",      closeDate: "2026-03-24", launchDate: "2026-03-30", shopType: "P", shopIds: [13979069],                                                       rep: "Kelly Miles" },
-      { id: "006OG00000LW5gPYAT", name: "RAINIER ENGINEERING / Katool (P)", closeDate: "2026-03-06", launchDate: "2026-04-01", shopType: "P", shopIds: [64612172012],                                                    rep: "Kelly Miles" },
-      { id: "006OG00000LY6dBYAT", name: "COAST Products (P)",               closeDate: "2026-03-03", launchDate: "2026-03-09", shopType: "P", shopIds: [1890549872],                                                     rep: "Kelly Miles" },
-      { id: "006OG00000LCwLtYAL", name: "SABBI (P)",                        closeDate: "2026-02-26", launchDate: "2026-04-24", shopType: "P", shopIds: [79198159164, 80864313599],                                      rep: "Kelly Miles" },
-      { id: "006OG00000KwMizYAF", name: "PrimeFish Seafood Co. (P)",        closeDate: "2026-02-09", launchDate: "2026-02-23", shopType: "P", shopIds: [29616701578],                                                    rep: "Kelly Miles" },
-      { id: "006OG00000KejcQYAR", name: "PMD Beauty (P)",                   closeDate: "2026-02-03", launchDate: "2026-03-01", shopType: "P", shopIds: [41455485078, 89372721452, 55258906685, 47645360285, 47569633431], rep: "Kelly Miles" },
-      { id: "006OG00000KSfuLYAT", name: "We Norwegians (E)",                closeDate: "2026-01-21", launchDate: "2026-03-31", shopType: "E", shopIds: [47022735520],                                                    rep: "Kelly Miles" },
-      // ── Add other reps' opps here ──
-      // { id: "SFDC_OPP_ID", name: "Account Name", closeDate: "2026-XX-XX", launchDate: "2026-XX-XX", shopType: "P", shopIds: [], rep: "Rep Name Two" },
+      { id: "006OG00000M9hFZYAZ", name: "FHI Heat™ (P)",                  closeDate: "2026-03-26", launchDate: "2026-07-01", shopType: "P", shopIds: [16315482212] },
+      { id: "006OG00000Kicu5YAB", name: "Kala Brand Music Co. (P)",        closeDate: "2026-03-25", launchDate: "2026-07-01", shopType: "P", shopIds: [8060141, 57105481888] },
+      { id: "006OG00000LkQHxYAN", name: "thedailyessentialco.com (P)",     closeDate: "2026-03-24", launchDate: "2026-03-30", shopType: "P", shopIds: [13979069] },
+      { id: "006OG00000LW5gPYAT", name: "RAINIER ENGINEERING / Katool (P)", closeDate: "2026-03-06", launchDate: "2026-04-01", shopType: "P", shopIds: [64612172012] },
+      { id: "006OG00000LY6dBYAT", name: "COAST Products (P)",              closeDate: "2026-03-03", launchDate: "2026-03-09", shopType: "P", shopIds: [1890549872] },
+      { id: "006OG00000LCwLtYAL", name: "SABBI (P)",                       closeDate: "2026-02-26", launchDate: "2026-04-24", shopType: "P", shopIds: [79198159164, 80864313599] },
+      { id: "006OG00000KwMizYAF", name: "PrimeFish Seafood Co. (P)",       closeDate: "2026-02-09", launchDate: "2026-02-23", shopType: "P", shopIds: [29616701578] },
+      { id: "006OG00000KejcQYAR", name: "PMD Beauty (P)",                  closeDate: "2026-02-03", launchDate: "2026-03-01", shopType: "P", shopIds: [41455485078, 89372721452, 55258906685, 47645360285, 47569633431] },
+      { id: "006OG00000KSfuLYAT", name: "We Norwegians (E)",               closeDate: "2026-01-21", launchDate: "2026-03-31", shopType: "E", shopIds: [47022735520] },
     ];
 
     const STORAGE_KEY          = "launch_dashboard_v1";
-    const ADOPTION_STORAGE_KEY = "launch_dashboard_adoption_v3";
-    const REFRESH_KEY          = "b2b-dashboard-last-refreshed";
-
-    let currentRep = "";
-
-    function filteredOpps() {
-      return currentRep ? OPPS.filter(o => o.rep === currentRep) : OPPS;
-    }
-
-    function repSlug(rep) {
-      return rep.toLowerCase().replace(/\s+/g, "_");
-    }
-
-    function repStorageKey() {
-      return currentRep ? STORAGE_KEY + "__" + repSlug(currentRep) : null;
-    }
-
-    function repAdoptionStorageKey() {
-      return currentRep ? ADOPTION_STORAGE_KEY + "__" + repSlug(currentRep) : null;
-    }
+    const ADOPTION_STORAGE_KEY = "launch_dashboard_adoption_v5";
 
     const DEFAULT_ADOPTION = {
-      "006OG00000M9hFZYAZ": { companies: "1",  catalogs: "2", orders: "0",  gmv: "$0",      lastOrder: "",         avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" },
-      "006OG00000Kicu5YAB": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",         avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" },
-      "006OG00000LkQHxYAN": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",         avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" },
-      "006OG00000LW5gPYAT": { companies: "2",  catalogs: "1", orders: "47", gmv: "$24,321", lastOrder: "03/22/26", avgOrders: "72",  avgGmv: "$37,021", mo2Gmv: "$0",  mo1Gmv: "$0",  mo0Gmv: "$24,321", qoqGrowth: "", momGrowth: "", launched: false, notes: "" },
-      "006OG00000LY6dBYAT": { companies: "13", catalogs: "2", orders: "4",  gmv: "$20,558", lastOrder: "03/23/26", avgOrders: "5.3", avgGmv: "$27,194", mo2Gmv: "$0",  mo1Gmv: "$0",  mo0Gmv: "$20,558", qoqGrowth: "", momGrowth: "", launched: false, notes: "" },
-      "006OG00000LCwLtYAL": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",         avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" },
-      "006OG00000KwMizYAF": { companies: "53", catalogs: "0", orders: "13", gmv: "$6,363",  lastOrder: "03/20/26", avgOrders: "8.8", avgGmv: "$4,305",  mo2Gmv: "$0",  mo1Gmv: "$5,850", mo0Gmv: "$513",  qoqGrowth: "", momGrowth: "", launched: false, notes: "" },
-      "006OG00000KejcQYAR": { companies: "2",  catalogs: "2", orders: "2",  gmv: "$0",      lastOrder: "02/26/26", avgOrders: "1.2", avgGmv: "$0",      mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" },
-      "006OG00000KSfuLYAT": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",         avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" },
+      "006OG00000M9hFZYAZ": { companies: "1",  catalogs: "2", orders: "0",  gmv: "$0",      lastOrder: "",             avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // FHI Heat
+      "006OG00000Kicu5YAB": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",             avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // Kala
+      "006OG00000LkQHxYAN": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",             avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // thedailyessentialco
+      "006OG00000LW5gPYAT": { companies: "2",  catalogs: "1", orders: "47", gmv: "$58,911", lastOrder: "03/16/26", avgOrders: "72",  avgGmv: "$37,021", mo2Gmv: "$0",  mo1Gmv: "$0",  mo0Gmv: "$58,911", qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // RAINIER
+      "006OG00000LY6dBYAT": { companies: "13", catalogs: "2", orders: "13", gmv: "$21,009", lastOrder: "03/23/26", avgOrders: "5.3", avgGmv: "$27,194", mo2Gmv: "$0",  mo1Gmv: "$0",  mo0Gmv: "$21,009", qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // COAST
+      "006OG00000LCwLtYAL": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",         avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // SABBI
+      "006OG00000KwMizYAF": { companies: "53", catalogs: "0", orders: "13", gmv: "$6,363",  lastOrder: "03/20/26", avgOrders: "8.8", avgGmv: "$4,305",  mo2Gmv: "$0",  mo1Gmv: "$5,850", mo0Gmv: "$513",   qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // PrimeFish
+      "006OG00000KejcQYAR": { companies: "2",  catalogs: "2", orders: "6",  gmv: "$537",    lastOrder: "03/28/26", avgOrders: "1.2", avgGmv: "$0",      mo2Gmv: "", mo1Gmv: "", mo0Gmv: "$537",    qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // PMD Beauty
+      "006OG00000KSfuLYAT": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",             avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // We Norwegians
     };
 
-    // ── One-time migration: preserve Kelly's existing dashboard data ──
-    (function migrateKellyData() {
-      const kellyProgressKey  = STORAGE_KEY          + "__kelly_miles";
-      const kellyAdoptionKey  = ADOPTION_STORAGE_KEY + "__kelly_miles";
-      if (!localStorage.getItem(kellyProgressKey)) {
-        const old = localStorage.getItem(STORAGE_KEY);
-        if (old) localStorage.setItem(kellyProgressKey, old);
-      }
-      if (!localStorage.getItem(kellyAdoptionKey)) {
-        const old = localStorage.getItem(ADOPTION_STORAGE_KEY);
-        if (old) {
-          localStorage.setItem(kellyAdoptionKey, old);
-        } else {
-          // Try migrating from v2
-          const old2 = localStorage.getItem("launch_dashboard_adoption_v2");
-          if (old2) {
-            try {
-              const USER_FIELDS = ["launched", "launchStatus", "notes", "signal"];
-              const old2data = JSON.parse(old2);
-              const migrated = {};
-              Object.keys(old2data).forEach(id => {
-                const fresh = DEFAULT_ADOPTION[id] || {};
-                const saved = old2data[id] || {};
-                migrated[id] = Object.assign({}, fresh);
-                USER_FIELDS.forEach(f => { if (f in saved) migrated[id][f] = saved[f]; });
-              });
-              localStorage.setItem(kellyAdoptionKey, JSON.stringify(migrated));
-            } catch {}
-          }
-        }
-      }
+    // Migrate v2 → v3 (legacy, kept for safety)
+    (function migrateV2toV3() {
+      if (localStorage.getItem("launch_dashboard_adoption_v3")) return;
+      const old = JSON.parse(localStorage.getItem("launch_dashboard_adoption_v2") || "{}");
+      if (!Object.keys(old).length) return;
+      const USER_FIELDS = ["launched", "launchStatus", "notes", "signal"];
+      const migrated = {};
+      Object.keys(old).forEach(id => {
+        const fresh = DEFAULT_ADOPTION[id] || {};
+        const saved = old[id] || {};
+        migrated[id] = Object.assign({}, fresh);
+        USER_FIELDS.forEach(f => { if (f in saved) migrated[id][f] = saved[f]; });
+      });
+      localStorage.setItem("launch_dashboard_adoption_v3", JSON.stringify(migrated));
+    })();
+
+    // Migrate → v5: inject fresh B2B metrics, preserve user-entered fields from any prior version
+    (function migrateToV5() {
+      if (localStorage.getItem(ADOPTION_STORAGE_KEY)) return; // v5 already exists
+      const prior = JSON.parse(
+        localStorage.getItem("launch_dashboard_adoption_v4") ||
+        localStorage.getItem("launch_dashboard_adoption_v3") || "{}"
+      );
+      const USER_FIELDS = ["launched", "launchStatus", "notes", "signal", "avgOrders", "avgGmv", "mo2Gmv", "mo1Gmv", "mo0Gmv", "qoqGrowth", "momGrowth"];
+      const migrated = {};
+      Object.keys(DEFAULT_ADOPTION).forEach(id => {
+        const fresh = DEFAULT_ADOPTION[id] || {};
+        const saved = prior[id] || {};
+        migrated[id] = Object.assign({}, fresh);
+        USER_FIELDS.forEach(f => { if (saved[f] !== undefined && saved[f] !== "") migrated[id][f] = saved[f]; });
+      });
+      localStorage.setItem(ADOPTION_STORAGE_KEY, JSON.stringify(migrated));
     })();
 
     /* ── Tab switching ── */
+    const REFRESH_KEY = "b2b-dashboard-last-refreshed";
+
+    function copyRefreshPrompt() {
+      const prompt = `Refresh the B2B launch dashboard — pull the latest Sidekick B2B signals (questions containing "b2b", "wholesale", "company", "companies") and B2B metrics (orders, GMV, last order date) for all accounts in the dashboard and update launch-dashboard.html.`;
+      navigator.clipboard.writeText(prompt).then(() => {
+        const el = document.getElementById("refresh-status");
+        el.textContent = "✓ Copied! Paste into Claude to refresh.";
+        el.classList.add("copied");
+        setTimeout(() => {
+          el.classList.remove("copied");
+          updateRefreshLabel();
+        }, 4000);
+      });
+    }
+
+    function updateRefreshLabel() {
+      const ts = localStorage.getItem(REFRESH_KEY);
+      const el = document.getElementById("refresh-status");
+      if (!ts) { el.textContent = "Last refreshed: never"; return; }
+      const d = new Date(parseInt(ts));
+      el.textContent = `Last refreshed: ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })} at ${d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
+    }
+
     function switchMasterTab(name) {
       document.querySelectorAll(".master-tab").forEach(t => {
-        t.classList.toggle("active", t.id === "tab-" + name);
+        t.classList.toggle("active", t.textContent.toLowerCase().replace(/\s/g, "") === name.toLowerCase().replace(/\s/g, ""));
       });
       document.querySelectorAll(".master-panel").forEach(p => {
-        p.classList.toggle("active", p.id === "master-panel-" + name);
+        p.classList.toggle("active", p.id === `master-panel-${name}`);
       });
     }
 
@@ -972,7 +924,7 @@
         t.classList.toggle("active", ["progress","adoption","active"][i] === name);
       });
       document.querySelectorAll(".tab-panel").forEach(p => {
-        p.classList.toggle("active", p.id === "panel-" + name);
+        p.classList.toggle("active", p.id === `panel-${name}`);
       });
     }
 
@@ -989,7 +941,6 @@
 
     function flashSaved(statusId) {
       const el = document.getElementById(statusId);
-      if (!el) return;
       el.textContent = "Saved ✓";
       el.classList.add("saved");
       setTimeout(() => {
@@ -998,137 +949,53 @@
       }, 2000);
     }
 
-    /* ── Rep filter ── */
-    function setRep(val) {
-      currentRep = val;
-
-      // Update subtitle
-      const sub = document.getElementById("dash-subtitle");
-      sub.textContent = currentRep
-        ? `Track launch progress · ${currentRep} · Q1/Q2 2026`
-        : "Track launch progress · All Reps · Q1/Q2 2026";
-
-      // Show/hide rep column headers
-      document.querySelectorAll(".rep-th").forEach(el => {
-        el.style.display = currentRep ? "none" : "";
-      });
-
-      // Show/hide save buttons & all-reps notices
-      document.querySelectorAll(".save-btn").forEach(btn => {
-        btn.style.display = currentRep ? "" : "none";
-      });
-      document.querySelectorAll(".all-reps-msg").forEach(el => {
-        el.style.display = currentRep ? "none" : "";
-      });
-
-      // Re-render all tables
-      renderProgress();
-      renderAdoption();
-      renderActive();
-      filteredOpps().forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
-      updateLaunchedCount();
-      updatePbrDisplay();
-    }
-
-    /* ── Data loading ── */
+    /* ── Panel 1: Launch Progress ── */
     function loadData() {
-      const key = repStorageKey();
-      if (!key) {
-        // All Reps: merge from all reps
-        const merged = {};
-        TEAM_REPS.forEach(rep => {
-          try {
-            const data = JSON.parse(localStorage.getItem(STORAGE_KEY + "__" + repSlug(rep))) || {};
-            Object.assign(merged, data);
-          } catch {}
-        });
-        return merged;
-      }
-      try { return JSON.parse(localStorage.getItem(key)) || {}; }
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
       catch { return {}; }
     }
 
     function saveData() {
-      if (!currentRep) return;
-      const key = repStorageKey();
       const data = {};
-      filteredOpps().forEach(opp => {
-        const cadenceEl = document.getElementById(`cadence-${opp.id}`);
-        if (!cadenceEl) return;
+      OPPS.forEach(opp => {
         data[opp.id] = {
-          cadence : cadenceEl.checked,
+          cadence : document.getElementById(`cadence-${opp.id}`).checked,
           todo    : document.getElementById(`todo-${opp.id}`).checked,
           kickoff : document.getElementById(`kickoff-${opp.id}`).checked,
           notes   : document.getElementById(`notes-${opp.id}`).value,
         };
       });
-      localStorage.setItem(key, JSON.stringify(data));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       flashSaved("save-status");
       updateStats();
     }
 
-    function loadAdoptionData() {
-      const key = repAdoptionStorageKey();
-      if (!key) {
-        const merged = {};
-        TEAM_REPS.forEach(rep => {
-          try {
-            const data = JSON.parse(localStorage.getItem(ADOPTION_STORAGE_KEY + "__" + repSlug(rep))) || {};
-            Object.assign(merged, data);
-          } catch {}
-        });
-        return merged;
-      }
-      try { return JSON.parse(localStorage.getItem(key)) || {}; }
-      catch { return {}; }
-    }
-
-    function saveAdoptionData(statusId) {
-      if (!currentRep) return;
-      const key = repAdoptionStorageKey();
-      const existing = loadAdoptionData();
-      const data = Object.assign({}, existing);
-      filteredOpps().forEach(opp => {
-        const el = document.getElementById(`launched-${opp.id}`);
-        if (el) {
-          data[opp.id] = {
-            launched     : el.checked,
-            launchStatus : document.getElementById(`status-dot-${opp.id}`)?.dataset.status ?? (existing[opp.id]?.launchStatus || "none"),
-            notes        : document.getElementById(`adoption-notes-${opp.id}`)?.value ?? (existing[opp.id]?.notes || ""),
-          };
-        }
-      });
-      localStorage.setItem(key, JSON.stringify(data));
-      flashSaved(statusId || "save-status-adoption");
-      updateLaunchedCount();
-    }
-
-    /* ── Stats ── */
     function updateStats() {
-      const opps = filteredOpps();
-      document.getElementById("stat-total").textContent = opps.length;
+      let cadenceCount = 0;
+      OPPS.forEach(opp => {
+        const cadence = document.getElementById(`cadence-${opp.id}`).checked;
+        if (cadence) cadenceCount++;
+      });
       updateLaunchedCount();
     }
 
     function updateLaunchedCount() {
       const adoptionData = loadAdoptionData();
-      const opps = filteredOpps();
       let launchedCount = 0;
-      opps.forEach(opp => {
+      OPPS.forEach(opp => {
         const s = adoptionData[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
         if (s.launched) launchedCount++;
       });
       document.getElementById("stat-launched").textContent = launchedCount;
       document.getElementById("launch-badge").textContent  = `${launchedCount} Launched`;
-      const pct = opps.length ? Math.round((launchedCount / opps.length) * 100) : 0;
+      const pct = Math.round((launchedCount / OPPS.length) * 100);
       document.getElementById("progress-fill").style.width = pct + "%";
-      document.getElementById("progress-label").textContent = `${launchedCount} of ${opps.length} fully launched`;
+      document.getElementById("progress-label").textContent = `${launchedCount} of ${OPPS.length} fully launched`;
       updateTabCounts(launchedCount);
     }
 
     function updateTabCounts(launchedCount) {
-      const opps = filteredOpps();
-      const total      = opps.length;
+      const total = OPPS.length;
       const notLaunched = total - launchedCount;
       document.getElementById("tab-q1").textContent        = `Q1 2026 (${total})`;
       document.getElementById("tab-progress").textContent  = `To Do (${total})`;
@@ -1136,55 +1003,18 @@
       document.getElementById("tab-active").textContent    = `Active (${launchedCount})`;
     }
 
-    /* ── PBR ── */
-    const OPP_PBR = {
-      "006OG00000M9hFZYAZ": 42163.62,
-      "006OG00000Kicu5YAB": 0,
-      "006OG00000LkQHxYAN": 3150.30,
-      "006OG00000LW5gPYAT": 249920.10,
-      "006OG00000LY6dBYAT": 27387.59,
-      "006OG00000LCwLtYAL": 12734.07,
-      "006OG00000KwMizYAF": 75850.83,
-      "006OG00000KejcQYAR": 54456.83,
-      "006OG00000KSfuLYAT": 17329.17,
-    };
-
-    function updatePbrDisplay() {
-      const opps = filteredOpps();
-      const total = opps.reduce((s, o) => s + (OPP_PBR[o.id] || 0), 0);
-      const el = document.getElementById("pbr-total");
-      if (el) el.textContent = "$" + total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-
-    /* ── B2B metrics ── */
-    const B2B_DATA = {
-      "006OG00000M9hFZYAZ": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",   qoqGrowth:"—",   momGrowth:"—",       companies:"1",  catalogs:"2" },
-      "006OG00000Kicu5YAB": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",   qoqGrowth:"—",   momGrowth:"—",       companies:"0",  catalogs:"0" },
-      "006OG00000LkQHxYAN": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",   qoqGrowth:"—",   momGrowth:"—",       companies:"0",  catalogs:"0" },
-      "006OG00000LW5gPYAT": { orders:"47", gmv:"$58,911",  lastOrder:"03/22/26", avgOrders:"15.7", avgGmv:"$19,637", mo0Gmv:"$58,911", mo1Gmv:"$0",      mo2Gmv:"$0",  qoqGrowth:"New", momGrowth:"New",     companies:"2",  catalogs:"1" },
-      "006OG00000LY6dBYAT": { orders:"15", gmv:"$21,009",  lastOrder:"03/23/26", avgOrders:"4.3",  avgGmv:"$7,003",  mo0Gmv:"$20,558", mo1Gmv:"$91",     mo2Gmv:"$360",qoqGrowth:"New", momGrowth:"+22,601%",companies:"13", catalogs:"2" },
-      "006OG00000LCwLtYAL": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",   qoqGrowth:"—",   momGrowth:"—",       companies:"0",  catalogs:"0" },
-      "006OG00000KwMizYAF": { orders:"13", gmv:"$6,363",   lastOrder:"03/20/26", avgOrders:"4.3",  avgGmv:"$2,121",  mo0Gmv:"$513",    mo1Gmv:"$5,850",  mo2Gmv:"$0",  qoqGrowth:"New", momGrowth:"-91%",    companies:"53", catalogs:"0" },
-      "006OG00000KejcQYAR": { orders:"4",  gmv:"$0",       lastOrder:"02/26/26", avgOrders:"1.0",  avgGmv:"$0",      mo0Gmv:"$0",      mo1Gmv:"$0",      mo2Gmv:"$0",  qoqGrowth:"—",   momGrowth:"—",       companies:"2",  catalogs:"2" },
-      "006OG00000KSfuLYAT": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",   qoqGrowth:"—",   momGrowth:"—",       companies:"0",  catalogs:"0" },
-    };
-
-    /* ── Panel 1: To Do ── */
     function renderProgress() {
-      const saved    = loadData();
-      const tbody    = document.getElementById("opp-table-body");
+      const saved = loadData();
+      const tbody = document.getElementById("opp-table-body");
       tbody.innerHTML = "";
-      const isAllReps = !currentRep;
-      const opps     = filteredOpps();
-      const sorted   = [...opps].sort((a, b) => new Date(b.closeDate) - new Date(a.closeDate));
-      let lastMonth  = null;
-
+      const sorted = [...OPPS].sort((a, b) => new Date(b.closeDate) - new Date(a.closeDate));
+      let lastMonth = null;
       sorted.forEach(opp => {
         const monthKey = new Date(opp.closeDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
         if (monthKey !== lastMonth) {
           const hdr = document.createElement("tr");
           hdr.classList.add("section-header");
-          hdr.innerHTML = `<td colspan="20">${monthKey}</td>`;
+          hdr.innerHTML = `<td colspan="7">${monthKey}</td>`;
           tbody.appendChild(hdr);
           lastMonth = monthKey;
         }
@@ -1192,17 +1022,14 @@
         const tr = document.createElement("tr");
         tr.id = `row-${opp.id}`;
         if (s.cadence && s.todo) tr.classList.add("launched");
-        const repTd  = `<td class="rep-td" style="${isAllReps ? '' : 'display:none'}">${opp.rep || "—"}</td>`;
-        const dis    = isAllReps ? "disabled" : "";
         tr.innerHTML = `
           <td class="account-name">${opp.name}</td>
-          ${repTd}
           <td class="close-date">${formatDate(opp.closeDate)}</td>
           <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
           <td class="check-cell">
             <div class="check-wrapper">
               <label class="step-label">
-                <input type="checkbox" id="cadence-${opp.id}" ${s.cadence ? "checked" : ""} ${dis} onchange="saveData()">
+                <input type="checkbox" id="cadence-${opp.id}" ${s.cadence ? "checked" : ""} onchange="saveData()">
                 <span class="step-circle"></span>
               </label>
             </div>
@@ -1210,7 +1037,7 @@
           <td class="check-cell">
             <div class="check-wrapper">
               <label class="step-label">
-                <input type="checkbox" id="todo-${opp.id}" ${s.todo ? "checked" : ""} ${dis} onchange="saveData()">
+                <input type="checkbox" id="todo-${opp.id}" ${s.todo ? "checked" : ""} onchange="saveData()">
                 <span class="step-circle"></span>
               </label>
             </div>
@@ -1218,93 +1045,155 @@
           <td class="check-cell">
             <div class="check-wrapper">
               <label class="step-label">
-                <input type="checkbox" id="kickoff-${opp.id}" ${s.kickoff ? "checked" : ""} ${dis} onchange="saveData()">
+                <input type="checkbox" id="kickoff-${opp.id}" ${s.kickoff ? "checked" : ""} onchange="saveData()">
                 <span class="step-circle"></span>
               </label>
             </div>
           </td>
           <td class="notes-cell">
-            <textarea id="notes-${opp.id}" class="notes-input" placeholder="${isAllReps ? '' : 'Add notes…'}"
-              ${dis}
+            <textarea id="notes-${opp.id}" class="notes-input" placeholder="Add notes…"
               oninput="autoResize(this); saveData()"
               onkeydown="if(event.key==='Tab'){event.preventDefault();this.blur();}"
               rows="1">${s.notes || ""}</textarea>
           </td>
         `;
         tbody.appendChild(tr);
-        if (!isAllReps) {
-          requestAnimationFrame(() => {
-            const ta = document.getElementById(`notes-${opp.id}`);
-            if (ta && ta.value) autoResize(ta);
-          });
-        }
+        requestAnimationFrame(() => {
+          const ta = document.getElementById(`notes-${opp.id}`);
+          if (ta.value) autoResize(ta);
+        });
       });
       updateStats();
     }
 
-    /* ── Panel 2: Launch Progress ── */
+    /* ── PBR (Projected_Billed_Revenue__c from Salesforce, pulled 2026-03-26) ── */
+    const OPP_PBR = {
+      "006OG00000M9hFZYAZ": 42163.62,   // FHI Heat
+      "006OG00000Kicu5YAB": 0,           // Kala
+      "006OG00000LkQHxYAN": 3150.30,    // thedailyessentialco
+      "006OG00000LW5gPYAT": 249920.10,  // RAINIER
+      "006OG00000LY6dBYAT": 27387.59,   // COAST
+      "006OG00000LCwLtYAL": 12734.07,   // SABBI
+      "006OG00000KwMizYAF": 75850.83,   // PrimeFish
+      "006OG00000KejcQYAR": 54456.83,   // PMD Beauty
+      "006OG00000KSfuLYAT": 17329.17,   // We Norwegians
+    };
+    (function initPbr() {
+      const total = Object.values(OPP_PBR).reduce((s, v) => s + v, 0);
+      const el = document.getElementById("pbr-total");
+      if (el) el.textContent = "$" + total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    })();
+
+    /* ── B2B metrics (BigQuery, read-only) ── */
+    const B2B_DATA = {
+      "006OG00000M9hFZYAZ": { orders:"—",  gmv:"—",        lastOrder:"—",       avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",      mo2Gmv:"—",    qoqGrowth:"—",    momGrowth:"—",       companies:"1",  catalogs:"2" },
+      "006OG00000Kicu5YAB": { orders:"—",  gmv:"—",        lastOrder:"—",       avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",      mo2Gmv:"—",    qoqGrowth:"—",    momGrowth:"—",       companies:"0",  catalogs:"0" },
+      "006OG00000LkQHxYAN": { orders:"—",  gmv:"—",        lastOrder:"—",       avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",      mo2Gmv:"—",    qoqGrowth:"—",    momGrowth:"—",       companies:"0",  catalogs:"0" },
+      "006OG00000LW5gPYAT": { orders:"47", gmv:"$58,911",  lastOrder:"03/22/26",avgOrders:"15.7", avgGmv:"$19,637", mo0Gmv:"$58,911", mo1Gmv:"$0",     mo2Gmv:"$0",   qoqGrowth:"New",  momGrowth:"New",     companies:"2",  catalogs:"1" },
+      "006OG00000LY6dBYAT": { orders:"15", gmv:"$21,009",  lastOrder:"03/23/26",avgOrders:"4.3",  avgGmv:"$7,003",  mo0Gmv:"$20,558", mo1Gmv:"$91",    mo2Gmv:"$360", qoqGrowth:"New",  momGrowth:"+22,601%",companies:"13", catalogs:"2" },
+      "006OG00000LCwLtYAL": { orders:"—",  gmv:"—",        lastOrder:"—",       avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",      mo2Gmv:"—",    qoqGrowth:"—",    momGrowth:"—",       companies:"0",  catalogs:"0" },
+      "006OG00000KwMizYAF": { orders:"13", gmv:"$6,363",   lastOrder:"03/20/26",avgOrders:"4.3",  avgGmv:"$2,121",  mo0Gmv:"$513",    mo1Gmv:"$5,850", mo2Gmv:"$0",   qoqGrowth:"New",  momGrowth:"-91%",    companies:"53", catalogs:"0" },
+      "006OG00000KejcQYAR": { orders:"6",  gmv:"$537",     lastOrder:"03/28/26",avgOrders:"1.0",  avgGmv:"$0",      mo0Gmv:"$537",    mo1Gmv:"$0",     mo2Gmv:"$0",   qoqGrowth:"—",    momGrowth:"—",       companies:"2",  catalogs:"2" },
+      "006OG00000KSfuLYAT": { orders:"—",  gmv:"—",        lastOrder:"—",       avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",      mo2Gmv:"—",    qoqGrowth:"—",    momGrowth:"—",       companies:"0",  catalogs:"0" },
+    };
+
+    /* ── Panel 2: B2B Adoption ── */
+    function loadAdoptionData() {
+      try { return JSON.parse(localStorage.getItem(ADOPTION_STORAGE_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function saveAdoptionData(statusId) {
+      const existing = loadAdoptionData();
+      const data = Object.assign({}, existing);
+      OPPS.forEach(opp => {
+        const el = document.getElementById(`launched-${opp.id}`);
+        if (el) {
+          data[opp.id] = {
+            launched     : document.getElementById(`launched-${opp.id}`).checked,
+            launchStatus : document.getElementById(`status-dot-${opp.id}`)?.dataset.status ?? (existing[opp.id]?.launchStatus || "none"),
+            cadence      : document.getElementById(`adoption-cadence-${opp.id}`)?.checked ?? (existing[opp.id]?.cadence || false),
+            todo         : document.getElementById(`adoption-todo-${opp.id}`)?.checked ?? (existing[opp.id]?.todo || false),
+            kickoff      : document.getElementById(`adoption-kickoff-${opp.id}`)?.checked ?? (existing[opp.id]?.kickoff || false),
+            notes        : document.getElementById(`adoption-notes-${opp.id}`)?.value ?? (existing[opp.id]?.notes || ""),
+          };
+        }
+      });
+      localStorage.setItem(ADOPTION_STORAGE_KEY, JSON.stringify(data));
+      flashSaved(statusId || "save-status-adoption");
+      updateLaunchedCount();
+    }
+
+    function toggleLaunched(oppId) {
+      saveAdoptionData();
+      renderAdoption();
+      renderActive();
+      OPPS.forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
+    }
+
+    function cycleStatus(oppId) {
+      const dot = document.getElementById(`status-dot-${oppId}`);
+      if (!dot) return;
+      const order = ["none", "green", "yellow", "red"];
+      const current = dot.dataset.status || "none";
+      dot.dataset.status = order[(order.indexOf(current) + 1) % order.length];
+      saveAdoptionData();
+    }
+
     function launchBadge(launchDateStr) {
       if (!launchDateStr) return '';
       const days = Math.floor((new Date(launchDateStr + 'T00:00:00') - new Date()) / 86400000);
-      if (days < 0)   return `<span class="lbadge lbadge-overdue">${Math.abs(days)}d late</span>`;
-      if (days <= 7)  return `<span class="lbadge lbadge-urgent">${days}d</span>`;
+      if (days < 0)  return `<span class="lbadge lbadge-overdue">${Math.abs(days)}d late</span>`;
+      if (days <= 7) return `<span class="lbadge lbadge-urgent">${days}d</span>`;
       if (days <= 30) return `<span class="lbadge lbadge-soon">${days}d</span>`;
       return `<span class="lbadge lbadge-ok">${days}d</span>`;
     }
 
     function renderAdoption() {
-      const saved  = loadAdoptionData();
-      const tbody  = document.getElementById("adoption-table-body");
+      const saved = loadAdoptionData();
+      const tbody = document.getElementById("adoption-table-body");
       tbody.innerHTML = "";
-      const isAllReps  = !currentRep;
-      const opps       = filteredOpps();
-      const unlaunched = opps.filter(opp => {
+      const unlaunched = OPPS.filter(opp => {
         const s = saved[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
         return !s.launched;
       }).sort((a, b) => new Date(a.launchDate) - new Date(b.launchDate));
-
       let lastMonth = null;
       unlaunched.forEach(opp => {
         const monthKey = new Date(opp.launchDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
         if (monthKey !== lastMonth) {
           const hdr = document.createElement("tr");
           hdr.classList.add("section-header");
-          hdr.innerHTML = `<td colspan="20">Target Launch: ${monthKey}</td>`;
+          hdr.innerHTML = `<td colspan="15">Target Launch: ${monthKey}</td>`;
           tbody.appendChild(hdr);
           lastMonth = monthKey;
         }
-        const s   = saved[opp.id] || {};
+        const s = saved[opp.id] || {};
         const b2b = B2B_DATA[opp.id] || {};
-        const repTd  = `<td class="rep-td" style="${isAllReps ? '' : 'display:none'}">${opp.rep || "—"}</td>`;
-        const dis    = isAllReps ? "disabled" : "";
-        const dotClick = isAllReps ? "" : `onclick="cycleStatus('${opp.id}')"`;
-        const launchStatus = s.launchStatus || DEFAULT_ADOPTION[opp.id]?.launchStatus || "none";
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td class="account-name">
             <div class="account-name-wrap">
-              <input type="checkbox" id="launched-${opp.id}" ${s.launched ? "checked" : ""} ${dis}
-                onchange="toggleLaunched('${opp.id}')"
-                style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">
+              <input type="checkbox" id="launched-${opp.id}" ${s.launched ? "checked" : ""} onchange="toggleLaunched('${opp.id}')" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">
               <div>
                 <div style="display:flex;align-items:center;gap:4px;">
                   <span>${opp.name}</span>
-                  <span class="status-dot" id="status-dot-${opp.id}" data-status="${launchStatus}" ${dotClick}></span>
                 </div>
                 <div class="account-sub">Closed ${formatDate(opp.closeDate)}</div>
               </div>
             </div>
           </td>
-          ${repTd}
           <td class="metric-cell">${launchBadge(opp.launchDate)}</td>
           <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
+          <td class="check-cell"><input type="checkbox" id="adoption-cadence-${opp.id}" ${s.cadence ? "checked" : ""} onchange="saveAdoptionData()" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;"></td>
+          <td class="check-cell"><input type="checkbox" id="adoption-todo-${opp.id}" ${s.todo ? "checked" : ""} onchange="saveAdoptionData()" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;"></td>
+          <td class="check-cell"><input type="checkbox" id="adoption-kickoff-${opp.id}" ${s.kickoff ? "checked" : ""} onchange="saveAdoptionData()" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;"></td>
           <td class="metric-cell"><span class="metric-val">${b2b.companies ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.catalogs  ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.orders    ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.gmv       ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.catalogs ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.orders ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.gmv ?? "—"}</span></td>
           <td class="metric-cell"><span class="metric-val">${b2b.lastOrder ?? "—"}</span></td>
           <td class="metric-cell"><span class="metric-val">${b2b.avgOrders ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.avgGmv    ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.avgGmv ?? "—"}</span></td>
           <td class="signal-cell">
             ${(function() {
               const sig = SIDEKICK_SIGNALS[opp.id];
@@ -1316,44 +1205,23 @@
             })()}
           </td>
           <td class="notes-cell">
-            <textarea id="adoption-notes-${opp.id}" class="notes-input" placeholder="${isAllReps ? '' : 'Add notes…'}"
-              ${dis}
+            <textarea id="adoption-notes-${opp.id}" class="notes-input" placeholder="Add notes…"
               oninput="autoResize(this); saveAdoptionData()"
               onkeydown="if(event.key==='Tab'){event.preventDefault();this.blur();}"
               rows="1">${s.notes || ""}</textarea>
           </td>
         `;
         tbody.appendChild(tr);
-        if (!isAllReps) {
-          requestAnimationFrame(() => {
-            const ta = document.getElementById(`adoption-notes-${opp.id}`);
-            if (ta && ta.value) autoResize(ta);
-          });
-        }
+        requestAnimationFrame(() => {
+          const ta = document.getElementById(`adoption-notes-${opp.id}`);
+          if (ta && ta.value) autoResize(ta);
+        });
       });
     }
 
-    function toggleLaunched(oppId) {
-      saveAdoptionData();
-      renderAdoption();
-      renderActive();
-      filteredOpps().forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
-    }
-
-    function cycleStatus(oppId) {
-      if (!currentRep) return;
-      const dot = document.getElementById(`status-dot-${oppId}`);
-      if (!dot) return;
-      const order   = ["none", "green", "yellow", "red"];
-      const current = dot.dataset.status || "none";
-      dot.dataset.status = order[(order.indexOf(current) + 1) % order.length];
-      saveAdoptionData();
-    }
-
-    /* ── Panel 3: Active ── */
     function growthSpan(val) {
       if (!val || val === "—") return '<span class="growth-neutral">—</span>';
-      if (val === "New")        return '<span class="growth-new">New</span>';
+      if (val === "New") return '<span class="growth-new">New</span>';
       if (val.startsWith("+")) return `<span class="growth-pos">${val}</span>`;
       if (val.startsWith("-")) return `<span class="growth-neg">${val}</span>`;
       return `<span>${val}</span>`;
@@ -1361,50 +1229,41 @@
 
     function trendSpan(val, prevVal) {
       if (!val || val === "—") return '<span class="growth-neutral">—</span>';
-      const curr = parseFloat((val    || "").replace(/[^0-9.]/g, ""));
-      const prev = parseFloat((prevVal|| "").replace(/[^0-9.]/g, ""));
+      const curr = parseFloat((val || "").replace(/[^0-9.]/g, ""));
+      const prev = parseFloat((prevVal || "").replace(/[^0-9.]/g, ""));
       if (isNaN(curr) || isNaN(prev)) return `<span class="trend-flat">${val}</span>`;
       const cls = curr > prev ? "trend-up" : curr < prev ? "trend-down" : "trend-flat";
       return `<span class="${cls}">${val}</span>`;
     }
 
     function renderActive() {
-      const saved  = loadAdoptionData();
-      const tbody  = document.getElementById("active-table-body");
+      const saved = loadAdoptionData();
+      const tbody = document.getElementById("active-table-body");
       tbody.innerHTML = "";
-      const isAllReps  = !currentRep;
-      const opps       = filteredOpps();
-      const activeOpps = opps.filter(opp => {
+      const activeOpps = OPPS.filter(opp => {
         const s = saved[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
         return !!s.launched;
       });
-
       if (activeOpps.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="20" style="text-align:center;color:#9ca3af;padding:32px 16px;font-size:13px;">No launched accounts yet — check "Launched?" in Launch Progress to move accounts here.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:#9ca3af;padding:32px 16px;font-size:13px;">No launched accounts yet — check "Launched?" in Launch Progress to move accounts here.</td></tr>`;
         return;
       }
-
       activeOpps.forEach(opp => {
-        const s   = saved[opp.id] || {};
+        const s = saved[opp.id] || {};
         const b2b = B2B_DATA[opp.id] || {};
-        const repTd = `<td class="rep-td" style="${isAllReps ? '' : 'display:none'}">${opp.rep || "—"}</td>`;
-        const dis   = isAllReps ? "disabled" : "";
         const tr = document.createElement("tr");
         tr.id = `active-row-${opp.id}`;
         tr.classList.add("launched");
         tr.innerHTML = `
           <td class="account-name">
             <div class="account-name-wrap">
-              <input type="checkbox" id="launched-${opp.id}" checked ${dis}
-                onchange="toggleLaunched('${opp.id}')"
-                style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">
+              <input type="checkbox" id="launched-${opp.id}" checked onchange="toggleLaunched('${opp.id}')" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">
               <div>
                 <div>${opp.name}</div>
                 <div class="account-sub">Launched ${formatDate(opp.launchDate)}</div>
               </div>
             </div>
           </td>
-          ${repTd}
           <td class="metric-cell">
             <div class="trend-group">
               <div class="trend-row-item">
@@ -1421,11 +1280,11 @@
               </div>
             </div>
           </td>
-          <td class="metric-cell"><span class="metric-val">${b2b.orders    ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.gmv       ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.orders ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.gmv ?? "—"}</span></td>
           <td class="metric-cell"><span class="metric-val">${b2b.lastOrder ?? "—"}</span></td>
           <td class="metric-cell"><span class="metric-val">${b2b.avgOrders ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.avgGmv    ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.avgGmv ?? "—"}</span></td>
           <td class="metric-cell">${growthSpan(b2b.qoqGrowth)}</td>
           <td class="metric-cell">${growthSpan(b2b.momGrowth)}</td>
           <td class="close-date">${formatDate(opp.closeDate)}</td>
@@ -1434,7 +1293,6 @@
       });
     }
 
-    /* ── Risk / churn flags ── */
     function checkChurnedStatus(oppId) {
       const tr = document.getElementById(`active-row-${oppId}`);
       if (!tr) return;
@@ -1451,6 +1309,10 @@
     function updateChurnedCount() {
       const count = document.querySelectorAll("#active-table-body tr.churned-flag").length;
       document.getElementById("stat-churned").textContent = count;
+    }
+
+    function updateRiskStats() {
+      OPPS.forEach(opp => checkChurnedStatus(opp.id));
     }
 
     function checkAtRiskTrend(oppId) {
@@ -1472,32 +1334,16 @@
       document.getElementById("stat-at-risk").textContent = count;
     }
 
-    /* ── Refresh prompt ── */
-    function copyRefreshPrompt() {
-      const repPart = currentRep ? `for ${currentRep}` : "for all reps";
-      const prompt = `Refresh the B2B launch dashboard ${repPart} — pull the latest Sidekick B2B signals (questions containing "b2b", "wholesale", "company", "companies") and B2B metrics (orders, GMV, last order date) for all accounts in the dashboard and update team-launch-dashboard.html.`;
-      navigator.clipboard.writeText(prompt).then(() => {
-        const el = document.getElementById("refresh-status");
-        el.textContent = "✓ Copied! Paste into Claude to refresh.";
-        el.classList.add("copied");
-        setTimeout(() => { el.classList.remove("copied"); updateRefreshLabel(); }, 4000);
-      });
-    }
-
-    function updateRefreshLabel() {
-      const ts = localStorage.getItem(REFRESH_KEY);
-      const el = document.getElementById("refresh-status");
-      if (!ts) { el.textContent = "Last refreshed: never"; return; }
-      const d = new Date(parseInt(ts));
-      el.textContent = `Last refreshed: ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })} at ${d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
-    }
-
     /* ── Init ── */
+    renderProgress();
+    renderAdoption();
+    renderActive();
+    OPPS.forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
+    updateLaunchedCount();
     if (!localStorage.getItem(REFRESH_KEY)) {
       localStorage.setItem(REFRESH_KEY, "1743033600000"); // Mar 26, 2026
     }
     updateRefreshLabel();
-    setRep(""); // Default to All Reps view; renders everything
   </script>
 </body>
 </html>
