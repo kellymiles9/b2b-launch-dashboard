@@ -3,27 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>B2B Launch Dashboard — Team</title>
+  <title>B2B Launch Dashboard — Kelly Miles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+  <script src="/client/quick.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f0f2f5;
-      color: #1a1a2e;
-      padding: 32px 28px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f0f2f7;
+      color: #111827;
+      min-height: 100vh;
     }
 
-    header {
-      margin-bottom: 28px;
+    /* ─────────────────────────────────────
+       PAGE HEADER
+    ───────────────────────────────────── */
+    .page-header {
+      background: linear-gradient(135deg, #050c18 0%, #091220 50%, #0d1b2e 100%);
+      border-bottom: 1px solid rgba(147,51,234,0.35);
+      padding: 18px 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+    }
+    .page-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(147,51,234,0.5) 30%, rgba(147,51,234,0.5) 70%, transparent);
+    }
+    .page-header-inner {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: 16px;
+      position: relative;
     }
-
-    .header-left h1 { font-size: 24px; font-weight: 800; color: #0d0d1a; letter-spacing: -0.01em; }
-    .header-left p  { font-size: 13px; color: #6b7280; margin-top: 5px; }
+    .header-left { display: flex; align-items: center; gap: 14px; }
+    .header-icon {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+      border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 1px rgba(147,51,234,0.25), 0 4px 16px rgba(147,51,234,0.3);
+    }
+    .header-text h1 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #f1f5f9;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+    }
+    .header-text .sub {
+      font-size: 11px;
+      color: #4a6080;
+      margin-top: 3px;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .header-text .sub .dot { color: #1d3451; }
+    .header-text .sub .tag {
+      background: rgba(147,51,234,0.1);
+      border: 1px solid rgba(147,51,234,0.18);
+      color: #e9d5ff;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: 99px;
+      letter-spacing: 0.04em;
+    }
 
     .refresh-wrap {
       display: flex;
@@ -32,186 +94,426 @@
       gap: 5px;
       flex-shrink: 0;
     }
-
-    .refresh-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
     .refresh-btn {
       display: flex;
       align-items: center;
       gap: 7px;
-      background: #fff;
-      border: 1px solid #e5e7eb;
+      background: rgba(147,51,234,0.08);
+      border: 1px solid rgba(147,51,234,0.22);
       border-radius: 8px;
-      padding: 9px 16px;
-      font-size: 13px;
+      padding: 7px 16px;
+      font-size: 11.5px;
       font-weight: 600;
-      color: #374151;
+      color: #e9d5ff;
       cursor: pointer;
-      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+      transition: all 0.15s;
       font-family: inherit;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
-    .refresh-btn:hover  { background: #f9fafb; border-color: #d1d5db; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .refresh-btn:active { background: #f3f4f6; }
-    .refresh-btn .icon  { font-size: 15px; }
+    .refresh-btn:hover  { background: rgba(147,51,234,0.15); border-color: rgba(147,51,234,0.38); color: #f3e8ff; }
+    .refresh-btn:active { transform: scale(0.97); }
+    .refresh-btn .icon  { font-size: 14px; }
+    .refresh-status { font-size: 10px; color: #2a4565; letter-spacing: 0.02em; }
 
-    .refresh-status { font-size: 11.5px; color: #9ca3af; }
-    .refresh-status.copied { color: #059669; font-weight: 600; }
+    /* ─────────────────────────────────────
+       MAIN CONTENT
+    ───────────────────────────────────── */
+    .main-content { padding: 24px 36px 48px; }
 
-    /* ── Stats bar ── */
-    .stats-bar { display: flex; gap: 16px; margin-bottom: 24px; }
+    /* ─────────────────────────────────────
+       STATS BAR
+    ───────────────────────────────────── */
+    .stats-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
 
     .stat {
       background: #fff;
-      border: 1px solid #e5e7eb;
-      border-top: 3px solid #e5e7eb;
+      border: 1px solid #e4e9f0;
       border-radius: 12px;
-      padding: 16px 22px;
-      min-width: 130px;
+      padding: 16px 20px 14px;
       flex: 1;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 3px 8px rgba(0,0,0,0.02);
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .stat:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 8px 20px rgba(0,0,0,0.04); transform: translateY(-1px); }
+    .stat::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 100%;
+      border-radius: 12px 0 0 12px;
+    }
+    .stat.blue::before   { background: linear-gradient(180deg, #60a5fa, #3b82f6); }
+    .stat.green::before  { background: linear-gradient(180deg, #34d399, #10b981); }
+    .stat.orange::before { background: linear-gradient(180deg, #fbbf24, #f59e0b); }
+    .stat.purple::before { background: linear-gradient(180deg, #a78bfa, #8b5cf6); }
+    .stat.red::before    { background: linear-gradient(180deg, #f87171, #ef4444); }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 900;
+      color: #0f172a;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 9.5px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      margin-top: 6px;
     }
 
-    .stat-value { font-size: 28px; font-weight: 700; color: #111827; font-variant-numeric: tabular-nums; }
-    .stat-label { font-size: 11.5px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 3px; }
-
+    .stat.blue   .stat-value { color: #2563eb; }
     .stat.green  .stat-value { color: #059669; }
     .stat.orange .stat-value { color: #d97706; }
+    .stat.purple .stat-value { color: #9333ea; }
     .stat.red    .stat-value { color: #dc2626; }
-    .stat.green  { border-top-color: #059669; }
-    .stat.orange { border-top-color: #d97706; }
-    .stat.red    { border-top-color: #dc2626; }
 
     /* ── Master tabs ── */
-    .master-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+    .master-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
 
     .master-tab {
-      padding: 10px 24px;
-      font-size: 13.5px;
-      font-weight: 700;
+      padding: 8px 22px;
+      font-size: 13px;
+      font-weight: 600;
       color: #6b7280;
-      background: #e5e7eb;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
       user-select: none;
-      letter-spacing: 0.01em;
     }
-    .master-tab.active { background: #111827; color: #fff; border-color: #111827; }
-    .master-tab:not(.active):hover { background: #d1d5db; color: #374151; }
+
+    .master-tab.active {
+      background: #111827;
+      color: #fff;
+      border-color: #111827;
+    }
+
+    .master-tab:not(.active):hover {
+      background: #f3f4f6;
+      border-color: #d1d5db;
+      color: #374151;
+    }
+
     .master-panel { display: none; }
     .master-panel.active { display: block; }
 
     /* ── PBR bar ── */
     .pbr-bar {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 24px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      margin-bottom: -1px;
     }
-    .pbr-label { font-size: 15px; font-weight: 700; color: #6b7280; white-space: nowrap; }
-    .pbr-deal-count { font-size: 15px; font-weight: 700; color: #059669; letter-spacing: 0.01em; }
+    .pbr-label { font-size: 12px; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; }
+    .pbr-deal-count { font-size: 13px; font-weight: 700; color: #059669; }
 
-    /* ── Sub tabs ── */
-    .tabs { display: flex; gap: 4px; margin-bottom: -1px; }
+    /* ── Sub tabs (inside Q1 panel) ── */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: -1px;
+    }
 
     .tab {
-      padding: 9px 18px; font-size: 13px; font-weight: 600; color: #6b7280;
-      background: #e5e7eb; border: 1px solid #e5e7eb; border-bottom: none;
-      border-radius: 8px 8px 0 0; cursor: pointer; transition: background 0.15s, color 0.15s; user-select: none;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      border-bottom: none;
+      border-radius: 7px 7px 0 0;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      user-select: none;
     }
-    .tab.active { background: #fff; color: #111827; border-color: #e5e7eb; }
-    .tab:not(.active):hover { background: #d1d5db; color: #374151; }
 
+    .tab.active {
+      background: #fff;
+      color: #111827;
+      border-color: #e5e7eb;
+    }
+
+    .tab:not(.active):hover { background: #e5e7eb; color: #374151; }
+
+    /* ── Panels ── */
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    /* ── Table ── */
-    .table-wrapper { background: #fff; border: 1px solid #e5e7eb; border-radius: 0 12px 12px 12px; overflow: hidden; }
+    /* ── Table shared ── */
+    .table-wrapper {
+      background: #fff;
+      border: 1px solid #e4e9f0;
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      overflow-x: auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03);
+    }
 
-    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
 
     colgroup .col-account { width: 190px; }
     colgroup .col-date    { width: 88px; }
+    colgroup .col-check   { width: 100px; }
     colgroup .col-metric  { width: 88px; }
     colgroup .col-notes   { width: 160px; }
-    colgroup .col-signal  { width: 210px; }
-    colgroup .col-rep     { width: 120px; }
 
-    thead tr { background: #f9fafb; border-bottom: 2px solid #e5e7eb; height: 44px; }
+    thead tr {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border-bottom: 2px solid #9333ea;
+    }
 
     th {
-      padding: 10px 16px; font-size: 12px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.07em; color: #6b7280; text-align: left;
+      padding: 12px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #e2e8f0;
+      text-align: left;
+      white-space: normal;
+      word-break: break-word;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      vertical-align: bottom;
     }
-    th.center { text-align: center; }
-    td + td, th + th { padding-left: 22px; }
 
-    tbody tr { border-bottom: 1px solid #f3f4f6; transition: background 0.15s; }
+    th.center { text-align: center; }
+    td + td, th + th { padding-left: 0; }
+
+    tbody tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.15s;
+    }
+
     tbody tr:last-child { border-bottom: none; }
     tbody tr:hover { background: #f8f9fb; }
+
     tbody tr.launched     { background: #f0fdf4; border-left: 3px solid #10b981; }
     tbody tr.launched:hover { background: #ecfdf5; }
 
-    td { padding: 14px 16px; vertical-align: middle; font-size: 13.5px; color: #111827; }
+    td {
+      padding: 12px 14px;
+      vertical-align: middle;
+      font-size: 13px;
+      color: #111827;
+    }
+
     td.account-name { font-weight: 600; color: #111827; }
+
     td.close-date { white-space: nowrap; }
+
     td.check-cell { text-align: center; }
 
-    .check-wrapper { display: flex; align-items: center; justify-content: center; }
-    .check-wrapper input[type="checkbox"] { width: 17px; height: 17px; accent-color: #059669; cursor: pointer; }
+    .check-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .check-wrapper input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      accent-color: #059669;
+      cursor: pointer;
+    }
 
     td.notes-cell { padding: 10px 16px; }
 
     .notes-input {
-      width: 100%; min-height: 38px; border: 1px solid transparent; border-radius: 6px;
-      padding: 7px 10px; font-size: 13px; color: #374151; background: transparent;
-      resize: none; font-family: inherit; transition: border-color 0.15s, background 0.15s; overflow: hidden;
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 13px;
+      color: #374151;
+      background: transparent;
+      resize: none;
+      font-family: inherit;
+      transition: border-color 0.15s, background 0.15s;
+      overflow: hidden;
     }
-    .notes-input:hover { border-color: #d1d5db; background: #f9fafb; }
-    .notes-input:focus { outline: none; border-color: #6366f1; background: #fff; box-shadow: 0 0 0 3px rgba(99,102,241,0.08); }
+
+    .notes-input:hover  { border-color: #d1d5db; background: #f9fafb; }
+    .notes-input:focus  {
+      outline: none;
+      border-color: #9333ea;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(147,51,234,0.08);
+    }
     .notes-input::placeholder { color: #d1d5db; }
 
+    /* ── Metric input (single-line) ── */
     td.metric-cell { padding: 10px 16px; text-align: center; }
 
+    .metric-input {
+      width: 100%;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 13px;
+      color: #374151;
+      background: transparent;
+      font-family: inherit;
+      transition: border-color 0.15s, background 0.15s;
+      text-align: center;
+    }
+
+    .metric-input:hover  { border-color: #d1d5db; background: #f9fafb; }
+    .metric-input:focus  {
+      outline: none;
+      border-color: #9333ea;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(147,51,234,0.08);
+    }
+    .metric-input::placeholder { color: #d1d5db; }
+
     /* ── Save bar ── */
-    .save-bar { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
+    .save-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
 
     .save-btn {
-      background: transparent; color: #6b7280; border: 1px solid #d1d5db;
-      border-radius: 8px; padding: 9px 20px; font-size: 13px; font-weight: 600;
-      cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s; font-family: inherit;
+      background: transparent;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 9px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+      font-family: inherit;
     }
+
     .save-btn:hover  { background: #f3f4f6; border-color: #9ca3af; color: #374151; }
     .save-btn:active { transform: scale(0.98); }
 
-    .save-status { font-size: 12.5px; color: #9ca3af; transition: color 0.3s; }
+    .save-status {
+      font-size: 12.5px;
+      color: #9ca3af;
+      transition: color 0.3s;
+    }
+
     .save-status.saved { color: #059669; }
 
-    .progress-bar-wrap { background: #e5e7eb; border-radius: 99px; height: 7px; width: 300px; overflow: hidden; }
-    .progress-bar-fill { height: 100%; background: #059669; border-radius: 99px; transition: width 0.4s ease; }
-    .progress-label { font-size: 12px; color: #6b7280; margin-top: 4px; }
+    .progress-bar-wrap {
+      background: #e5e7eb;
+      border-radius: 99px;
+      height: 7px;
+      width: 300px;
+      overflow: hidden;
+    }
 
-    /* ── Active trend ── */
+    .progress-bar-fill {
+      height: 100%;
+      background: #059669;
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
     colgroup .col-trend { width: 145px; }
+
     .trend-group { display: flex; flex-direction: column; gap: 3px; align-items: center; }
     .trend-row-item { display: flex; align-items: center; gap: 5px; }
     .trend-lbl { font-size: 11px; color: #6b7280; font-weight: 500; min-width: 54px; flex-shrink: 0; }
+    .trend-mini {
+      width: 68px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      padding: 3px 6px;
+      font-size: 12px;
+      color: #374151;
+      background: transparent;
+      font-family: inherit;
+      transition: border-color 0.15s, background 0.15s;
+      text-align: center;
+    }
+    .trend-mini:hover  { border-color: #d1d5db; background: #f9fafb; }
+    .trend-mini:focus  {
+      outline: none;
+      border-color: #f59e0b;
+      background: #fff;
+      box-shadow: 0 0 0 2px rgba(245,158,11,0.12);
+    }
+    .trend-mini::placeholder { color: #d1d5db; }
 
-    .metric-val { display: block; width: 100%; padding: 5px 8px; font-size: 13px; color: #1e293b; text-align: center; font-variant-numeric: tabular-nums; }
+    .metric-val {
+      display: block;
+      width: 100%;
+      padding: 5px 8px;
+      font-size: 13px;
+      color: #1e293b;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+    .trend-val {
+      display: inline-block;
+      width: 68px;
+      padding: 3px 6px;
+      font-size: 12px;
+      color: #1e293b;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
 
     tbody tr.at-risk-flag              { background: #fffbeb !important; }
     tbody tr.at-risk-flag:hover        { background: #fef3c7 !important; }
     tbody tr.at-risk-flag .account-name::after {
-      content: " ⚠ At Risk"; font-size: 10px; font-weight: 600; color: #d97706; margin-left: 6px; letter-spacing: 0.03em;
+      content: " ⚠ At Risk";
+      font-size: 10px;
+      font-weight: 600;
+      color: #d97706;
+      margin-left: 6px;
+      letter-spacing: 0.03em;
     }
+
     tbody tr.churned-flag              { background: #fff1f2 !important; }
     tbody tr.churned-flag:hover        { background: #ffe4e6 !important; }
     tbody tr.churned-flag .account-name::after {
-      content: " ✕ Churned"; font-size: 10px; font-weight: 600; color: #dc2626; margin-left: 6px; letter-spacing: 0.03em;
+      content: " ✕ Churned";
+      font-size: 10px;
+      font-weight: 600;
+      color: #dc2626;
+      margin-left: 6px;
+      letter-spacing: 0.03em;
     }
 
+    /* ── Active tab growth coloring ── */
     .growth-pos     { color: #059669; font-weight: 700; }
     .growth-neg     { color: #dc2626; font-weight: 700; }
     .growth-new     { color: #6b7280; font-weight: 600; }
@@ -225,50 +527,140 @@
     .step-label { display: inline-flex; align-items: center; cursor: pointer; }
     .step-label input[type="checkbox"] { display: none; }
     .step-circle {
-      width: 26px; height: 26px; border-radius: 50%; border: 2px solid #d1d5db; background: #fff;
-      transition: background 0.18s, border-color 0.18s; display: flex; align-items: center;
-      justify-content: center; font-size: 13px; font-weight: 700; color: transparent;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #d1d5db;
+      background: #fff;
+      transition: background 0.18s, border-color 0.18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: transparent;
     }
     .step-label:hover .step-circle { border-color: #9ca3af; }
-    .step-label input[type="checkbox"]:checked ~ .step-circle { background: #059669; border-color: #059669; color: #fff; }
+    .step-label input[type="checkbox"]:checked ~ .step-circle {
+      background: #059669;
+      border-color: #059669;
+      color: #fff;
+    }
     .step-label input[type="checkbox"]:checked ~ .step-circle::after { content: '✓'; }
 
-    /* ── Read-only circle (All Reps view) ── */
-    .ro-circle {
-      width: 26px; height: 26px; border-radius: 50%; border: 2px solid #d1d5db; background: #fff;
-      display: inline-flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700; color: transparent;
-    }
-    .ro-circle.on { background: #059669; border-color: #059669; color: #fff; }
-    .ro-circle.on::after { content: '✓'; }
-
-    .ro-notes { font-size: 13px; color: #374151; padding: 7px 2px; line-height: 1.4; }
-
     .badge {
-      display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 9px;
-      border-radius: 99px; background: #d1fae5; color: #065f46;
-      margin-left: 10px; vertical-align: middle; letter-spacing: 0.04em;
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 99px;
+      background: rgba(147,51,234,0.15);
+      color: #e9d5ff;
+      border: 1px solid rgba(147,51,234,0.25);
+      margin-left: 10px;
+      vertical-align: middle;
+      letter-spacing: 0.04em;
     }
 
-    /* ── Adoption / Active shared header ── */
-    #adoption-table th, #active-table th { background: #eef2ff; color: #4338ca; text-align: center; }
-    #adoption-table td + td, #adoption-table th + th { text-align: center; }
+    /* ── Shared header style for all tabs ── */
+    #adoption-table th,
+    #active-table th {
+      text-align: center;
+    }
+    #adoption-table th:first-child,
+    #active-table th:first-child { text-align: left; }
+
+    #adoption-table td + td,
+    #adoption-table th + th { text-align: center; }
+
+    /* ── Sidekick dropdown ── */
+    td.sidekick-cell { text-align: center; padding: 10px 12px; vertical-align: middle; }
+
+    .sk-toggle {
+      display: inline-block;
+      margin-top: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #7e22ce;
+      background: #eef2ff;
+      border: 1px solid #f3e8ff;
+      border-radius: 5px;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .sk-toggle:hover { background: #e0e7ff; }
+    .sk-toggle-empty { color: #9ca3af; background: #f9fafb; border-color: #e5e7eb; }
+    .sk-toggle-empty:hover { background: #f3f4f6; }
+
+    .sidekick-drop-row td.sidekick-drop-cell {
+      background: #f8f9ff;
+      border-left: 3px solid #9333ea;
+      padding: 12px 20px 14px 20px;
+    }
+    .sk-empty { font-size: 13px; color: #9ca3af; }
+    .sk-msg {
+      padding: 8px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .sk-msg:last-child { border-bottom: none; padding-bottom: 0; }
+    .sk-meta {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      margin-bottom: 3px;
+    }
+    .sk-name { font-size: 12px; font-weight: 600; color: #374151; }
+    .sk-date { font-size: 11px; color: #9ca3af; }
+    .sk-text { font-size: 13px; color: #374151; line-height: 1.45; }
+
+    /* ── Sidekick signal column ── */
+    colgroup .col-signal { width: 210px; }
 
     td.signal-cell { padding: 10px 16px; vertical-align: top; }
-    .signal-display { font-size: 13px; color: #374151; line-height: 1.45; }
-    .signal-display .signal-date { font-size: 12px; color: #6b7280; font-weight: 600; margin-right: 5px; }
-    .signal-display .signal-text {
-      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 5px;
-    }
-    .signal-display .signal-link { font-size: 12px; color: #6366f1; text-decoration: none; font-weight: 500; }
-    .signal-display .signal-link:hover { text-decoration: underline; }
-    .signal-empty { font-size: 13px; color: #d1d5db; }
 
-    /* ── Status dot ── */
+    .signal-display {
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.45;
+    }
+    .signal-display .signal-date {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 600;
+      margin-right: 5px;
+    }
+    .signal-display .signal-text {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+    .signal-display .signal-link {
+      font-size: 12px;
+      color: #9333ea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .signal-display .signal-link:hover { text-decoration: underline; }
+    .signal-empty {
+      font-size: 13px;
+      color: #d1d5db;
+    }
+
+    /* ── Launch status dot ── */
     .status-dot {
-      display: inline-block; width: 10px; height: 10px; border-radius: 50%;
-      margin-left: 8px; vertical-align: middle; cursor: pointer; flex-shrink: 0;
-      border: 1.5px solid transparent; transition: transform 0.12s;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-left: 8px;
+      vertical-align: middle;
+      cursor: pointer;
+      flex-shrink: 0;
+      border: 1.5px solid transparent;
+      transition: transform 0.12s;
     }
     .status-dot:hover { transform: scale(1.25); }
     .status-dot[data-status="green"]  { background: #10b981; border-color: #059669; }
@@ -276,60 +668,130 @@
     .status-dot[data-status="red"]    { background: #ef4444; border-color: #dc2626; }
     .status-dot[data-status="none"]   { background: #e5e7eb; border-color: #d1d5db; }
 
-    .account-name-wrap { display: flex; align-items: center; gap: 0; }
+    .account-name-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
 
-    /* ── Progress table ── */
-    #progress-table thead tr { background: #f3f4f6; border-bottom: 2px solid #e5e7eb; }
-    #progress-table th { background: #eef2ff; color: #4338ca; text-align: center; }
+    /* ── Start sub-tabs ── */
+    .sub-tabs {
+      display: flex;
+      gap: 4px;
+      margin: 0 0 -1px;
+    }
+    .sub-tab {
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      cursor: pointer;
+      border-radius: 7px 7px 0 0;
+      border: 1px solid #e5e7eb;
+      border-bottom: none;
+      background: #f3f4f6;
+      transition: color 0.15s, background 0.15s;
+      user-select: none;
+    }
+    .sub-tab:hover { color: #374151; background: #e5e7eb; }
+    .sub-tab.active {
+      color: #111827;
+      font-weight: 600;
+      background: #fff;
+      border-color: #e5e7eb;
+    }
+    .sub-panel { display: none; }
+    .sub-panel.active { display: block; }
+
+    /* ── To Do table enhancements ── */
+    #progress-table th {
+      text-align: center;
+    }
     #progress-table th:first-child { text-align: left; }
-    #progress-table td.check-cell { background: transparent; border-left: none; }
-    #progress-table tbody tr { border-bottom: 1px solid #f0f0f5; }
+
+    #progress-table td.check-cell {
+      background: transparent;
+      border-left: none;
+    }
+
+    #progress-table tbody tr {
+      border-bottom: 1px solid #f0f0f5;
+    }
 
     tr.section-header td {
-      background: #f1f5f9; font-size: 11px; font-weight: 700; color: #6b7280;
-      text-transform: uppercase; letter-spacing: 0.08em; padding: 7px 16px;
-      border-bottom: 1px solid #e5e7eb; border-top: 2px solid #e5e7eb; border-left: none !important;
+      background: #f8fafc;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
+      padding: 7px 16px;
+      border-bottom: 1px solid #e5e7eb;
+      border-top: 2px solid #e5e7eb;
+      border-left: none !important;
     }
     tr.section-header:first-child td { border-top: none; }
 
-    .lbadge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; vertical-align: middle; margin-left: 6px; }
+    /* ── Launch urgency badges ── */
+    .lbadge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
     .lbadge-overdue { background: #fee2e2; color: #dc2626; }
     .lbadge-urgent  { background: #ffedd5; color: #ea580c; }
     .lbadge-soon    { background: #fef9c3; color: #ca8a04; }
     .lbadge-ok      { background: #f1f5f9; color: #6b7280; }
 
-    td.col-sep, th.col-sep { border-left: 1px solid #e5e7eb; }
-    td.col-center, th.col-center { text-align: center; }
-
-    /* ── Read-only banner ── */
-    .readonly-banner {
-      display: none; font-size: 12px; color: #6b7280;
-      background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px;
-      padding: 7px 14px; margin-bottom: 14px;
+    #progress-table td:nth-child(2), #progress-table th:nth-child(2),
+    #progress-table td:nth-child(4), #progress-table th:nth-child(4),
+    #progress-table td:nth-child(7), #progress-table th:nth-child(7) {
+      border-left: 1px solid #e5e7eb;
     }
-    body.all-reps-mode .readonly-banner { display: block; }
+
+    #progress-table td:nth-child(2), #progress-table th:nth-child(2),
+    #progress-table td:nth-child(3), #progress-table th:nth-child(3) {
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-left">
-      <h1>B2B Launch Dashboard <span class="badge" id="launch-badge">0 Launched</span></h1>
-      <p id="header-subtitle">Track launch progress for all closed-won B2B opportunities · Kelly Miles · Q1/Q2 2026</p>
-    </div>
-    <div class="refresh-wrap">
-      <div class="refresh-controls">
-        <button class="refresh-btn" onclick="copyRefreshPrompt()">
-          <span class="icon">↻</span> Refresh Data
-        </button>
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="header-left">
+        <div class="header-icon">🚀</div>
+        <div class="header-text">
+          <h1>B2B Launch Dashboard <span class="badge" id="launch-badge">0 Launched</span></h1>
+          <div class="sub">
+            Kelly Miles
+            <span class="dot">·</span>
+            <span class="tag">LA Mid-Market</span>
+            <span class="dot">·</span>
+            <span>Track launch progress for all closed-won B2B opportunities</span>
+          </div>
+        </div>
       </div>
-      <span class="refresh-status" id="refresh-status">Last refreshed: never</span>
+      <div class="refresh-wrap">
+        <button class="refresh-btn" id="refresh-btn" onclick="doRefresh()">
+          <span class="icon">⟳</span>
+          <span id="refresh-btn-label">Refresh Data</span>
+        </button>
+        <span class="refresh-status" id="refresh-status">—</span>
+      </div>
     </div>
-  </header>
+  </div>
+
+  <div class="main-content">
 
   <div class="stats-bar">
-    <div class="stat">
-      <div class="stat-value" id="stat-total">—</div>
+    <div class="stat blue">
+      <div class="stat-value" id="stat-total">9</div>
       <div class="stat-label">Total Opps</div>
     </div>
     <div class="stat green">
@@ -346,243 +808,212 @@
     </div>
   </div>
 
+  <!-- Master tabs -->
   <div class="master-tabs">
-    <div class="master-tab active" id="tab-q1" onclick="switchMasterTab('q1')">Q1 2026</div>
+    <div class="master-tab active" id="tab-start" onclick="switchMasterTab('start')">Start</div>
+    <div class="master-tab"        id="tab-q1"    onclick="switchMasterTab('q1')">Q1 2026</div>
   </div>
 
-  <div id="master-panel-q1" class="master-panel active">
-
-    <div class="readonly-banner">Viewing full team — select a rep from the dropdown to edit their data.</div>
-
-    <div class="pbr-bar">
-      <span class="pbr-label">PBR:</span>
-      <span class="pbr-deal-count" id="pbr-total"></span>
+  <!-- ── Master panel: Start ── -->
+  <div id="master-panel-start" class="master-panel active">
+    <div class="sub-tabs">
+      <div class="sub-tab active" id="sub-tab-todo"     onclick="switchSubTab('todo')">To Do</div>
+      <div class="sub-tab"        id="sub-tab-finished" onclick="switchSubTab('finished')">Finished</div>
     </div>
-
-    <div class="tabs">
-      <div class="tab active" id="tab-progress" onclick="switchTab('progress')">To Do</div>
-      <div class="tab"        id="tab-adoption" onclick="switchTab('adoption')">Launch Progress</div>
-      <div class="tab"        id="tab-active"   onclick="switchTab('active')">Active</div>
-    </div>
-
-    <!-- Panel 1: To Do -->
-    <div id="panel-progress" class="tab-panel active">
+    <div class="sub-panel active" id="sub-panel-todo">
       <div class="table-wrapper">
         <table id="progress-table">
-          <colgroup id="progress-colgroup"></colgroup>
-          <thead id="progress-thead"></thead>
+          <colgroup>
+            <col style="width:200px">
+            <col style="width:90px">
+            <col style="width:90px">
+            <col style="width:75px">
+            <col style="width:75px">
+            <col style="width:75px">
+            <col style="width:395px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Account</th>
+              <th>Close Date</th>
+              <th>Target Launch</th>
+              <th class="center progress-check-col">Launch Cadence</th>
+              <th class="center progress-check-col">To Do List Sent</th>
+              <th class="center progress-check-col">Kick Off Scheduled</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
           <tbody id="opp-table-body"></tbody>
         </table>
       </div>
-      <div class="save-bar">
-        <div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
-          </div>
-          <div class="progress-label" id="progress-label">0 of 0 fully launched</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:16px;">
-          <span class="save-status" id="save-status">All changes auto-saved</span>
-          <button class="save-btn" id="save-btn-progress" style="display:none" onclick="saveData()">Save</button>
-        </div>
-      </div>
     </div>
-
-    <!-- Panel 2: Launch Progress -->
-    <div id="panel-adoption" class="tab-panel">
+    <div class="sub-panel" id="sub-panel-finished">
       <div class="table-wrapper">
-        <table id="adoption-table">
-          <colgroup id="adoption-colgroup"></colgroup>
-          <thead id="adoption-thead"></thead>
-          <tbody id="adoption-table-body"></tbody>
+        <table id="finished-table">
+          <colgroup>
+            <col style="width:200px">
+            <col style="width:90px">
+            <col style="width:90px">
+            <col style="width:75px">
+            <col style="width:75px">
+            <col style="width:75px">
+            <col style="width:395px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Account</th>
+              <th>Close Date</th>
+              <th>Target Launch</th>
+              <th class="center progress-check-col">Launch Cadence</th>
+              <th class="center progress-check-col">To Do List Sent</th>
+              <th class="center progress-check-col">Kick Off Scheduled</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="finished-table-body"></tbody>
         </table>
       </div>
-      <div class="save-bar">
-        <div></div>
-        <div style="display:flex;align-items:center;gap:16px;">
-          <span class="save-status" id="save-status-adoption">All changes auto-saved</span>
-          <button class="save-btn" id="save-btn-adoption" style="display:none" onclick="saveAdoptionData()">Save</button>
+    </div>
+    <div class="save-bar">
+      <div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
         </div>
+        <div class="progress-label" id="progress-label">0 of 0 fully launched</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="save-status" id="save-status">All changes auto-saved</span>
+        <button class="save-btn" onclick="saveData()">Save</button>
       </div>
     </div>
+  </div>
 
-    <!-- Panel 3: Active -->
-    <div id="panel-active" class="tab-panel">
-      <div class="table-wrapper">
-        <table id="active-table">
-          <colgroup id="active-colgroup"></colgroup>
-          <thead id="active-thead"></thead>
-          <tbody id="active-table-body"></tbody>
-        </table>
-      </div>
-      <div class="save-bar">
-        <div></div>
-        <div style="display:flex;align-items:center;gap:16px;">
-          <span class="save-status" id="save-status-active">All changes auto-saved</span>
-          <button class="save-btn" id="save-btn-active" style="display:none" onclick="saveAdoptionData('save-status-active')">Save</button>
-        </div>
-      </div>
+  <!-- ── Master panel: Q1 2026 ── -->
+  <div id="master-panel-q1" class="master-panel">
+
+  <!-- ── PBR bar ── -->
+  <div class="pbr-bar">
+    <span class="pbr-label">PBR:</span>
+    <span class="pbr-deal-count" id="pbr-total"></span>
+  </div>
+
+  <!-- Sub tabs -->
+  <div class="tabs">
+    <div class="tab active" id="tab-adoption" onclick="switchTab('adoption')">Launch Progress</div>
+    <div class="tab"        id="tab-active"   onclick="switchTab('active')">Active</div>
+  </div>
+
+  <!-- ── Panel 2: B2B Adoption ── -->
+  <div id="panel-adoption" class="tab-panel active">
+    <div class="table-wrapper">
+      <table id="adoption-table" style="table-layout:auto;">
+        <colgroup>
+          <col style="min-width:180px">
+          <col style="width:85px">
+          <col style="width:90px">
+          <col style="width:80px">
+          <col style="width:130px">
+          <col style="width:85px">
+          <col style="width:75px">
+          <col style="width:85px">
+          <col style="width:90px">
+          <col style="width:105px">
+          <col style="width:95px">
+          <col style="width:95px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Account</th>
+            <th>Close Date</th>
+            <th>Launch Date</th>
+            <th>Status</th>
+            <th>Sidekick</th>
+            <th>Companies</th>
+            <th>Catalogs</th>
+            <th>B2B Orders</th>
+            <th>B2B GMV</th>
+            <th>Last B2B Order</th>
+            <th>Avg Mo Volume</th>
+            <th>Avg Mo GMV</th>
+          </tr>
+        </thead>
+        <tbody id="adoption-table-body"></tbody>
+      </table>
     </div>
 
-  </div><!-- /master-panel-q1 -->
+    <div class="save-bar">
+      <div></div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="save-status" id="save-status-adoption">All changes auto-saved</span>
+        <button class="save-btn" onclick="saveAdoptionData()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Panel 3: Active ── -->
+  <div id="panel-active" class="tab-panel">
+    <div class="table-wrapper">
+      <table id="active-table">
+        <colgroup>
+          <col style="width:200px">
+          <col style="width:165px">
+          <col style="width:85px">
+          <col style="width:85px">
+          <col style="width:95px">
+          <col style="width:95px">
+          <col style="width:95px">
+          <col style="width:85px">
+          <col style="width:85px">
+          <col style="width:95px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Account</th>
+            <th class="center">Monthly GMV Trend</th>
+            <th>B2B Orders</th>
+            <th>B2B GMV</th>
+            <th>Last B2B Order</th>
+            <th>Avg Mo Volume</th>
+            <th>Avg Mo GMV</th>
+            <th>QoQ Growth</th>
+            <th>MoM Growth</th>
+            <th>Close Date</th>
+          </tr>
+        </thead>
+        <tbody id="active-table-body"></tbody>
+      </table>
+    </div>
+    <div class="save-bar">
+      <div></div>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span class="save-status" id="save-status-active">All changes auto-saved</span>
+        <button class="save-btn" onclick="saveAdoptionData('save-status-active')">Save</button>
+      </div>
+    </div>
+  </div>
+
+  </div> <!-- /master-panel-q1 -->
 
   <script>
-    /* ════════════════════════════════════════════════
-       DATA
-    ════════════════════════════════════════════════ */
+    // Populated at refresh time — not hardcoded
+    let OPPS = [];
+    let B2B_DATA = {};
+    let SIDEKICK_SIGNALS = {};
+    let OPP_PBR = {};
 
-    // Team rep list — update names to match actual reps on the team
-    const REP_LIST = [
-      "Kelly Miles",
-      "Rep Placeholder 2",  // TODO: replace with actual name
-      "Rep Placeholder 3",
-      "Rep Placeholder 4",
-      "Rep Placeholder 5",
-    ];
+    const STORAGE_KEY          = "launch_dashboard_v1";
+    const ADOPTION_STORAGE_KEY = "launch_dashboard_adoption_v6";
 
-    const SIDEKICK_SIGNALS = {
-      "006OG00000KwMizYAF": { date: "03/04/26", text: "I WANT ORDERS PLACED BY A COMPANY AKA A WHOLESALE ORDER TO BE TAGGED WITH WHOLESALE | HOW DO I KNOW MY STORE CREATES COMPANY IDS | OKAY SO MAKE ME THE FLOW", url: "https://sidekick.shopify.ai/internal/conversations/01KJV55ZSTF0790E966YK6Y1C0" },
-      "006OG00000KejcQYAR": { date: "02/24/26", text: "how to prevent customers from signing in? we want an invites only b2b store", url: "https://sidekick.shopify.ai/internal/conversations/01KJ7VH33PQ1G8FQJN3601VS77" },
-    };
+    /* ── Tab switching ── */
+    const REFRESH_KEY = "b2b-launch-last-refreshed";
 
-    // ── OPPS: every entry has a rep field ──
-    // Placeholder reps: fill in id, name, closeDate, launchDate, shopIds, rep
-    const OPPS = [
-      // Kelly Miles
-      { rep: "Kelly Miles", id: "006OG00000M9hFZYAZ", name: "FHI Heat™ (P)",                   closeDate: "2026-03-26", launchDate: "2026-07-01", shopType: "P", shopIds: [16315482212] },
-      { rep: "Kelly Miles", id: "006OG00000Kicu5YAB", name: "Kala Brand Music Co. (P)",         closeDate: "2026-03-25", launchDate: "2026-07-01", shopType: "P", shopIds: [8060141, 57105481888] },
-      { rep: "Kelly Miles", id: "006OG00000LkQHxYAN", name: "thedailyessentialco.com (P)",      closeDate: "2026-03-24", launchDate: "2026-03-30", shopType: "P", shopIds: [13979069] },
-      { rep: "Kelly Miles", id: "006OG00000LW5gPYAT", name: "RAINIER ENGINEERING / Katool (P)", closeDate: "2026-03-06", launchDate: "2026-04-01", shopType: "P", shopIds: [64612172012] },
-      { rep: "Kelly Miles", id: "006OG00000LY6dBYAT", name: "COAST Products (P)",               closeDate: "2026-03-03", launchDate: "2026-03-09", shopType: "P", shopIds: [1890549872] },
-      { rep: "Kelly Miles", id: "006OG00000LCwLtYAL", name: "SABBI (P)",                        closeDate: "2026-02-26", launchDate: "2026-04-24", shopType: "P", shopIds: [79198159164, 80864313599] },
-      { rep: "Kelly Miles", id: "006OG00000KwMizYAF", name: "PrimeFish Seafood Co. (P)",        closeDate: "2026-02-09", launchDate: "2026-02-23", shopType: "P", shopIds: [29616701578] },
-      { rep: "Kelly Miles", id: "006OG00000KejcQYAR", name: "PMD Beauty (P)",                   closeDate: "2026-02-03", launchDate: "2026-03-01", shopType: "P", shopIds: [41455485078, 89372721452, 55258906685, 47645360285, 47569633431] },
-      { rep: "Kelly Miles", id: "006OG00000KSfuLYAT", name: "We Norwegians (E)",                closeDate: "2026-01-21", launchDate: "2026-03-31", shopType: "E", shopIds: [47022735520] },
-
-      // Rep Placeholder 2 — replace rep name, fill in real opps
-      { rep: "Rep Placeholder 2", id: "PLACEHOLDER_RP2_001", name: "— Account Placeholder —", closeDate: "2026-01-01", launchDate: "2026-04-01", shopType: "P", shopIds: [] },
-
-      // Rep Placeholder 3
-      { rep: "Rep Placeholder 3", id: "PLACEHOLDER_RP3_001", name: "— Account Placeholder —", closeDate: "2026-01-01", launchDate: "2026-04-01", shopType: "P", shopIds: [] },
-
-      // Rep Placeholder 4
-      { rep: "Rep Placeholder 4", id: "PLACEHOLDER_RP4_001", name: "— Account Placeholder —", closeDate: "2026-01-01", launchDate: "2026-04-01", shopType: "P", shopIds: [] },
-
-      // Rep Placeholder 5
-      { rep: "Rep Placeholder 5", id: "PLACEHOLDER_RP5_001", name: "— Account Placeholder —", closeDate: "2026-01-01", launchDate: "2026-04-01", shopType: "P", shopIds: [] },
-    ];
-
-    const OPP_PBR = {
-      "006OG00000M9hFZYAZ": 42163.62,
-      "006OG00000Kicu5YAB": 0,
-      "006OG00000LkQHxYAN": 3150.30,
-      "006OG00000LW5gPYAT": 249920.10,
-      "006OG00000LY6dBYAT": 27387.59,
-      "006OG00000LCwLtYAL": 12734.07,
-      "006OG00000KwMizYAF": 75850.83,
-      "006OG00000KejcQYAR": 54456.83,
-      "006OG00000KSfuLYAT": 17329.17,
-      "PLACEHOLDER_RP2_001": 0,
-      "PLACEHOLDER_RP3_001": 0,
-      "PLACEHOLDER_RP4_001": 0,
-      "PLACEHOLDER_RP5_001": 0,
-    };
-
-    const DEFAULT_ADOPTION = {
-      "006OG00000M9hFZYAZ": { companies:"1",  catalogs:"2", orders:"0",  gmv:"$0",      lastOrder:"",         avgOrders:"",    avgGmv:"",        mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
-      "006OG00000Kicu5YAB": { companies:"0",  catalogs:"0", orders:"0",  gmv:"$0",      lastOrder:"",         avgOrders:"",    avgGmv:"",        mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
-      "006OG00000LkQHxYAN": { companies:"0",  catalogs:"0", orders:"0",  gmv:"$0",      lastOrder:"",         avgOrders:"",    avgGmv:"",        mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
-      "006OG00000LW5gPYAT": { companies:"2",  catalogs:"1", orders:"47", gmv:"$24,321", lastOrder:"03/22/26", avgOrders:"72",  avgGmv:"$37,021", mo2Gmv:"$0",  mo1Gmv:"$0",    mo0Gmv:"$24,321", qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
-      "006OG00000LY6dBYAT": { companies:"13", catalogs:"2", orders:"4",  gmv:"$20,558", lastOrder:"03/23/26", avgOrders:"5.3", avgGmv:"$27,194", mo2Gmv:"$0",  mo1Gmv:"$0",    mo0Gmv:"$20,558", qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
-      "006OG00000LCwLtYAL": { companies:"0",  catalogs:"0", orders:"0",  gmv:"$0",      lastOrder:"",         avgOrders:"",    avgGmv:"",        mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
-      "006OG00000KwMizYAF": { companies:"53", catalogs:"0", orders:"13", gmv:"$6,363",  lastOrder:"03/20/26", avgOrders:"8.8", avgGmv:"$4,305",  mo2Gmv:"$0",  mo1Gmv:"$5,850",mo0Gmv:"$513",    qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
-      "006OG00000KejcQYAR": { companies:"2",  catalogs:"2", orders:"2",  gmv:"$0",      lastOrder:"02/26/26", avgOrders:"1.2", avgGmv:"$0",      mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
-      "006OG00000KSfuLYAT": { companies:"0",  catalogs:"0", orders:"0",  gmv:"$0",      lastOrder:"",         avgOrders:"",    avgGmv:"",        mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
-      "PLACEHOLDER_RP2_001": { companies:"—", catalogs:"—", orders:"—",  gmv:"—",       lastOrder:"—",        avgOrders:"—",   avgGmv:"—",       mo2Gmv:"—",   mo1Gmv:"—",     mo0Gmv:"—",       qoqGrowth:"—",momGrowth:"—",launched:false, notes:"" },
-      "PLACEHOLDER_RP3_001": { companies:"—", catalogs:"—", orders:"—",  gmv:"—",       lastOrder:"—",        avgOrders:"—",   avgGmv:"—",       mo2Gmv:"—",   mo1Gmv:"—",     mo0Gmv:"—",       qoqGrowth:"—",momGrowth:"—",launched:false, notes:"" },
-      "PLACEHOLDER_RP4_001": { companies:"—", catalogs:"—", orders:"—",  gmv:"—",       lastOrder:"—",        avgOrders:"—",   avgGmv:"—",       mo2Gmv:"—",   mo1Gmv:"—",     mo0Gmv:"—",       qoqGrowth:"—",momGrowth:"—",launched:false, notes:"" },
-      "PLACEHOLDER_RP5_001": { companies:"—", catalogs:"—", orders:"—",  gmv:"—",       lastOrder:"—",        avgOrders:"—",   avgGmv:"—",       mo2Gmv:"—",   mo1Gmv:"—",     mo0Gmv:"—",       qoqGrowth:"—",momGrowth:"—",launched:false, notes:"" },
-    };
-
-    const B2B_DATA = {
-      "006OG00000M9hFZYAZ": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"1",  catalogs:"2" },
-      "006OG00000Kicu5YAB": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"0",  catalogs:"0" },
-      "006OG00000LkQHxYAN": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"0",  catalogs:"0" },
-      "006OG00000LW5gPYAT": { orders:"47", gmv:"$58,911",  lastOrder:"03/22/26", avgOrders:"15.7", avgGmv:"$19,637", mo0Gmv:"$58,911", mo1Gmv:"$0",      mo2Gmv:"$0",   qoqGrowth:"New", momGrowth:"New",      companies:"2",  catalogs:"1" },
-      "006OG00000LY6dBYAT": { orders:"15", gmv:"$21,009",  lastOrder:"03/23/26", avgOrders:"4.3",  avgGmv:"$7,003",  mo0Gmv:"$20,558", mo1Gmv:"$91",     mo2Gmv:"$360", qoqGrowth:"New", momGrowth:"+22,601%", companies:"13", catalogs:"2" },
-      "006OG00000LCwLtYAL": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"0",  catalogs:"0" },
-      "006OG00000KwMizYAF": { orders:"13", gmv:"$6,363",   lastOrder:"03/20/26", avgOrders:"4.3",  avgGmv:"$2,121",  mo0Gmv:"$513",    mo1Gmv:"$5,850",  mo2Gmv:"$0",   qoqGrowth:"New", momGrowth:"-91%",     companies:"53", catalogs:"0" },
-      "006OG00000KejcQYAR": { orders:"4",  gmv:"$0",       lastOrder:"02/26/26", avgOrders:"1.0",  avgGmv:"$0",      mo0Gmv:"$0",      mo1Gmv:"$0",      mo2Gmv:"$0",   qoqGrowth:"—",   momGrowth:"—",        companies:"2",  catalogs:"2" },
-      "006OG00000KSfuLYAT": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"0",  catalogs:"0" },
-      "PLACEHOLDER_RP2_001": { orders:"—", gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"—",  catalogs:"—" },
-      "PLACEHOLDER_RP3_001": { orders:"—", gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"—",  catalogs:"—" },
-      "PLACEHOLDER_RP4_001": { orders:"—", gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"—",  catalogs:"—" },
-      "PLACEHOLDER_RP5_001": { orders:"—", gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"—",  catalogs:"—" },
-    };
-
-    /* ════════════════════════════════════════════════
-       STATE & STORAGE
-    ════════════════════════════════════════════════ */
-
-    let currentRep = "Kelly Miles";
-    const REFRESH_KEY = "b2b-team-dashboard-last-refreshed";
-
-    function slug(name) {
-      return name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+    function updateRefreshLabel() {
+      const ts = localStorage.getItem(REFRESH_KEY);
+      const el = document.getElementById("refresh-status");
+      if (!ts) { el.textContent = "Last refreshed: never"; return; }
+      const d = new Date(parseInt(ts));
+      el.textContent = `Last refreshed: ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })} at ${d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
     }
-
-    function storageKey(rep)        { return `launch_dashboard_v1_${slug(rep)}`; }
-    function adoptionStorageKey(rep){ return `launch_dashboard_adoption_v3_${slug(rep)}`; }
-
-    // One-time migration: carry Kelly's existing single-rep data into namespaced key
-    (function migrateKelly() {
-      const kk = storageKey("Kelly Miles");
-      const ka = adoptionStorageKey("Kelly Miles");
-      if (!localStorage.getItem(kk)) {
-        const old = localStorage.getItem("launch_dashboard_v1");
-        if (old) localStorage.setItem(kk, old);
-      }
-      if (!localStorage.getItem(ka)) {
-        const old = localStorage.getItem("launch_dashboard_adoption_v3") ||
-                    localStorage.getItem("launch_dashboard_adoption_v2");
-        if (old) localStorage.setItem(ka, old);
-      }
-    })();
-
-    function loadData(rep) {
-      if (rep && rep !== "All Reps") {
-        try { return JSON.parse(localStorage.getItem(storageKey(rep))) || {}; }
-        catch { return {}; }
-      }
-      const merged = {};
-      REP_LIST.forEach(r => {
-        try { Object.assign(merged, JSON.parse(localStorage.getItem(storageKey(r))) || {}); }
-        catch {}
-      });
-      return merged;
-    }
-
-    function loadAdoptionData(rep) {
-      if (rep && rep !== "All Reps") {
-        try { return JSON.parse(localStorage.getItem(adoptionStorageKey(rep))) || {}; }
-        catch { return {}; }
-      }
-      const merged = {};
-      REP_LIST.forEach(r => {
-        try { Object.assign(merged, JSON.parse(localStorage.getItem(adoptionStorageKey(r))) || {}); }
-        catch {}
-      });
-      return merged;
-    }
-
-    function isReadOnly()    { return false; }
-    function getFilteredOpps() {
-      return OPPS.filter(o => o.rep === currentRep);
-    }
-
-    /* ════════════════════════════════════════════════
-       TAB SWITCHING
-    ════════════════════════════════════════════════ */
 
     function switchMasterTab(name) {
       document.querySelectorAll(".master-tab").forEach(t => {
@@ -595,19 +1026,29 @@
 
     function switchTab(name) {
       document.querySelectorAll(".tab").forEach((t, i) => {
-        t.classList.toggle("active", ["progress","adoption","active"][i] === name);
+        t.classList.toggle("active", ["adoption","active"][i] === name);
       });
       document.querySelectorAll(".tab-panel").forEach(p => {
         p.classList.toggle("active", p.id === `panel-${name}`);
       });
     }
 
-    /* ════════════════════════════════════════════════
-       HELPERS
-    ════════════════════════════════════════════════ */
+    function switchSubTab(name) {
+      document.querySelectorAll(".sub-tab").forEach(t => {
+        t.classList.toggle("active", t.id === `sub-tab-${name}`);
+      });
+      document.querySelectorAll(".sub-panel").forEach(p => {
+        p.classList.toggle("active", p.id === `sub-panel-${name}`);
+      });
+    }
 
+    /* ── Shared helpers ── */
     function formatDate(dateStr) {
-      const [y, m, d] = dateStr.split("-");
+      if (!dateStr) return "—";
+      const raw = (dateStr && typeof dateStr === 'object' && dateStr.value) ? dateStr.value : dateStr;
+      const s = String(raw).slice(0, 10);
+      if (!/^\d{4}-\d{2}-\d{2}/.test(s)) return "—";
+      const [y, m, d] = s.split("-");
       return `${m}/${d}/${y.slice(2)}`;
     }
 
@@ -618,19 +1059,441 @@
 
     function flashSaved(statusId) {
       const el = document.getElementById(statusId);
-      if (!el) return;
       el.textContent = "Saved ✓";
       el.classList.add("saved");
-      setTimeout(() => { el.textContent = "All changes auto-saved"; el.classList.remove("saved"); }, 2000);
+      setTimeout(() => {
+        el.textContent = "All changes auto-saved";
+        el.classList.remove("saved");
+      }, 2000);
+    }
+
+    /* ── Panel 1: Launch Progress ── */
+    function loadData() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function saveData() {
+      const data = {};
+      OPPS.forEach(opp => {
+        data[opp.id] = {
+          cadence : document.getElementById(`cadence-${opp.id}`).checked,
+          todo    : document.getElementById(`todo-${opp.id}`).checked,
+          kickoff : document.getElementById(`kickoff-${opp.id}`).checked,
+          notes   : document.getElementById(`notes-${opp.id}`).value,
+        };
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      flashSaved("save-status");
+      updateStats();
+    }
+
+    function updateStats() {
+      let cadenceCount = 0;
+      OPPS.forEach(opp => {
+        const cadence = document.getElementById(`cadence-${opp.id}`).checked;
+        if (cadence) cadenceCount++;
+      });
+      updateLaunchedCount();
+    }
+
+    function updateLaunchedCount() {
+      const adoptionData = loadAdoptionData();
+      let launchedCount = 0;
+      OPPS.forEach(opp => {
+        const s = adoptionData[opp.id] || {};
+        if (s.launched) launchedCount++;
+      });
+      document.getElementById("stat-launched").textContent = launchedCount;
+      document.getElementById("launch-badge").textContent  = `${launchedCount} Launched`;
+      const pct = Math.round((launchedCount / OPPS.length) * 100);
+      document.getElementById("progress-fill").style.width = pct + "%";
+      document.getElementById("progress-label").textContent = `${launchedCount} of ${OPPS.length} fully launched`;
+      updateTabCounts(launchedCount);
+    }
+
+    function updateTabCounts(launchedCount) {
+      const total = OPPS.length;
+      const notLaunched = total - launchedCount;
+      document.getElementById("tab-start").textContent    = `Start (${total})`;
+      document.getElementById("tab-q1").textContent        = `Q1 2026 (${total})`;
+      document.getElementById("tab-adoption").textContent  = `Launch Progress (${notLaunched})`;
+      document.getElementById("tab-active").textContent    = `Active (${launchedCount})`;
+    }
+
+    function buildProgressRow(opp, s) {
+      const tr = document.createElement("tr");
+      tr.id = `row-${opp.id}`;
+      if (s.cadence && s.todo) tr.classList.add("launched");
+      tr.innerHTML = `
+        <td class="account-name">${opp.name}</td>
+        <td class="close-date">${formatDate(opp.closeDate)}</td>
+        <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
+        <td class="check-cell">
+          <div class="check-wrapper">
+            <label class="step-label">
+              <input type="checkbox" id="cadence-${opp.id}" ${s.cadence ? "checked" : ""} onchange="saveData()">
+              <span class="step-circle"></span>
+            </label>
+          </div>
+        </td>
+        <td class="check-cell">
+          <div class="check-wrapper">
+            <label class="step-label">
+              <input type="checkbox" id="todo-${opp.id}" ${s.todo ? "checked" : ""} onchange="saveData()">
+              <span class="step-circle"></span>
+            </label>
+          </div>
+        </td>
+        <td class="check-cell">
+          <div class="check-wrapper">
+            <label class="step-label">
+              <input type="checkbox" id="kickoff-${opp.id}" ${s.kickoff ? "checked" : ""} onchange="saveData()">
+              <span class="step-circle"></span>
+            </label>
+          </div>
+        </td>
+        <td class="notes-cell">
+          <textarea id="notes-${opp.id}" class="notes-input" placeholder="Add notes…"
+            oninput="autoResize(this); saveData()"
+            onkeydown="if(event.key==='Tab'){event.preventDefault();this.blur();}"
+            rows="1">${s.notes || ""}</textarea>
+        </td>
+      `;
+      return tr;
+    }
+
+    function renderProgress() {
+      const saved = loadData();
+      const todoBody     = document.getElementById("opp-table-body");
+      const finishedBody = document.getElementById("finished-table-body");
+      todoBody.innerHTML = "";
+      finishedBody.innerHTML = "";
+
+      const sorted = [...OPPS].sort((a, b) => new Date(b.closeDate) - new Date(a.closeDate));
+
+      let todoCount = 0, finishedCount = 0;
+      sorted.forEach(opp => {
+        const s = saved[opp.id] || { cadence: false, todo: false, kickoff: false, notes: "" };
+        const isFinished = s.cadence && s.todo && s.kickoff;
+        const tbody = isFinished ? finishedBody : todoBody;
+
+        // Section header
+        const monthKey = new Date(opp.closeDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        const lastHdr = tbody.querySelector("tr.section-header:last-of-type");
+        if (!lastHdr || lastHdr.textContent !== monthKey) {
+          const hdr = document.createElement("tr");
+          hdr.classList.add("section-header");
+          hdr.innerHTML = `<td colspan="7">${monthKey}</td>`;
+          tbody.appendChild(hdr);
+        }
+
+        tbody.appendChild(buildProgressRow(opp, s));
+        if (isFinished) finishedCount++; else todoCount++;
+
+        requestAnimationFrame(() => {
+          const ta = document.getElementById(`notes-${opp.id}`);
+          if (ta && ta.value) autoResize(ta);
+        });
+      });
+
+      // Update sub-tab labels
+      document.getElementById("sub-tab-todo").textContent     = `To Do (${todoCount})`;
+      document.getElementById("sub-tab-finished").textContent = `Finished (${finishedCount})`;
+
+      updateStats();
+    }
+
+    /* ── SQL ── */
+    const OPPS_SQL = `
+      SELECT
+        o.opportunity_id,
+        o.name          AS opp_name,
+        o.salesforce_account_id AS account_id,
+        o.close_date,
+        o.primary_shop_id,
+        DATE(r.Proposed_Launch_Date_B2B__c) AS launch_date,
+        COALESCE(r.Projected_Billed_Revenue__c, 0) AS pbr
+      FROM \`shopify-dw.sales.sales_opportunities\` o
+      LEFT JOIN \`shopify-dw.raw_salesforce_banff.opportunity\` r ON r.Id = o.opportunity_id
+      WHERE o.salesforce_owner_name = 'Kelly Miles'
+        AND o.is_won = TRUE
+        AND o.is_closed = TRUE
+        AND o.close_date >= '2025-01-01'
+        AND EXISTS (SELECT 1 FROM UNNEST(o.product_list) p WHERE p = 'B2B')
+      ORDER BY o.close_date DESC
+    `;
+
+    const B2B_METRICS_SQL = `
+      WITH opps AS (
+        SELECT
+          o.opportunity_id,
+          o.salesforce_account_id AS account_id,
+          o.close_date
+        FROM \`shopify-dw.sales.sales_opportunities\` o
+        WHERE o.salesforce_owner_name = 'Kelly Miles'
+          AND o.is_won = TRUE AND o.is_closed = TRUE
+          AND o.close_date >= '2025-01-01'
+          AND EXISTS (SELECT 1 FROM UNNEST(o.product_list) p WHERE p = 'B2B')
+      ),
+      acct_shops AS (
+        SELECT DISTINCT sf.account_id, sf.shop_id
+        FROM \`shopify-dw.mart_revenue_data.revenue_shop_salesforce_summary\` sf
+        JOIN opps op ON sf.account_id = op.account_id
+      ),
+      orders_raw AS (
+        SELECT
+          s.account_id,
+          op.opportunity_id,
+          op.close_date,
+          COUNT(*) AS total_orders,
+          SUM(b.total_sales_usd) AS total_gmv,
+          MAX(DATE(b.order_created_at)) AS last_order_date,
+          SUM(CASE WHEN DATE_TRUNC(DATE(b.order_created_at), MONTH) = DATE_TRUNC(CURRENT_DATE(), MONTH) THEN b.total_sales_usd ELSE 0 END) AS mo0_gmv,
+          SUM(CASE WHEN DATE_TRUNC(DATE(b.order_created_at), MONTH) = DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 1 MONTH), MONTH) THEN b.total_sales_usd ELSE 0 END) AS mo1_gmv,
+          SUM(CASE WHEN DATE_TRUNC(DATE(b.order_created_at), MONTH) = DATE_TRUNC(DATE_SUB(CURRENT_DATE(), INTERVAL 2 MONTH), MONTH) THEN b.total_sales_usd ELSE 0 END) AS mo2_gmv
+        FROM \`sdp-prd-storefronts.intermediate.b2b_orders\` b
+        JOIN acct_shops s ON b.shop_id = s.shop_id
+        JOIN opps op ON op.account_id = s.account_id
+        WHERE b.order_is_assigned_to_company = TRUE
+          AND b.order_is_included_in_reporting = TRUE
+          AND b.order_gmv_attribution_source = 'B2B on Shopify'
+          AND DATE(b.order_created_at) >= op.close_date
+        GROUP BY s.account_id, op.opportunity_id, op.close_date
+      ),
+      companies_raw AS (
+        SELECT
+          s.account_id,
+          op.opportunity_id,
+          COUNT(*) AS total_companies
+        FROM \`sdp-prd-storefronts.intermediate.slice__b2b_company_and_customer_events\` e
+        JOIN acct_shops s ON CAST(e.shop_id AS INT64) = s.shop_id
+        JOIN opps op ON op.account_id = s.account_id
+        WHERE e.event_name = 'created_company'
+          AND e.feature = 'b2b_companies'
+          AND DATE(e.event_at) >= op.close_date
+        GROUP BY s.account_id, op.opportunity_id
+      ),
+      catalogs_raw AS (
+        SELECT
+          s.account_id,
+          op.opportunity_id,
+          COUNT(*) AS total_catalogs
+        FROM \`shopify-dw.merchandising.catalogs\` c
+        JOIN acct_shops s ON c.shop_id = s.shop_id
+        JOIN opps op ON op.account_id = s.account_id
+        WHERE c.context_driver_type = 'company_location'
+          AND c.is_deleted IS FALSE
+          AND DATE(c.created_at) >= op.close_date
+        GROUP BY s.account_id, op.opportunity_id
+      )
+      SELECT
+        op.opportunity_id,
+        COALESCE(o.total_orders, 0) AS b2b_orders,
+        COALESCE(o.total_gmv, 0) AS b2b_gmv,
+        o.last_order_date,
+        COALESCE(o.mo0_gmv, 0) AS mo0_gmv,
+        COALESCE(o.mo1_gmv, 0) AS mo1_gmv,
+        COALESCE(o.mo2_gmv, 0) AS mo2_gmv,
+        COALESCE(co.total_companies, 0) AS companies,
+        COALESCE(ca.total_catalogs, 0) AS catalogs
+      FROM opps op
+      LEFT JOIN orders_raw o ON o.opportunity_id = op.opportunity_id
+      LEFT JOIN companies_raw co ON co.opportunity_id = op.opportunity_id
+      LEFT JOIN catalogs_raw ca ON ca.opportunity_id = op.opportunity_id
+    `;
+
+    const SIDEKICK_SQL = `
+      WITH opps AS (
+        SELECT
+          o.opportunity_id,
+          o.salesforce_account_id AS account_id,
+          o.close_date
+        FROM \`shopify-dw.sales.sales_opportunities\` o
+        WHERE o.salesforce_owner_name = 'Kelly Miles'
+          AND o.is_won = TRUE AND o.is_closed = TRUE
+          AND o.close_date >= '2025-01-01'
+          AND EXISTS (SELECT 1 FROM UNNEST(o.product_list) p WHERE p = 'B2B')
+      ),
+      acct_shops AS (
+        SELECT DISTINCT sf.account_id, CAST(sf.shop_id AS STRING) AS shop_id
+        FROM \`shopify-dw.mart_revenue_data.revenue_shop_salesforce_summary\` sf
+        JOIN opps op ON sf.account_id = op.account_id
+      ),
+      sidekick_matches AS (
+        SELECT
+          CAST(t.shop_id AS STRING) AS shop_id,
+          t.admin_shop_user_id,
+          t.user_message AS message_text,
+          t.user_message_at AS message_at,
+          'Sidekick' AS source
+        FROM \`sdp-prd-core-magic.mart.mart__sidekick_turns_v1_2\` t
+        WHERE t.is_suggestion = FALSE
+          AND NOT REGEXP_CONTAINS(t.user_message, r'(?i)^(evaluate|<SuggestedAction|<Action|Evaluate the)')
+          AND (
+            LOWER(t.user_message) LIKE '%b2b%'
+            OR LOWER(t.user_message) LIKE '%wholesale%'
+            OR LOWER(t.user_message) LIKE '%retailer%'
+            OR LOWER(t.user_message) LIKE '%dealer%'
+            OR LOWER(t.user_message) LIKE '%payment terms%'
+            OR LOWER(t.user_message) LIKE '%company locations%'
+            OR LOWER(t.user_message) LIKE '%companies%'
+            OR LOWER(t.user_message) LIKE '%bulk pricing%'
+          )
+      ),
+      user_identity AS (
+        SELECT DISTINCT
+          ui.admin_shop_user_id,
+          ic.first_name,
+          ic.last_name
+        FROM \`shopify-dw.accounts_and_administration.admin_shop_user_identity\` ui
+        JOIN \`shopify-dw.accounts_and_administration.identity_account_current\` ic
+          ON ic.identity_uuid = ui.identity_uuid
+        WHERE ui.is_deleted = FALSE
+      ),
+      all_messages AS (
+        SELECT
+          op.opportunity_id,
+          m.message_text,
+          m.source,
+          DATE(m.message_at) AS message_date,
+          m.message_at,
+          u.first_name,
+          u.last_name
+        FROM sidekick_matches m
+        JOIN acct_shops s ON s.shop_id = CAST(m.shop_id AS STRING)
+        JOIN opps op ON op.account_id = s.account_id
+        LEFT JOIN user_identity u ON u.admin_shop_user_id = m.admin_shop_user_id
+        WHERE DATE(m.message_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 14 DAY)
+      )
+      SELECT opportunity_id, message_text, source, message_date, first_name, last_name
+      FROM all_messages
+      ORDER BY message_at DESC
+    `;
+
+    /* ── Panel 2: B2B Adoption ── */
+    function loadAdoptionData() {
+      try { return JSON.parse(localStorage.getItem(ADOPTION_STORAGE_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function saveAdoptionData(statusId) {
+      const existing = loadAdoptionData();
+      const data = Object.assign({}, existing);
+      OPPS.forEach(opp => {
+        const el = document.getElementById(`launched-${opp.id}`);
+        if (el) {
+          data[opp.id] = {
+            launched     : document.getElementById(`launched-${opp.id}`).checked,
+            launchStatus : document.getElementById(`status-dot-${opp.id}`)?.dataset.status ?? (existing[opp.id]?.launchStatus || "none"),
+            notes        : document.getElementById(`adoption-notes-${opp.id}`)?.value ?? (existing[opp.id]?.notes || ""),
+          };
+        }
+      });
+      localStorage.setItem(ADOPTION_STORAGE_KEY, JSON.stringify(data));
+      flashSaved(statusId || "save-status-adoption");
+      updateLaunchedCount();
+    }
+
+    function toggleLaunched(oppId) {
+      saveAdoptionData();
+      renderAdoption();
+      renderActive();
+      OPPS.forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
+    }
+
+    function cycleStatus(oppId) {
+      const dot = document.getElementById(`status-dot-${oppId}`);
+      if (!dot) return;
+      const order = ["none", "green", "yellow", "red"];
+      const current = dot.dataset.status || "none";
+      dot.dataset.status = order[(order.indexOf(current) + 1) % order.length];
+      saveAdoptionData();
     }
 
     function launchBadge(launchDateStr) {
       if (!launchDateStr) return '';
       const days = Math.floor((new Date(launchDateStr + 'T00:00:00') - new Date()) / 86400000);
-      if (days < 0)   return `<span class="lbadge lbadge-overdue">${Math.abs(days)}d late</span>`;
-      if (days <= 7)  return `<span class="lbadge lbadge-urgent">${days}d</span>`;
+      if (days < 0)  return `<span class="lbadge lbadge-overdue">${Math.abs(days)}d late</span>`;
+      if (days <= 7) return `<span class="lbadge lbadge-urgent">${days}d</span>`;
       if (days <= 30) return `<span class="lbadge lbadge-soon">${days}d</span>`;
       return `<span class="lbadge lbadge-ok">${days}d</span>`;
+    }
+
+    function renderAdoption() {
+      const saved = loadAdoptionData();
+      const tbody = document.getElementById("adoption-table-body");
+      tbody.innerHTML = "";
+      const unlaunched = OPPS.filter(opp => {
+        const s = saved[opp.id] || {};
+        return !s.launched;
+      }).sort((a, b) => new Date(a.launchDate) - new Date(b.launchDate));
+      let lastMonth = null;
+      unlaunched.forEach(opp => {
+        const monthKey = new Date(opp.launchDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        if (monthKey !== lastMonth) {
+          const hdr = document.createElement("tr");
+          hdr.classList.add("section-header");
+          hdr.innerHTML = `<td colspan="13">Target Launch: ${monthKey}</td>`;
+          tbody.appendChild(hdr);
+          lastMonth = monthKey;
+        }
+        const s = saved[opp.id] || {};
+        const b2b = B2B_DATA[opp.id] || {};
+        const tr = document.createElement("tr");
+        const signals = SIDEKICK_SIGNALS[opp.id] || [];
+        const toggleId = `sidekick-toggle-${opp.id}`;
+        const skBtn = signals.length > 0
+          ? `<button class="sk-toggle" id="${toggleId}" onclick="toggleSidekick('${opp.id}')">${signals.length} msg${signals.length !== 1 ? "s" : ""} ▾</button>`
+          : `<button class="sk-toggle sk-toggle-empty" id="${toggleId}" onclick="toggleSidekick('${opp.id}')">None ▾</button>`;
+
+        tr.innerHTML = `
+          <td class="account-name">
+            <div class="account-name-wrap">
+              <input type="checkbox" id="launched-${opp.id}" ${s.launched ? "checked" : ""} onchange="toggleLaunched('${opp.id}')" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">
+              <div>
+                <span>${opp.name}</span>
+              </div>
+            </div>
+          </td>
+          <td class="close-date">${formatDate(opp.closeDate)}</td>
+          <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
+          <td class="metric-cell">${launchBadge(opp.launchDate)}</td>
+          <td class="sidekick-cell">${skBtn}</td>
+          <td class="metric-cell"><span class="metric-val">${b2b.companies ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.catalogs ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.orders ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.gmv ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.lastOrder ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.avgOrders ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.avgGmv ?? "—"}</span></td>
+        `;
+        tbody.appendChild(tr);
+
+        // Sidekick dropdown row
+        const dropId = `sidekick-drop-${opp.id}`;
+        const dropTr = document.createElement("tr");
+        dropTr.classList.add("sidekick-drop-row");
+        dropTr.id = dropId;
+        dropTr.style.display = "none";
+        const msgHtml = signals.length === 0
+          ? '<div class="sk-empty">No Sidekick messages in the last 14 days</div>'
+          : signals.map(s => `
+              <div class="sk-msg">
+                <div class="sk-meta"><span class="sk-name">${s.name}</span><span class="sk-date">${s.date}</span></div>
+                <div class="sk-text">${s.text}</div>
+              </div>`).join("");
+        dropTr.innerHTML = `<td colspan="12" class="sidekick-drop-cell">${msgHtml}</td>`;
+        tbody.appendChild(dropTr);
+      });
+    }
+
+    function toggleSidekick(oppId) {
+      const row = document.getElementById(`sidekick-drop-${oppId}`);
+      const btn = document.getElementById(`sidekick-toggle-${oppId}`);
+      const open = row.style.display !== "none";
+      row.style.display = open ? "none" : "table-row";
+      if (btn) btn.innerHTML = btn.innerHTML.replace(open ? "▴" : "▾", open ? "▾" : "▴");
     }
 
     function growthSpan(val) {
@@ -650,379 +1513,61 @@
       return `<span class="${cls}">${val}</span>`;
     }
 
-    /* ════════════════════════════════════════════════
-       PANEL 1: TO DO
-    ════════════════════════════════════════════════ */
-
-    function renderProgress() {
-      const ro = isReadOnly();
-      const cg = document.getElementById("progress-colgroup");
-      const thead = document.getElementById("progress-thead");
-
-      if (ro) {
-        cg.innerHTML = `<col style="width:190px"><col class="col-rep" style="width:120px"><col style="width:90px"><col style="width:90px"><col style="width:75px"><col style="width:75px"><col style="width:75px"><col style="width:275px">`;
-        thead.innerHTML = `<tr>
-          <th style="text-align:left">Account</th>
-          <th style="text-align:left">Rep</th>
-          <th class="col-center col-sep">Close Date</th>
-          <th class="col-center">Target Launch</th>
-          <th class="center col-sep">Launch Cadence</th>
-          <th class="center">To Do List Sent</th>
-          <th class="center">Kick Off Scheduled</th>
-          <th class="col-sep">Notes</th>
-        </tr>`;
-      } else {
-        cg.innerHTML = `<col style="width:200px"><col style="width:90px"><col style="width:90px"><col style="width:75px"><col style="width:75px"><col style="width:75px"><col style="width:395px">`;
-        thead.innerHTML = `<tr>
-          <th style="text-align:left">Account</th>
-          <th class="col-center col-sep">Close Date</th>
-          <th class="col-center">Target Launch</th>
-          <th class="center col-sep">Launch Cadence</th>
-          <th class="center">To Do List Sent</th>
-          <th class="center">Kick Off Scheduled</th>
-          <th class="col-sep">Notes</th>
-        </tr>`;
-      }
-
-      const saved    = loadData(currentRep);
-      const filtered = getFilteredOpps();
-      const tbody    = document.getElementById("opp-table-body");
-      tbody.innerHTML = "";
-      const colspan  = ro ? 8 : 7;
-      const sorted   = [...filtered].sort((a, b) => new Date(b.closeDate) - new Date(a.closeDate));
-      let lastMonth  = null;
-
-      sorted.forEach(opp => {
-        const monthKey = new Date(opp.closeDate + 'T00:00:00').toLocaleDateString('en-US', { month:'long', year:'numeric' });
-        if (monthKey !== lastMonth) {
-          const hdr = document.createElement("tr");
-          hdr.classList.add("section-header");
-          hdr.innerHTML = `<td colspan="${colspan}">${monthKey}</td>`;
-          tbody.appendChild(hdr);
-          lastMonth = monthKey;
-        }
-
-        const s  = saved[opp.id] || { cadence:false, todo:false, kickoff:false, notes:"" };
-        const tr = document.createElement("tr");
-        tr.id = `row-${opp.id}`;
-        if (s.cadence && s.todo) tr.classList.add("launched");
-
-        if (ro) {
-          tr.innerHTML = `
-            <td class="account-name">${opp.name}</td>
-            <td style="font-size:12.5px;color:#6b7280;white-space:nowrap">${opp.rep}</td>
-            <td class="close-date col-sep col-center">${formatDate(opp.closeDate)}</td>
-            <td class="close-date col-center">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
-            <td class="check-cell col-sep"><div class="check-wrapper"><span class="ro-circle ${s.cadence?'on':''}"></span></div></td>
-            <td class="check-cell"><div class="check-wrapper"><span class="ro-circle ${s.todo?'on':''}"></span></div></td>
-            <td class="check-cell"><div class="check-wrapper"><span class="ro-circle ${s.kickoff?'on':''}"></span></div></td>
-            <td class="notes-cell col-sep"><div class="ro-notes">${s.notes ? s.notes.replace(/\n/g,'<br>') : '<span style="color:#d1d5db">—</span>'}</div></td>
-          `;
-        } else {
-          tr.innerHTML = `
-            <td class="account-name">${opp.name}</td>
-            <td class="close-date col-sep col-center">${formatDate(opp.closeDate)}</td>
-            <td class="close-date col-center">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
-            <td class="check-cell col-sep">
-              <div class="check-wrapper"><label class="step-label">
-                <input type="checkbox" id="cadence-${opp.id}" ${s.cadence?"checked":""} onchange="saveData()">
-                <span class="step-circle"></span>
-              </label></div>
-            </td>
-            <td class="check-cell">
-              <div class="check-wrapper"><label class="step-label">
-                <input type="checkbox" id="todo-${opp.id}" ${s.todo?"checked":""} onchange="saveData()">
-                <span class="step-circle"></span>
-              </label></div>
-            </td>
-            <td class="check-cell">
-              <div class="check-wrapper"><label class="step-label">
-                <input type="checkbox" id="kickoff-${opp.id}" ${s.kickoff?"checked":""} onchange="saveData()">
-                <span class="step-circle"></span>
-              </label></div>
-            </td>
-            <td class="notes-cell col-sep">
-              <textarea id="notes-${opp.id}" class="notes-input" placeholder="Add notes…"
-                oninput="autoResize(this);saveData()"
-                onkeydown="if(event.key==='Tab'){event.preventDefault();this.blur();}"
-                rows="1">${s.notes||""}</textarea>
-            </td>
-          `;
-        }
-        tbody.appendChild(tr);
-        if (!ro) {
-          requestAnimationFrame(() => {
-            const ta = document.getElementById(`notes-${opp.id}`);
-            if (ta && ta.value) autoResize(ta);
-          });
-        }
-      });
-      updateStats();
-    }
-
-    function saveData() {
-      if (isReadOnly()) return;
-      const data = {};
-      getFilteredOpps().forEach(opp => {
-        const el = document.getElementById(`cadence-${opp.id}`);
-        if (el) data[opp.id] = {
-          cadence : el.checked,
-          todo    : document.getElementById(`todo-${opp.id}`).checked,
-          kickoff : document.getElementById(`kickoff-${opp.id}`).checked,
-          notes   : document.getElementById(`notes-${opp.id}`).value,
-        };
-      });
-      localStorage.setItem(storageKey(currentRep), JSON.stringify(data));
-      flashSaved("save-status");
-      updateStats();
-    }
-
-    /* ════════════════════════════════════════════════
-       PANEL 2: LAUNCH PROGRESS
-    ════════════════════════════════════════════════ */
-
-    function renderAdoption() {
-      const ro = isReadOnly();
-      const cg = document.getElementById("adoption-colgroup");
-      const th = document.getElementById("adoption-thead");
-      const repCol = ro ? `<col class="col-rep" style="width:110px">` : "";
-      const repTh  = ro ? `<th style="text-align:left;min-width:110px">Rep</th>` : "";
-      cg.innerHTML = `<col class="col-account">${repCol}<col style="width:90px"><col class="col-date"><col class="col-metric"><col class="col-metric"><col class="col-metric"><col class="col-metric"><col style="width:100px"><col style="width:100px"><col style="width:100px"><col class="col-signal"><col class="col-notes">`;
-      th.innerHTML = `<tr>
-        <th style="text-align:left">Account</th>${repTh}
-        <th>Status</th><th>Launch Date</th><th>Companies</th><th>Catalogs</th>
-        <th>B2B Orders</th><th>B2B GMV</th><th>Last B2B Order</th>
-        <th>Avg Mo Volume</th><th>Avg Mo GMV</th>
-        <th style="text-align:left">Sidekick / Help Center</th>
-        <th style="text-align:left">Notes</th>
-      </tr>`;
-
-      const saved    = loadAdoptionData(currentRep);
-      const filtered = getFilteredOpps();
-      const tbody    = document.getElementById("adoption-table-body");
-      tbody.innerHTML = "";
-      const colspan  = ro ? 13 : 12;
-
-      const unlaunched = filtered.filter(opp => {
-        const s = saved[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
-        return !s.launched;
-      }).sort((a, b) => new Date(a.launchDate) - new Date(b.launchDate));
-
-      let lastMonth = null;
-      unlaunched.forEach(opp => {
-        const monthKey = new Date(opp.launchDate + 'T00:00:00').toLocaleDateString('en-US', { month:'long', year:'numeric' });
-        if (monthKey !== lastMonth) {
-          const hdr = document.createElement("tr");
-          hdr.classList.add("section-header");
-          hdr.innerHTML = `<td colspan="${colspan}">Target Launch: ${monthKey}</td>`;
-          tbody.appendChild(hdr);
-          lastMonth = monthKey;
-        }
-        const s   = saved[opp.id] || {};
-        const b2b = B2B_DATA[opp.id] || {};
-        const tr  = document.createElement("tr");
-        const sig = SIDEKICK_SIGNALS[opp.id];
-        const sigHtml = sig
-          ? `<div class="signal-display"><div class="signal-text"><span class="signal-date">${sig.date}</span>${sig.text}</div><a class="signal-link" href="${sig.url}" target="_blank">View conversation →</a></div>`
-          : `<span class="signal-empty">—</span>`;
-
-        const repCell = ro ? `<td style="font-size:12px;color:#6b7280;white-space:nowrap">${opp.rep}</td>` : "";
-
-        if (ro) {
-          tr.innerHTML = `
-            <td class="account-name"><div>${opp.name}</div><div class="account-sub">Closed ${formatDate(opp.closeDate)}</div></td>
-            ${repCell}
-            <td class="metric-cell">${launchBadge(opp.launchDate)}</td>
-            <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
-            <td class="metric-cell"><span class="metric-val">${b2b.companies??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.catalogs??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.orders??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.gmv??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.lastOrder??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.avgOrders??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.avgGmv??"—"}</span></td>
-            <td class="signal-cell">${sigHtml}</td>
-            <td class="notes-cell"><div class="ro-notes">${s.notes ? s.notes.replace(/\n/g,'<br>') : '<span style="color:#d1d5db">—</span>'}</div></td>
-          `;
-        } else {
-          const statusDot = s.launchStatus || "none";
-          tr.innerHTML = `
-            <td class="account-name">
-              <div class="account-name-wrap">
-                <input type="checkbox" id="launched-${opp.id}" ${s.launched?"checked":""} onchange="toggleLaunched('${opp.id}')" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">
-                <div>
-                  <div style="display:flex;align-items:center;gap:4px;"><span>${opp.name}</span></div>
-                  <div class="account-sub">Closed ${formatDate(opp.closeDate)}</div>
-                </div>
-              </div>
-            </td>
-            <td class="metric-cell">
-              <span class="status-dot" id="status-dot-${opp.id}" data-status="${statusDot}" onclick="cycleStatus('${opp.id}')" title="Click to cycle status"></span>
-              ${launchBadge(opp.launchDate)}
-            </td>
-            <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
-            <td class="metric-cell"><span class="metric-val">${b2b.companies??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.catalogs??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.orders??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.gmv??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.lastOrder??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.avgOrders??"—"}</span></td>
-            <td class="metric-cell"><span class="metric-val">${b2b.avgGmv??"—"}</span></td>
-            <td class="signal-cell">${sigHtml}</td>
-            <td class="notes-cell">
-              <textarea id="adoption-notes-${opp.id}" class="notes-input" placeholder="Add notes…"
-                oninput="autoResize(this);saveAdoptionData()"
-                onkeydown="if(event.key==='Tab'){event.preventDefault();this.blur();}"
-                rows="1">${s.notes||""}</textarea>
-            </td>
-          `;
-        }
-        tbody.appendChild(tr);
-        if (!ro) {
-          requestAnimationFrame(() => {
-            const ta = document.getElementById(`adoption-notes-${opp.id}`);
-            if (ta && ta.value) autoResize(ta);
-          });
-        }
-      });
-    }
-
-    function saveAdoptionData(statusId) {
-      if (isReadOnly()) return;
-      const existing = loadAdoptionData(currentRep);
-      const data = Object.assign({}, existing);
-      getFilteredOpps().forEach(opp => {
-        const el = document.getElementById(`launched-${opp.id}`);
-        if (el) data[opp.id] = {
-          launched     : el.checked,
-          launchStatus : document.getElementById(`status-dot-${opp.id}`)?.dataset.status ?? (existing[opp.id]?.launchStatus || "none"),
-          notes        : document.getElementById(`adoption-notes-${opp.id}`)?.value ?? (existing[opp.id]?.notes || ""),
-        };
-      });
-      localStorage.setItem(adoptionStorageKey(currentRep), JSON.stringify(data));
-      flashSaved(statusId || "save-status-adoption");
-      updateLaunchedCount();
-    }
-
-    function toggleLaunched(oppId) {
-      saveAdoptionData();
-      renderAdoption();
-      renderActive();
-      getFilteredOpps().forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
-    }
-
-    function cycleStatus(oppId) {
-      if (isReadOnly()) return;
-      const dot = document.getElementById(`status-dot-${oppId}`);
-      if (!dot) return;
-      const order = ["none","green","yellow","red"];
-      dot.dataset.status = order[(order.indexOf(dot.dataset.status || "none") + 1) % order.length];
-      saveAdoptionData();
-    }
-
-    /* ════════════════════════════════════════════════
-       PANEL 3: ACTIVE
-    ════════════════════════════════════════════════ */
-
     function renderActive() {
-      const ro = isReadOnly();
-      const cg = document.getElementById("active-colgroup");
-      const th = document.getElementById("active-thead");
-      const repCol = ro ? `<col class="col-rep" style="width:110px">` : "";
-      const repTh  = ro ? `<th style="text-align:left">Rep</th>` : "";
-      cg.innerHTML = `<col style="width:200px">${repCol}<col style="width:165px"><col style="width:85px"><col style="width:85px"><col style="width:95px"><col style="width:95px"><col style="width:95px"><col style="width:85px"><col style="width:85px"><col style="width:95px">`;
-      th.innerHTML = `<tr>
-        <th style="text-align:left">Account</th>${repTh}
-        <th class="center">Monthly GMV Trend</th>
-        <th>B2B Orders</th><th>B2B GMV</th><th>Last B2B Order</th>
-        <th>Avg Mo Volume</th><th>Avg Mo GMV</th>
-        <th>QoQ Growth</th><th>MoM Growth</th><th>Close Date</th>
-      </tr>`;
-
-      const saved    = loadAdoptionData(currentRep);
-      const filtered = getFilteredOpps();
-      const tbody    = document.getElementById("active-table-body");
+      const saved = loadAdoptionData();
+      const tbody = document.getElementById("active-table-body");
       tbody.innerHTML = "";
-      const colspan  = ro ? 11 : 10;
-
-      const activeOpps = filtered.filter(opp => {
-        const s = saved[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
+      const activeOpps = OPPS.filter(opp => {
+        const s = saved[opp.id] || {};
         return !!s.launched;
       });
-
       if (activeOpps.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="${colspan}" style="text-align:center;color:#9ca3af;padding:32px 16px;font-size:13px;">No launched accounts yet — check "Launched?" in Launch Progress to move accounts here.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:#9ca3af;padding:32px 16px;font-size:13px;">No launched accounts yet — check "Launched?" in Launch Progress to move accounts here.</td></tr>`;
         return;
       }
-
       activeOpps.forEach(opp => {
+        const s = saved[opp.id] || {};
         const b2b = B2B_DATA[opp.id] || {};
-        const tr  = document.createElement("tr");
+        const tr = document.createElement("tr");
         tr.id = `active-row-${opp.id}`;
         tr.classList.add("launched");
-        const repCell = ro ? `<td style="font-size:12px;color:#6b7280;white-space:nowrap">${opp.rep}</td>` : "";
-        const checkbox = ro ? "" : `<input type="checkbox" id="launched-${opp.id}" checked onchange="toggleLaunched('${opp.id}')" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">`;
-
         tr.innerHTML = `
           <td class="account-name">
             <div class="account-name-wrap">
-              ${checkbox}
+              <input type="checkbox" id="launched-${opp.id}" checked onchange="toggleLaunched('${opp.id}')" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">
               <div>
                 <div>${opp.name}</div>
                 <div class="account-sub">Launched ${formatDate(opp.launchDate)}</div>
               </div>
             </div>
           </td>
-          ${repCell}
           <td class="metric-cell">
             <div class="trend-group">
-              <div class="trend-row-item"><span class="trend-lbl">This mo</span>${trendSpan(b2b.mo0Gmv, b2b.mo1Gmv)}</div>
-              <div class="trend-row-item"><span class="trend-lbl">Last mo</span>${trendSpan(b2b.mo1Gmv, b2b.mo2Gmv)}</div>
-              <div class="trend-row-item"><span class="trend-lbl">2 mo ago</span><span class="trend-flat">${b2b.mo2Gmv??"—"}</span></div>
+              <div class="trend-row-item">
+                <span class="trend-lbl">This mo</span>
+                ${trendSpan(b2b.mo0Gmv, b2b.mo1Gmv)}
+              </div>
+              <div class="trend-row-item">
+                <span class="trend-lbl">Last mo</span>
+                ${trendSpan(b2b.mo1Gmv, b2b.mo2Gmv)}
+              </div>
+              <div class="trend-row-item">
+                <span class="trend-lbl">2 mo ago</span>
+                <span class="trend-flat">${b2b.mo2Gmv ?? "—"}</span>
+              </div>
             </div>
           </td>
-          <td class="metric-cell"><span class="metric-val">${b2b.orders??"—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.gmv??"—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.lastOrder??"—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.avgOrders??"—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.avgGmv??"—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.orders ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.gmv ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.lastOrder ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.avgOrders ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.avgGmv ?? "—"}</span></td>
           <td class="metric-cell">${growthSpan(b2b.qoqGrowth)}</td>
           <td class="metric-cell">${growthSpan(b2b.momGrowth)}</td>
           <td class="close-date">${formatDate(opp.closeDate)}</td>
         `;
         tbody.appendChild(tr);
       });
-    }
-
-    /* ════════════════════════════════════════════════
-       STATS
-    ════════════════════════════════════════════════ */
-
-    function updateStats() { updateLaunchedCount(); }
-
-    function updateLaunchedCount() {
-      const adoptionData = loadAdoptionData(currentRep);
-      const filtered     = getFilteredOpps();
-      let launchedCount  = 0;
-      filtered.forEach(opp => {
-        const s = adoptionData[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
-        if (s.launched) launchedCount++;
-      });
-      document.getElementById("stat-total").textContent    = filtered.length;
-      document.getElementById("stat-launched").textContent = launchedCount;
-      document.getElementById("launch-badge").textContent  = `${launchedCount} Launched`;
-      const pct = filtered.length > 0 ? Math.round((launchedCount / filtered.length) * 100) : 0;
-      document.getElementById("progress-fill").style.width  = pct + "%";
-      document.getElementById("progress-label").textContent = `${launchedCount} of ${filtered.length} fully launched`;
-      updateTabCounts(launchedCount, filtered.length);
-    }
-
-    function updateTabCounts(launchedCount, total) {
-      const notLaunched = total - launchedCount;
-      document.getElementById("tab-q1").textContent       = `Q1 2026 (${total})`;
-      document.getElementById("tab-progress").textContent = `To Do (${total})`;
-      document.getElementById("tab-adoption").textContent = `Launch Progress (${notLaunched})`;
-      document.getElementById("tab-active").textContent   = `Active (${launchedCount})`;
     }
 
     function checkChurnedStatus(oppId) {
@@ -1033,12 +1578,18 @@
       const parts = val.split("/");
       const d = parts.length === 3 ? new Date(`20${parts[2]}-${parts[0]}-${parts[1]}`) : new Date(NaN);
       if (isNaN(d)) { tr.classList.remove("churned-flag"); updateChurnedCount(); return; }
-      tr.classList.toggle("churned-flag", Math.floor((new Date() - d) / 86400000) >= 180);
+      const days = Math.floor((new Date() - d) / 86400000);
+      tr.classList.toggle("churned-flag", days >= 180);
       updateChurnedCount();
     }
 
     function updateChurnedCount() {
-      document.getElementById("stat-churned").textContent = document.querySelectorAll("#active-table-body tr.churned-flag").length;
+      const count = document.querySelectorAll("#active-table-body tr.churned-flag").length;
+      document.getElementById("stat-churned").textContent = count;
+    }
+
+    function updateRiskStats() {
+      OPPS.forEach(opp => checkChurnedStatus(opp.id));
     }
 
     function checkAtRiskTrend(oppId) {
@@ -1046,67 +1597,168 @@
       if (!tr) return;
       const parseGmv = v => parseFloat((v || "").replace(/[^0-9.]/g, ""));
       const b2b = B2B_DATA[oppId] || {};
-      const mo2 = parseGmv(b2b.mo2Gmv), mo1 = parseGmv(b2b.mo1Gmv), mo0 = parseGmv(b2b.mo0Gmv);
-      const isAtRisk = !isNaN(mo2) && !isNaN(mo1) && !isNaN(mo0) && mo2 > 0 && mo1 <= mo2 * 0.75 && mo0 <= mo1 * 0.75;
+      const mo2 = parseGmv(b2b.mo2Gmv);
+      const mo1 = parseGmv(b2b.mo1Gmv);
+      const mo0 = parseGmv(b2b.mo0Gmv);
+      const isAtRisk = !isNaN(mo2) && !isNaN(mo1) && !isNaN(mo0) &&
+                       mo2 > 0 && mo1 <= mo2 * 0.75 && mo0 <= mo1 * 0.75;
       tr.classList.toggle("at-risk-flag", isAtRisk);
       updateAtRiskCount();
     }
 
     function updateAtRiskCount() {
-      document.getElementById("stat-at-risk").textContent = document.querySelectorAll("#active-table-body tr.at-risk-flag").length;
+      const count = document.querySelectorAll("#active-table-body tr.at-risk-flag").length;
+      document.getElementById("stat-at-risk").textContent = count;
     }
 
-    /* ════════════════════════════════════════════════
-       PBR
-    ════════════════════════════════════════════════ */
-
-    function initPbr() {
-      const total = getFilteredOpps().reduce((s, opp) => s + (OPP_PBR[opp.id] || 0), 0);
-      const el = document.getElementById("pbr-total");
-      if (el) el.textContent = "$" + total.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 });
+    /* ── Helpers ── */
+    function fmtGmv(n) {
+      if (!n || n === 0) return "$0";
+      return "$" + Math.round(n).toLocaleString("en-US");
     }
 
-    /* ════════════════════════════════════════════════
-       REFRESH
-    ════════════════════════════════════════════════ */
-
-    function copyRefreshPrompt() {
-      const ctx = currentRep;
-      const prompt = `Refresh the B2B team launch dashboard — pull the latest Sidekick B2B signals (questions containing "b2b", "wholesale", "company", "companies") and B2B metrics (orders, GMV, last order date) for all accounts for ${ctx} and update team-launch-dashboard.html.`;
-      navigator.clipboard.writeText(prompt).then(() => {
-        const el = document.getElementById("refresh-status");
-        el.textContent = "✓ Copied! Paste into Claude to refresh.";
-        el.classList.add("copied");
-        setTimeout(() => { el.classList.remove("copied"); updateRefreshLabel(); }, 4000);
-      });
+    function fmtDate(isoStr) {
+      if (!isoStr) return "—";
+      const raw = (isoStr && typeof isoStr === 'object' && isoStr.value) ? isoStr.value : isoStr;
+      const s = String(raw).slice(0, 10);
+      if (!/^\d{4}-\d{2}-\d{2}/.test(s)) return "—";
+      const [y, m, d] = s.split("-");
+      return `${m}/${d}/${y.slice(2)}`;
     }
 
-    function updateRefreshLabel() {
-      const ts = localStorage.getItem(REFRESH_KEY);
-      const el = document.getElementById("refresh-status");
-      if (!ts) { el.textContent = "Last refreshed: never"; return; }
-      const d = new Date(parseInt(ts));
-      el.textContent = `Last refreshed: ${d.toLocaleDateString("en-US",{month:"short",day:"numeric"})} at ${d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
+    function calcGrowth(curr, prev) {
+      if (!curr && !prev) return "—";
+      if (!prev || prev === 0) return curr > 0 ? "New" : "—";
+      if (!curr) return "—";
+      const pct = Math.round(((curr - prev) / prev) * 100);
+      return (pct >= 0 ? "+" : "") + pct.toLocaleString("en-US") + "%";
     }
 
-    /* ════════════════════════════════════════════════
-       RENDER ALL + INIT
-    ════════════════════════════════════════════════ */
+    /* ── doRefresh ── */
+    async function doRefresh() {
+      const btn = document.getElementById("refresh-btn");
+      const lbl = document.getElementById("refresh-btn-label");
+      const statusEl = document.getElementById("refresh-status");
+      btn.disabled = true;
 
-    function renderAll() {
-      renderProgress();
-      renderAdoption();
-      renderActive();
-      getFilteredOpps().forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
-      updateLaunchedCount();
-      initPbr();
+      try {
+        lbl.textContent = "Authorizing…";
+        statusEl.textContent = "Authorizing Google…";
+        await quick.auth.getToken(["https://www.googleapis.com/auth/bigquery"]);
+
+        lbl.textContent = "Querying…";
+        statusEl.textContent = "Querying BigQuery…";
+        const [oppsResult, metricsResult, sidekickResult] = await Promise.all([
+          quick.dw.queryAndWait(OPPS_SQL),
+          quick.dw.queryAndWait(B2B_METRICS_SQL),
+          quick.dw.queryAndWait(SIDEKICK_SQL),
+        ]);
+
+        // Build OPPS
+        function unwrapDate(v) {
+          if (!v) return null;
+          const raw = (typeof v === 'object' && v.value) ? v.value : v;
+          return String(raw).slice(0, 10);
+        }
+        OPPS = (oppsResult.results || []).map(r => ({
+          id        : r.opportunity_id,
+          name      : r.opp_name,
+          accountId : r.account_id,
+          closeDate : unwrapDate(r.close_date),
+          launchDate: unwrapDate(r.launch_date),
+          pbr       : parseFloat(r.pbr) || 0,
+        }));
+
+        // Build OPP_PBR and update PBR bar
+        OPP_PBR = {};
+        OPPS.forEach(o => { OPP_PBR[o.id] = o.pbr; });
+        const pbrTotal = Object.values(OPP_PBR).reduce((s, v) => s + v, 0);
+        const pbrEl = document.getElementById("pbr-total");
+        if (pbrEl) pbrEl.textContent = "$" + pbrTotal.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        // Build B2B_DATA
+        B2B_DATA = {};
+        (metricsResult.results || []).forEach(r => {
+          const mo0 = parseFloat(r.mo0_gmv) || 0;
+          const mo1 = parseFloat(r.mo1_gmv) || 0;
+          const mo2 = parseFloat(r.mo2_gmv) || 0;
+          const totalOrders = parseInt(r.b2b_orders) || 0;
+          const totalGmv    = parseFloat(r.b2b_gmv) || 0;
+          // Avg monthly: spread GMV over months since close date
+          const opp = OPPS.find(o => o.id === r.opportunity_id);
+          let monthsSinceClose = 1;
+          if (opp) {
+            const closeMs = new Date(opp.closeDate).getTime();
+            monthsSinceClose = Math.max(1, Math.round((Date.now() - closeMs) / (30.44 * 86400000)));
+          }
+          B2B_DATA[r.opportunity_id] = {
+            orders    : totalOrders > 0 ? String(totalOrders) : "0",
+            gmv       : fmtGmv(totalGmv),
+            lastOrder : fmtDate(r.last_order_date),
+            mo0Gmv    : fmtGmv(mo0),
+            mo1Gmv    : fmtGmv(mo1),
+            mo2Gmv    : fmtGmv(mo2),
+            avgOrders : totalOrders > 0 ? (totalOrders / monthsSinceClose).toFixed(1) : "0",
+            avgGmv    : fmtGmv(totalGmv / monthsSinceClose),
+            qoqGrowth : calcGrowth(mo0 + mo1 + mo2, null),
+            momGrowth : calcGrowth(mo0, mo1),
+            companies : String(parseInt(r.companies) || 0),
+            catalogs  : String(parseInt(r.catalogs) || 0),
+          };
+        });
+
+        // Build SIDEKICK_SIGNALS — array of messages per opp
+        SIDEKICK_SIGNALS = {};
+        (sidekickResult.results || []).forEach(r => {
+          if (!SIDEKICK_SIGNALS[r.opportunity_id]) SIDEKICK_SIGNALS[r.opportunity_id] = [];
+          SIDEKICK_SIGNALS[r.opportunity_id].push({
+            date: fmtDate(r.message_date),
+            name: [r.first_name, r.last_name].filter(Boolean).join(" ") || "Unknown",
+            text: r.message_text,
+          });
+        });
+
+        // Preserve user-entered state across refresh
+        const savedAdoption = loadAdoptionData();
+        const freshAdoption = {};
+        OPPS.forEach(o => {
+          freshAdoption[o.id] = Object.assign(
+            { launched: false, launchStatus: "none", notes: "" },
+            savedAdoption[o.id] || {}
+          );
+        });
+        localStorage.setItem(ADOPTION_STORAGE_KEY, JSON.stringify(freshAdoption));
+
+        // Stamp refresh time
+        localStorage.setItem(REFRESH_KEY, Date.now().toString());
+        updateRefreshLabel();
+
+        // Re-render everything
+        renderProgress();
+        renderAdoption();
+        renderActive();
+        OPPS.forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
+        updateLaunchedCount();
+        document.getElementById("stat-total").textContent = OPPS.length;
+        statusEl.textContent = `Refreshed: ${OPPS.length} opps`;
+
+      } catch (err) {
+        console.error("Refresh error:", err);
+        statusEl.textContent = `Error: ${err.message || err}`;
+      } finally {
+        btn.disabled = false;
+        lbl.textContent = "Refresh Data";
+      }
     }
 
-    renderAll();
-    if (!localStorage.getItem(REFRESH_KEY)) {
-      localStorage.setItem(REFRESH_KEY, "1743033600000"); // Mar 26, 2026
-    }
+    /* ── Boot ── */
+    renderProgress();
+    renderAdoption();
+    renderActive();
     updateRefreshLabel();
+    doRefresh();
   </script>
+
+  </div><!-- /.main-content -->
 </body>
 </html>
