@@ -3,466 +3,362 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>B2B Launch Dashboard — Kelly Miles</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+  <title>B2B Launch Dashboard — Team</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #eef0f4;
-      color: #111827;
-      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      padding: 32px 28px;
     }
 
-    /* ── Page header ── */
-    .page-header {
-      background: linear-gradient(135deg, #060d1a 0%, #0c1628 50%, #0f1f35 100%);
-      border-bottom: 2px solid #10b981;
-      padding: 20px 40px 22px;
-      position: relative;
-      overflow: hidden;
-    }
-    .page-header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
-      background-size: 24px 24px;
-      pointer-events: none;
-    }
-    .page-header-inner {
+    header {
+      margin-bottom: 28px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 16px;
-      position: relative;
     }
-    .header-left { display: flex; align-items: center; gap: 14px; }
-    .header-icon {
-      width: 44px; height: 44px;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
-      flex-shrink: 0;
-      box-shadow: 0 0 0 1px rgba(16,185,129,0.3), 0 4px 12px rgba(16,185,129,0.4);
-    }
-    .header-text h1 {
-      font-size: 17px;
-      font-weight: 800;
-      color: #f8fafc;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-    }
-    .header-text .sub {
-      font-size: 11px;
-      color: #475569;
-      margin-top: 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .header-text .sub .dot { color: #1e3a5f; }
-    .header-text .sub .tag {
-      background: rgba(16,185,129,0.12);
-      border: 1px solid rgba(16,185,129,0.2);
-      color: #34d399;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 1px 7px;
-      border-radius: 99px;
-      letter-spacing: 0.03em;
-    }
+
+    .header-left h1 { font-size: 24px; font-weight: 800; color: #0d0d1a; letter-spacing: -0.01em; }
+    .header-left p  { font-size: 13px; color: #6b7280; margin-top: 5px; }
+
     .refresh-wrap {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 6px;
+      gap: 5px;
       flex-shrink: 0;
     }
+
+    .refresh-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rep-select {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 9px 28px 9px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      cursor: pointer;
+      font-family: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%236b7280' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+    }
+    .rep-select:hover { border-color: #d1d5db; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .rep-select:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.08); }
+
     .refresh-btn {
       display: flex;
       align-items: center;
       gap: 7px;
-      background: rgba(16,185,129,0.1);
-      border: 1px solid rgba(16,185,129,0.25);
-      border-radius: 9px;
-      padding: 8px 18px;
-      font-size: 12px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 9px 16px;
+      font-size: 13px;
       font-weight: 600;
-      color: #6ee7b7;
+      color: #374151;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
       font-family: inherit;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
     }
-    .refresh-btn:hover  { background: rgba(16,185,129,0.18); border-color: rgba(16,185,129,0.4); color: #a7f3d0; }
-    .refresh-btn:active { transform: scale(0.98); }
-    .refresh-btn .icon  { font-size: 14px; }
-    .refresh-status { font-size: 10px; color: #2d4a6e; letter-spacing: 0.02em; }
+    .refresh-btn:hover  { background: #f9fafb; border-color: #d1d5db; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .refresh-btn:active { background: #f3f4f6; }
+    .refresh-btn .icon  { font-size: 15px; }
 
-    /* ── Main content ── */
-    .main-content { padding: 28px 40px 48px; }
+    .refresh-status { font-size: 11.5px; color: #9ca3af; }
+    .refresh-status.copied { color: #059669; font-weight: 600; }
 
     /* ── Stats bar ── */
-    .stats-bar {
-      display: flex;
-      gap: 14px;
-      margin-bottom: 28px;
-    }
+    .stats-bar { display: flex; gap: 16px; margin-bottom: 24px; }
+
     .stat {
       background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 18px 22px 16px;
+      border: 1px solid #e5e7eb;
+      border-top: 3px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px 22px;
+      min-width: 130px;
       flex: 1;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.02);
-      position: relative;
-      overflow: hidden;
-      transition: box-shadow 0.15s;
     }
-    .stat:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.07), 0 8px 24px rgba(0,0,0,0.04); }
-    .stat::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 4px;
-      height: 100%;
-      border-radius: 14px 0 0 14px;
-    }
-    .stat.green::before  { background: linear-gradient(180deg, #34d399, #10b981); }
-    .stat.orange::before { background: linear-gradient(180deg, #fbbf24, #f59e0b); }
-    .stat.red::before    { background: linear-gradient(180deg, #f87171, #ef4444); }
-    .stat-value {
-      font-size: 30px;
-      font-weight: 900;
-      color: #0f172a;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.05em;
-      line-height: 1;
-    }
-    .stat-label {
-      font-size: 10px;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 700;
-      margin-top: 7px;
-    }
+
+    .stat-value { font-size: 28px; font-weight: 700; color: #111827; font-variant-numeric: tabular-nums; }
+    .stat-label { font-size: 11.5px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 3px; }
+
     .stat.green  .stat-value { color: #059669; }
     .stat.orange .stat-value { color: #d97706; }
     .stat.red    .stat-value { color: #dc2626; }
+    .stat.green  { border-top-color: #059669; }
+    .stat.orange { border-top-color: #d97706; }
+    .stat.red    { border-top-color: #dc2626; }
 
     /* ── Master tabs ── */
     .master-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+
     .master-tab {
-      padding: 9px 22px;
-      font-size: 13px;
+      padding: 10px 24px;
+      font-size: 13.5px;
       font-weight: 700;
-      color: #64748b;
-      background: #fff;
-      border: 1px solid #e2e8f0;
+      color: #6b7280;
+      background: #e5e7eb;
+      border: 1px solid #d1d5db;
       border-radius: 10px;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: background 0.15s, color 0.15s;
       user-select: none;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      letter-spacing: 0.01em;
     }
-    .master-tab.active {
-      background: #0f172a;
-      color: #f8fafc;
-      border-color: #0f172a;
-      box-shadow: 0 2px 8px rgba(15,23,42,0.2);
-    }
-    .master-tab:not(.active):hover { background: #f8fafc; color: #334155; }
+    .master-tab.active { background: #111827; color: #fff; border-color: #111827; }
+    .master-tab:not(.active):hover { background: #d1d5db; color: #374151; }
     .master-panel { display: none; }
     .master-panel.active { display: block; }
 
     /* ── PBR bar ── */
     .pbr-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 20px;
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-bottom: none;
-      border-radius: 10px 10px 0 0;
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 24px; background: #f9fafb; border-bottom: 1px solid #e5e7eb;
     }
-    .pbr-label { font-size: 13px; font-weight: 700; color: #94a3b8; white-space: nowrap; }
-    .pbr-deal-count { font-size: 13px; font-weight: 700; color: #059669; }
+    .pbr-label { font-size: 15px; font-weight: 700; color: #6b7280; white-space: nowrap; }
+    .pbr-deal-count { font-size: 15px; font-weight: 700; color: #059669; letter-spacing: 0.01em; }
 
     /* ── Sub tabs ── */
-    .tabs { display: flex; gap: 5px; padding: 10px 20px 0; background: #fff; border-left: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; }
+    .tabs { display: flex; gap: 4px; margin-bottom: -1px; }
+
     .tab {
-      padding: 7px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #64748b;
-      background: transparent;
-      border: 1px solid transparent;
-      border-bottom: none;
-      border-radius: 8px 8px 0 0;
-      cursor: pointer;
-      transition: all 0.15s;
-      user-select: none;
+      padding: 9px 18px; font-size: 13px; font-weight: 600; color: #6b7280;
+      background: #e5e7eb; border: 1px solid #e5e7eb; border-bottom: none;
+      border-radius: 8px 8px 0 0; cursor: pointer; transition: background 0.15s, color 0.15s; user-select: none;
     }
-    .tab.active { background: #f1f5f9; color: #0f172a; border-color: #dde3eb; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .tab:not(.active):hover { background: #f8fafc; color: #334155; }
+    .tab.active { background: #fff; color: #111827; border-color: #e5e7eb; }
+    .tab:not(.active):hover { background: #d1d5db; color: #374151; }
+
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
 
-    /* ── Table wrapper ── */
-    .table-wrapper {
-      background: #fff;
-      border: 1px solid #dde3ec;
-      border-radius: 0 0 14px 14px;
-      overflow-x: auto;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.03);
-    }
+    /* ── Table ── */
+    .table-wrapper { background: #fff; border: 1px solid #e5e7eb; border-radius: 0 12px 12px 12px; overflow: hidden; }
 
     table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 
     colgroup .col-account { width: 190px; }
     colgroup .col-date    { width: 88px; }
-    colgroup .col-check   { width: 100px; }
     colgroup .col-metric  { width: 88px; }
     colgroup .col-notes   { width: 160px; }
+    colgroup .col-signal  { width: 210px; }
+    colgroup .col-rep     { width: 120px; }
 
-    thead tr {
-      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-      border-bottom: 2px solid #10b981;
-    }
+    thead tr { background: #f9fafb; border-bottom: 2px solid #e5e7eb; height: 44px; }
+
     th {
-      padding: 12px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: none;
-      letter-spacing: 0;
-      color: #94a3b8;
-      text-align: left;
-      white-space: normal;
+      padding: 10px 16px; font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.07em; color: #6b7280; text-align: left;
     }
     th.center { text-align: center; }
+    td + td, th + th { padding-left: 22px; }
 
-    tbody tr { border-bottom: 1px solid #f1f5f9; transition: background 0.12s; }
-    tbody tr:nth-child(even) { background: #fafbfd; }
+    tbody tr { border-bottom: 1px solid #f3f4f6; transition: background 0.15s; }
     tbody tr:last-child { border-bottom: none; }
-    tbody tr:hover { background: #f0f6ff !important; }
-    tbody tr.launched { background: #f0fdf4 !important; border-left: 3px solid #10b981; }
-    tbody tr.launched:hover { background: #ecfdf5 !important; }
+    tbody tr:hover { background: #f8f9fb; }
+    tbody tr.launched     { background: #f0fdf4; border-left: 3px solid #10b981; }
+    tbody tr.launched:hover { background: #ecfdf5; }
 
-    td { padding: 12px 14px; vertical-align: middle; font-size: 12.5px; color: #1e293b; }
-    td.account-name { font-weight: 700; color: #0f172a; font-size: 13px; }
-    td.close-date { white-space: nowrap; color: #64748b; font-size: 12px; }
+    td { padding: 14px 16px; vertical-align: middle; font-size: 13.5px; color: #111827; }
+    td.account-name { font-weight: 600; color: #111827; }
+    td.close-date { white-space: nowrap; }
     td.check-cell { text-align: center; }
-    td.metric-cell { padding: 10px 14px; text-align: center; }
-    td.notes-cell { padding: 8px 14px; }
-
-    .account-name-wrap { display: flex; align-items: center; gap: 0; }
-    .account-sub { font-size: 11px; color: #94a3b8; font-weight: 400; margin-top: 2px; }
 
     .check-wrapper { display: flex; align-items: center; justify-content: center; }
+    .check-wrapper input[type="checkbox"] { width: 17px; height: 17px; accent-color: #059669; cursor: pointer; }
+
+    td.notes-cell { padding: 10px 16px; }
+
+    .notes-input {
+      width: 100%; min-height: 38px; border: 1px solid transparent; border-radius: 6px;
+      padding: 7px 10px; font-size: 13px; color: #374151; background: transparent;
+      resize: none; font-family: inherit; transition: border-color 0.15s, background 0.15s; overflow: hidden;
+    }
+    .notes-input:hover { border-color: #d1d5db; background: #f9fafb; }
+    .notes-input:focus { outline: none; border-color: #6366f1; background: #fff; box-shadow: 0 0 0 3px rgba(99,102,241,0.08); }
+    .notes-input::placeholder { color: #d1d5db; }
+
+    td.metric-cell { padding: 10px 16px; text-align: center; }
+
+    /* ── Save bar ── */
+    .save-bar { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
+
+    .save-btn {
+      background: transparent; color: #6b7280; border: 1px solid #d1d5db;
+      border-radius: 8px; padding: 9px 20px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s; font-family: inherit;
+    }
+    .save-btn:hover  { background: #f3f4f6; border-color: #9ca3af; color: #374151; }
+    .save-btn:active { transform: scale(0.98); }
+
+    .save-status { font-size: 12.5px; color: #9ca3af; transition: color 0.3s; }
+    .save-status.saved { color: #059669; }
+
+    .progress-bar-wrap { background: #e5e7eb; border-radius: 99px; height: 7px; width: 300px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: #059669; border-radius: 99px; transition: width 0.4s ease; }
+    .progress-label { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
+    /* ── Active trend ── */
+    colgroup .col-trend { width: 145px; }
+    .trend-group { display: flex; flex-direction: column; gap: 3px; align-items: center; }
+    .trend-row-item { display: flex; align-items: center; gap: 5px; }
+    .trend-lbl { font-size: 11px; color: #6b7280; font-weight: 500; min-width: 54px; flex-shrink: 0; }
+
+    .metric-val { display: block; width: 100%; padding: 5px 8px; font-size: 13px; color: #1e293b; text-align: center; font-variant-numeric: tabular-nums; }
+
+    tbody tr.at-risk-flag              { background: #fffbeb !important; }
+    tbody tr.at-risk-flag:hover        { background: #fef3c7 !important; }
+    tbody tr.at-risk-flag .account-name::after {
+      content: " ⚠ At Risk"; font-size: 10px; font-weight: 600; color: #d97706; margin-left: 6px; letter-spacing: 0.03em;
+    }
+    tbody tr.churned-flag              { background: #fff1f2 !important; }
+    tbody tr.churned-flag:hover        { background: #ffe4e6 !important; }
+    tbody tr.churned-flag .account-name::after {
+      content: " ✕ Churned"; font-size: 10px; font-weight: 600; color: #dc2626; margin-left: 6px; letter-spacing: 0.03em;
+    }
+
+    .growth-pos     { color: #059669; font-weight: 700; }
+    .growth-neg     { color: #dc2626; font-weight: 700; }
+    .growth-new     { color: #6b7280; font-weight: 600; }
+    .growth-neutral { color: #9ca3af; }
+    .trend-up       { color: #059669; font-weight: 600; }
+    .trend-down     { color: #dc2626; font-weight: 600; }
+    .trend-flat     { color: #6b7280; }
+    .account-sub    { font-size: 11px; color: #6b7280; font-weight: 400; margin-top: 2px; }
 
     /* ── Step checkboxes ── */
     .step-label { display: inline-flex; align-items: center; cursor: pointer; }
     .step-label input[type="checkbox"] { display: none; }
     .step-circle {
-      width: 24px; height: 24px;
-      border-radius: 50%;
-      border: 2px solid #cbd5e1;
-      background: #fff;
-      transition: background 0.18s, border-color 0.18s;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 700;
-      color: transparent;
+      width: 26px; height: 26px; border-radius: 50%; border: 2px solid #d1d5db; background: #fff;
+      transition: background 0.18s, border-color 0.18s; display: flex; align-items: center;
+      justify-content: center; font-size: 13px; font-weight: 700; color: transparent;
     }
-    .step-label:hover .step-circle { border-color: #94a3b8; }
-    .step-label input[type="checkbox"]:checked ~ .step-circle {
-      background: #059669; border-color: #059669; color: #fff;
-    }
+    .step-label:hover .step-circle { border-color: #9ca3af; }
+    .step-label input[type="checkbox"]:checked ~ .step-circle { background: #059669; border-color: #059669; color: #fff; }
     .step-label input[type="checkbox"]:checked ~ .step-circle::after { content: '✓'; }
 
-    /* ── Notes ── */
-    .notes-input {
-      width: 100%;
-      min-height: 36px;
-      border: 1px solid transparent;
-      border-radius: 6px;
-      padding: 6px 10px;
-      font-size: 12.5px;
-      color: #374151;
-      background: transparent;
-      resize: none;
-      font-family: inherit;
-      transition: border-color 0.15s, background 0.15s;
-      overflow: hidden;
+    /* ── Read-only circle (All Reps view) ── */
+    .ro-circle {
+      width: 26px; height: 26px; border-radius: 50%; border: 2px solid #d1d5db; background: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: transparent;
     }
-    .notes-input:hover { border-color: #e2e8f0; background: #f8fafc; }
-    .notes-input:focus { outline: none; border-color: #6366f1; background: #fff; box-shadow: 0 0 0 3px rgba(99,102,241,0.08); }
-    .notes-input::placeholder { color: #cbd5e1; }
+    .ro-circle.on { background: #059669; border-color: #059669; color: #fff; }
+    .ro-circle.on::after { content: '✓'; }
 
-    /* ── Metric values ── */
-    .metric-val {
-      display: block; width: 100%; padding: 4px 8px;
-      font-size: 12.5px; color: #1e293b; text-align: center;
-      font-variant-numeric: tabular-nums;
-    }
-    .trend-val {
-      display: inline-block; width: 68px; padding: 3px 6px;
-      font-size: 12px; color: #1e293b; text-align: center;
-      font-variant-numeric: tabular-nums;
-    }
+    .ro-notes { font-size: 13px; color: #374151; padding: 7px 2px; line-height: 1.4; }
 
-    /* ── Save bar ── */
-    .save-bar {
-      display: flex; align-items: center; justify-content: flex-end;
-      gap: 16px; margin-top: 20px;
-    }
-    .save-btn {
-      background: transparent;
-      color: #64748b;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 8px 18px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s;
-      font-family: inherit;
-    }
-    .save-btn:hover { background: #f8fafc; border-color: #cbd5e1; color: #334155; }
-    .save-btn:active { transform: scale(0.98); }
-    .save-status { font-size: 12px; color: #94a3b8; transition: color 0.3s; }
-    .save-status.saved { color: #059669; }
-
-    /* ── Section headers ── */
-    tr.section-header td {
-      background: #f8fafc;
-      font-size: 10.5px;
-      font-weight: 700;
-      color: #94a3b8;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 6px 14px;
-      border-bottom: 1px solid #e2e8f0;
-      border-top: 1px solid #e2e8f0;
-    }
-    tr.section-header:first-child td { border-top: none; }
-
-    /* ── Badge ── */
     .badge {
-      display: inline-block;
-      font-size: 10px; font-weight: 700;
-      padding: 2px 8px; border-radius: 99px;
-      background: rgba(16,185,129,0.15);
-      color: #059669;
-      margin-left: 10px; vertical-align: middle;
-      letter-spacing: 0.04em;
-      border: 1px solid rgba(16,185,129,0.25);
+      display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 9px;
+      border-radius: 99px; background: #d1fae5; color: #065f46;
+      margin-left: 10px; vertical-align: middle; letter-spacing: 0.04em;
     }
 
-    /* ── Launch urgency badges ── */
-    .lbadge {
-      display: inline-block; font-size: 10px; font-weight: 700;
-      padding: 2px 7px; border-radius: 99px;
-      vertical-align: middle; margin-left: 6px;
+    /* ── Adoption / Active shared header ── */
+    #adoption-table th, #active-table th { background: #eef2ff; color: #4338ca; text-align: center; }
+    #adoption-table td + td, #adoption-table th + th { text-align: center; }
+
+    td.signal-cell { padding: 10px 16px; vertical-align: top; }
+    .signal-display { font-size: 13px; color: #374151; line-height: 1.45; }
+    .signal-display .signal-date { font-size: 12px; color: #6b7280; font-weight: 600; margin-right: 5px; }
+    .signal-display .signal-text {
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 5px;
     }
-    .lbadge-overdue { background: #fee2e2; color: #dc2626; }
-    .lbadge-urgent  { background: #ffedd5; color: #ea580c; }
-    .lbadge-soon    { background: #fef9c3; color: #ca8a04; }
-    .lbadge-ok      { background: #f1f5f9; color: #6b7280; }
+    .signal-display .signal-link { font-size: 12px; color: #6366f1; text-decoration: none; font-weight: 500; }
+    .signal-display .signal-link:hover { text-decoration: underline; }
+    .signal-empty { font-size: 13px; color: #d1d5db; }
 
     /* ── Status dot ── */
     .status-dot {
-      display: inline-block; width: 10px; height: 10px;
-      border-radius: 50%; margin-left: 8px; vertical-align: middle;
-      cursor: pointer; flex-shrink: 0;
+      display: inline-block; width: 10px; height: 10px; border-radius: 50%;
+      margin-left: 8px; vertical-align: middle; cursor: pointer; flex-shrink: 0;
       border: 1.5px solid transparent; transition: transform 0.12s;
     }
     .status-dot:hover { transform: scale(1.25); }
     .status-dot[data-status="green"]  { background: #10b981; border-color: #059669; }
     .status-dot[data-status="yellow"] { background: #f59e0b; border-color: #d97706; }
     .status-dot[data-status="red"]    { background: #ef4444; border-color: #dc2626; }
-    .status-dot[data-status="none"]   { background: #e2e8f0; border-color: #cbd5e1; }
+    .status-dot[data-status="none"]   { background: #e5e7eb; border-color: #d1d5db; }
 
-    /* ── Growth colors ── */
-    .growth-pos     { color: #059669; font-weight: 700; }
-    .growth-neg     { color: #dc2626; font-weight: 700; }
-    .growth-new     { color: #6b7280; font-weight: 600; }
-    .growth-neutral { color: #94a3b8; }
-    .trend-up       { color: #059669; font-weight: 600; }
-    .trend-down     { color: #dc2626; font-weight: 600; }
-    .trend-flat     { color: #6b7280; }
+    .account-name-wrap { display: flex; align-items: center; gap: 0; }
 
-    /* ── At-risk / churned flags ── */
-    tbody tr.at-risk-flag { background: #fffbeb !important; }
-    tbody tr.at-risk-flag:hover { background: #fef3c7 !important; }
-    tbody tr.at-risk-flag .account-name::after {
-      content: " ⚠ At Risk"; font-size: 10px; font-weight: 600;
-      color: #d97706; margin-left: 6px;
+    /* ── Progress table ── */
+    #progress-table thead tr { background: #f3f4f6; border-bottom: 2px solid #e5e7eb; }
+    #progress-table th { background: #eef2ff; color: #4338ca; text-align: center; }
+    #progress-table th:first-child { text-align: left; }
+    #progress-table td.check-cell { background: transparent; border-left: none; }
+    #progress-table tbody tr { border-bottom: 1px solid #f0f0f5; }
+
+    tr.section-header td {
+      background: #f1f5f9; font-size: 11px; font-weight: 700; color: #6b7280;
+      text-transform: uppercase; letter-spacing: 0.08em; padding: 7px 16px;
+      border-bottom: 1px solid #e5e7eb; border-top: 2px solid #e5e7eb; border-left: none !important;
     }
-    tbody tr.churned-flag { background: #fff1f2 !important; }
-    tbody tr.churned-flag:hover { background: #ffe4e6 !important; }
-    tbody tr.churned-flag .account-name::after {
-      content: " ✕ Churned"; font-size: 10px; font-weight: 600;
-      color: #dc2626; margin-left: 6px;
-    }
+    tr.section-header:first-child td { border-top: none; }
 
-    /* ── Sidekick signal ── */
-    colgroup .col-signal { width: 210px; }
-    td.signal-cell { padding: 10px 14px; vertical-align: top; }
-    .signal-display { font-size: 12.5px; color: #374151; line-height: 1.45; }
-    .signal-display .signal-date { font-size: 11px; color: #6b7280; font-weight: 600; margin-right: 5px; }
-    .signal-display .signal-text {
-      display: -webkit-box; -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 5px;
-    }
-    .signal-display .signal-link { font-size: 11.5px; color: #6366f1; text-decoration: none; font-weight: 500; }
-    .signal-display .signal-link:hover { text-decoration: underline; }
-    .signal-empty { font-size: 13px; color: #cbd5e1; }
+    .lbadge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; vertical-align: middle; margin-left: 6px; }
+    .lbadge-overdue { background: #fee2e2; color: #dc2626; }
+    .lbadge-urgent  { background: #ffedd5; color: #ea580c; }
+    .lbadge-soon    { background: #fef9c3; color: #ca8a04; }
+    .lbadge-ok      { background: #f1f5f9; color: #6b7280; }
 
-    /* ── Trend group (Active tab) ── */
-    colgroup .col-trend { width: 145px; }
-    .trend-group { display: flex; flex-direction: column; gap: 3px; align-items: center; }
-    .trend-row-item { display: flex; align-items: center; gap: 5px; }
-    .trend-lbl { font-size: 11px; color: #6b7280; font-weight: 500; min-width: 54px; flex-shrink: 0; }
+    td.col-sep, th.col-sep { border-left: 1px solid #e5e7eb; }
+    td.col-center, th.col-center { text-align: center; }
+
+    /* ── Read-only banner ── */
+    .readonly-banner {
+      display: none; font-size: 12px; color: #6b7280;
+      background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px;
+      padding: 7px 14px; margin-bottom: 14px;
+    }
+    body.all-reps-mode .readonly-banner { display: block; }
   </style>
 </head>
-<body>
+<body class="all-reps-mode">
 
-  <div class="page-header">
-    <div class="page-header-inner">
-      <div class="header-left">
-        <div class="header-icon">🚀</div>
-        <div class="header-text">
-          <h1>B2B Launch Dashboard <span class="badge" id="launch-badge">0 Launched</span></h1>
-          <div class="sub">
-            Kelly Miles
-            <span class="dot">·</span>
-            <span class="tag">LA Mid-Market</span>
-            <span class="dot">·</span>
-            Q1/Q2 2026
-          </div>
-        </div>
-      </div>
-      <div class="refresh-wrap">
+  <header>
+    <div class="header-left">
+      <h1>B2B Launch Dashboard <span class="badge" id="launch-badge">0 Launched</span></h1>
+      <p id="header-subtitle">Track launch progress for all closed-won B2B opportunities · Full Team · Q1/Q2 2026</p>
+    </div>
+    <div class="refresh-wrap">
+      <div class="refresh-controls">
+        <select class="rep-select" id="rep-filter" onchange="onRepChange()">
+          <option value="All Reps">All Reps</option>
+          <option value="Kelly Miles">Kelly Miles</option>
+          <!-- TODO: Replace placeholder names below with actual rep names -->
+          <option value="Rep Placeholder 2">Rep Placeholder 2</option>
+          <option value="Rep Placeholder 3">Rep Placeholder 3</option>
+          <option value="Rep Placeholder 4">Rep Placeholder 4</option>
+          <option value="Rep Placeholder 5">Rep Placeholder 5</option>
+        </select>
         <button class="refresh-btn" onclick="copyRefreshPrompt()">
           <span class="icon">↻</span> Refresh Data
         </button>
-        <span class="refresh-status" id="refresh-status">Last refreshed: Mar 30 at 12:00 PM</span>
       </div>
+      <span class="refresh-status" id="refresh-status">Last refreshed: never</span>
     </div>
-  </div>
-
-  <div class="main-content">
+  </header>
 
   <div class="stats-bar">
     <div class="stat">
-      <div class="stat-value" id="stat-total">9</div>
+      <div class="stat-value" id="stat-total">—</div>
       <div class="stat-label">Total Opps</div>
     </div>
     <div class="stat green">
@@ -479,218 +375,276 @@
     </div>
   </div>
 
-  <!-- Master tabs -->
   <div class="master-tabs">
     <div class="master-tab active" id="tab-q1" onclick="switchMasterTab('q1')">Q1 2026</div>
   </div>
 
   <div id="master-panel-q1" class="master-panel active">
 
-  <!-- ── PBR bar ── -->
-  <div class="pbr-bar">
-    <span class="pbr-label">PBR:</span>
-    <span class="pbr-deal-count" id="pbr-total"></span>
-  </div>
+    <div class="readonly-banner">Viewing full team — select a rep from the dropdown to edit their data.</div>
 
-  <!-- Sub tabs -->
-  <div class="tabs">
-    <div class="tab active" id="tab-adoption" onclick="switchTab('adoption')">Launch Progress</div>
-    <div class="tab"        id="tab-active"   onclick="switchTab('active')">Active</div>
-  </div>
-
-  <!-- ── Panel 1: Launch Progress ── -->
-  <div id="panel-adoption" class="tab-panel active">
-    <div class="table-wrapper">
-      <table id="adoption-table">
-        <colgroup>
-          <col class="col-account">
-          <col style="width:90px">
-          <col class="col-date">
-          <col style="width:75px">
-          <col style="width:75px">
-          <col style="width:75px">
-          <col class="col-metric">
-          <col class="col-metric">
-          <col class="col-metric">
-          <col class="col-metric">
-          <col style="width:100px">
-          <col style="width:100px">
-          <col style="width:100px">
-          <col style="width:185px">
-          <col class="col-notes">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Account</th>
-            <th>Status</th>
-            <th>Launch Date</th>
-            <th class="center progress-check-col">Launch Cadence</th>
-            <th class="center progress-check-col">To Do List Sent</th>
-            <th class="center progress-check-col">Kick Off Scheduled</th>
-            <th>Companies</th>
-            <th>Catalogs</th>
-            <th>B2B Orders</th>
-            <th>B2B GMV</th>
-            <th>Last B2B Order</th>
-            <th>Avg Mo Volume</th>
-            <th>Avg Mo GMV</th>
-            <th class="signal-th">Sidekick / Help Center</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody id="adoption-table-body"></tbody>
-      </table>
+    <div class="pbr-bar">
+      <span class="pbr-label">PBR:</span>
+      <span class="pbr-deal-count" id="pbr-total"></span>
     </div>
 
-    <div class="save-bar">
-      <div></div>
-      <div style="display:flex;align-items:center;gap:16px;">
-        <span class="save-status" id="save-status-adoption">All changes auto-saved</span>
-        <button class="save-btn" onclick="saveAdoptionData()">Save</button>
+    <div class="tabs">
+      <div class="tab active" id="tab-progress" onclick="switchTab('progress')">To Do</div>
+      <div class="tab"        id="tab-adoption" onclick="switchTab('adoption')">Launch Progress</div>
+      <div class="tab"        id="tab-active"   onclick="switchTab('active')">Active</div>
+    </div>
+
+    <!-- Panel 1: To Do -->
+    <div id="panel-progress" class="tab-panel active">
+      <div class="table-wrapper">
+        <table id="progress-table">
+          <colgroup id="progress-colgroup"></colgroup>
+          <thead id="progress-thead"></thead>
+          <tbody id="opp-table-body"></tbody>
+        </table>
+      </div>
+      <div class="save-bar">
+        <div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+          </div>
+          <div class="progress-label" id="progress-label">0 of 0 fully launched</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <span class="save-status" id="save-status">All changes auto-saved</span>
+          <button class="save-btn" id="save-btn-progress" style="display:none" onclick="saveData()">Save</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- ── Panel 3: Active ── -->
-  <div id="panel-active" class="tab-panel">
-    <div class="table-wrapper">
-      <table id="active-table">
-        <colgroup>
-          <col style="width:200px">
-          <col style="width:165px">
-          <col style="width:85px">
-          <col style="width:85px">
-          <col style="width:95px">
-          <col style="width:95px">
-          <col style="width:95px">
-          <col style="width:85px">
-          <col style="width:85px">
-          <col style="width:95px">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>Account</th>
-            <th class="center">Monthly GMV Trend</th>
-            <th>B2B Orders</th>
-            <th>B2B GMV</th>
-            <th>Last B2B Order</th>
-            <th>Avg Mo Volume</th>
-            <th>Avg Mo GMV</th>
-            <th>QoQ Growth</th>
-            <th>MoM Growth</th>
-            <th>Close Date</th>
-          </tr>
-        </thead>
-        <tbody id="active-table-body"></tbody>
-      </table>
-    </div>
-    <div class="save-bar">
-      <div></div>
-      <div style="display:flex;align-items:center;gap:16px;">
-        <span class="save-status" id="save-status-active">All changes auto-saved</span>
-        <button class="save-btn" onclick="saveAdoptionData('save-status-active')">Save</button>
+    <!-- Panel 2: Launch Progress -->
+    <div id="panel-adoption" class="tab-panel">
+      <div class="table-wrapper">
+        <table id="adoption-table">
+          <colgroup id="adoption-colgroup"></colgroup>
+          <thead id="adoption-thead"></thead>
+          <tbody id="adoption-table-body"></tbody>
+        </table>
+      </div>
+      <div class="save-bar">
+        <div></div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <span class="save-status" id="save-status-adoption">All changes auto-saved</span>
+          <button class="save-btn" id="save-btn-adoption" style="display:none" onclick="saveAdoptionData()">Save</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  </div> <!-- /master-panel-q1 -->
+    <!-- Panel 3: Active -->
+    <div id="panel-active" class="tab-panel">
+      <div class="table-wrapper">
+        <table id="active-table">
+          <colgroup id="active-colgroup"></colgroup>
+          <thead id="active-thead"></thead>
+          <tbody id="active-table-body"></tbody>
+        </table>
+      </div>
+      <div class="save-bar">
+        <div></div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <span class="save-status" id="save-status-active">All changes auto-saved</span>
+          <button class="save-btn" id="save-btn-active" style="display:none" onclick="saveAdoptionData('save-status-active')">Save</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /master-panel-q1 -->
 
   <script>
-    const SIDEKICK_SIGNALS = {
-      "006OG00000LkQHxYAN": { date: "01/07/26", text: "Can you tell me a total volume of wholesale orders in 2025 | Who made these orders and what was the volume | Does that include Anthropologie", url: "https://sidekick.shopify.ai/internal/conversations/01KEBRKMFBBETKAPZ2H9TT3VFB" },
-      "006OG00000KwMizYAF": { date: "03/04/26", text: "I WANT ORDERS PLACED BY A COMPANY AKA A WHOLESALE ORDER TO BE TAGGED WITH WHOLESALE | HOW DO I KNOW MY STORE CREATES COMPANY IDS | OKAY SO MAKE ME THE FLOW", url: "https://sidekick.shopify.ai/internal/conversations/01KJV55ZSTF0790E966YK6Y1C0" },
-      "006OG00000KejcQYAR": { date: "03/27/26", text: "can you restrict ship methods to companies | It is an order for a company | how do I change the bcc list on emailing an invoice from draft orders", url: "https://sidekick.shopify.ai/internal/conversations/01KMRJA5WQTCMMSKF8RRQ2MJ4H" },
-    };
+    /* ════════════════════════════════════════════════
+       DATA
+    ════════════════════════════════════════════════ */
 
-    // shopType P = all shops under account; E = expansion shop only (per SF Primary Shop ID)
-    const OPPS = [
-      { id: "006OG00000M9hFZYAZ", name: "FHI Heat™ (P)",                  closeDate: "2026-03-26", launchDate: "2026-07-01", shopType: "P", shopIds: [16315482212] },
-      { id: "006OG00000Kicu5YAB", name: "Kala Brand Music Co. (P)",        closeDate: "2026-03-25", launchDate: "2026-07-01", shopType: "P", shopIds: [8060141, 57105481888] },
-      { id: "006OG00000LkQHxYAN", name: "thedailyessentialco.com (P)",     closeDate: "2026-03-24", launchDate: "2026-03-30", shopType: "P", shopIds: [13979069] },
-      { id: "006OG00000LW5gPYAT", name: "RAINIER ENGINEERING / Katool (P)", closeDate: "2026-03-06", launchDate: "2026-04-01", shopType: "P", shopIds: [64612172012] },
-      { id: "006OG00000LY6dBYAT", name: "COAST Products (P)",              closeDate: "2026-03-03", launchDate: "2026-03-09", shopType: "P", shopIds: [1890549872] },
-      { id: "006OG00000LCwLtYAL", name: "SABBI (P)",                       closeDate: "2026-02-26", launchDate: "2026-04-24", shopType: "P", shopIds: [79198159164, 80864313599] },
-      { id: "006OG00000KwMizYAF", name: "PrimeFish Seafood Co. (P)",       closeDate: "2026-02-09", launchDate: "2026-02-23", shopType: "P", shopIds: [29616701578] },
-      { id: "006OG00000KejcQYAR", name: "PMD Beauty (P)",                  closeDate: "2026-02-03", launchDate: "2026-03-01", shopType: "P", shopIds: [41455485078, 89372721452, 55258906685, 47645360285, 47569633431] },
-      { id: "006OG00000KSfuLYAT", name: "We Norwegians (E)",               closeDate: "2026-01-21", launchDate: "2026-03-31", shopType: "E", shopIds: [47022735520] },
+    // Team rep list — update names to match actual reps on the team
+    const REP_LIST = [
+      "Kelly Miles",
+      "Rep Placeholder 2",  // TODO: replace with actual name
+      "Rep Placeholder 3",
+      "Rep Placeholder 4",
+      "Rep Placeholder 5",
     ];
 
-    const STORAGE_KEY          = "launch_dashboard_v1";
-    const ADOPTION_STORAGE_KEY = "launch_dashboard_adoption_v5";
-
-    const DEFAULT_ADOPTION = {
-      "006OG00000M9hFZYAZ": { companies: "1",  catalogs: "2", orders: "0",  gmv: "$0",      lastOrder: "",             avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // FHI Heat
-      "006OG00000Kicu5YAB": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",             avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // Kala
-      "006OG00000LkQHxYAN": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",             avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // thedailyessentialco
-      "006OG00000LW5gPYAT": { companies: "2",  catalogs: "1", orders: "47", gmv: "$58,911", lastOrder: "03/16/26", avgOrders: "72",  avgGmv: "$37,021", mo2Gmv: "$0",  mo1Gmv: "$0",  mo0Gmv: "$58,911", qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // RAINIER
-      "006OG00000LY6dBYAT": { companies: "13", catalogs: "2", orders: "13", gmv: "$21,009", lastOrder: "03/23/26", avgOrders: "5.3", avgGmv: "$27,194", mo2Gmv: "$0",  mo1Gmv: "$0",  mo0Gmv: "$21,009", qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // COAST
-      "006OG00000LCwLtYAL": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",         avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // SABBI
-      "006OG00000KwMizYAF": { companies: "53", catalogs: "0", orders: "13", gmv: "$6,363",  lastOrder: "03/20/26", avgOrders: "8.8", avgGmv: "$4,305",  mo2Gmv: "$0",  mo1Gmv: "$5,850", mo0Gmv: "$513",   qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // PrimeFish
-      "006OG00000KejcQYAR": { companies: "2",  catalogs: "2", orders: "6",  gmv: "$537",    lastOrder: "03/28/26", avgOrders: "1.2", avgGmv: "$0",      mo2Gmv: "", mo1Gmv: "", mo0Gmv: "$537",    qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // PMD Beauty
-      "006OG00000KSfuLYAT": { companies: "0",  catalogs: "0", orders: "0",  gmv: "$0",      lastOrder: "",             avgOrders: "",    avgGmv: "",        mo2Gmv: "", mo1Gmv: "", mo0Gmv: "",        qoqGrowth: "", momGrowth: "", launched: false, notes: "" }, // We Norwegians
+    const SIDEKICK_SIGNALS = {
+      "006OG00000KwMizYAF": { date: "03/04/26", text: "I WANT ORDERS PLACED BY A COMPANY AKA A WHOLESALE ORDER TO BE TAGGED WITH WHOLESALE | HOW DO I KNOW MY STORE CREATES COMPANY IDS | OKAY SO MAKE ME THE FLOW", url: "https://sidekick.shopify.ai/internal/conversations/01KJV55ZSTF0790E966YK6Y1C0" },
+      "006OG00000KejcQYAR": { date: "02/24/26", text: "how to prevent customers from signing in? we want an invites only b2b store", url: "https://sidekick.shopify.ai/internal/conversations/01KJ7VH33PQ1G8FQJN3601VS77" },
     };
 
-    // Migrate v2 → v3 (legacy, kept for safety)
-    (function migrateV2toV3() {
-      if (localStorage.getItem("launch_dashboard_adoption_v3")) return;
-      const old = JSON.parse(localStorage.getItem("launch_dashboard_adoption_v2") || "{}");
-      if (!Object.keys(old).length) return;
-      const USER_FIELDS = ["launched", "launchStatus", "notes", "signal"];
-      const migrated = {};
-      Object.keys(old).forEach(id => {
-        const fresh = DEFAULT_ADOPTION[id] || {};
-        const saved = old[id] || {};
-        migrated[id] = Object.assign({}, fresh);
-        USER_FIELDS.forEach(f => { if (f in saved) migrated[id][f] = saved[f]; });
-      });
-      localStorage.setItem("launch_dashboard_adoption_v3", JSON.stringify(migrated));
-    })();
+    // ── OPPS: every entry has a rep field ──
+    // Placeholder reps: fill in id, name, closeDate, launchDate, shopIds, rep
+    const OPPS = [
+      // Kelly Miles
+      { rep: "Kelly Miles", id: "006OG00000M9hFZYAZ", name: "FHI Heat™ (P)",                   closeDate: "2026-03-26", launchDate: "2026-07-01", shopType: "P", shopIds: [16315482212] },
+      { rep: "Kelly Miles", id: "006OG00000Kicu5YAB", name: "Kala Brand Music Co. (P)",         closeDate: "2026-03-25", launchDate: "2026-07-01", shopType: "P", shopIds: [8060141, 57105481888] },
+      { rep: "Kelly Miles", id: "006OG00000LkQHxYAN", name: "thedailyessentialco.com (P)",      closeDate: "2026-03-24", launchDate: "2026-03-30", shopType: "P", shopIds: [13979069] },
+      { rep: "Kelly Miles", id: "006OG00000LW5gPYAT", name: "RAINIER ENGINEERING / Katool (P)", closeDate: "2026-03-06", launchDate: "2026-04-01", shopType: "P", shopIds: [64612172012] },
+      { rep: "Kelly Miles", id: "006OG00000LY6dBYAT", name: "COAST Products (P)",               closeDate: "2026-03-03", launchDate: "2026-03-09", shopType: "P", shopIds: [1890549872] },
+      { rep: "Kelly Miles", id: "006OG00000LCwLtYAL", name: "SABBI (P)",                        closeDate: "2026-02-26", launchDate: "2026-04-24", shopType: "P", shopIds: [79198159164, 80864313599] },
+      { rep: "Kelly Miles", id: "006OG00000KwMizYAF", name: "PrimeFish Seafood Co. (P)",        closeDate: "2026-02-09", launchDate: "2026-02-23", shopType: "P", shopIds: [29616701578] },
+      { rep: "Kelly Miles", id: "006OG00000KejcQYAR", name: "PMD Beauty (P)",                   closeDate: "2026-02-03", launchDate: "2026-03-01", shopType: "P", shopIds: [41455485078, 89372721452, 55258906685, 47645360285, 47569633431] },
+      { rep: "Kelly Miles", id: "006OG00000KSfuLYAT", name: "We Norwegians (E)",                closeDate: "2026-01-21", launchDate: "2026-03-31", shopType: "E", shopIds: [47022735520] },
 
-    // Migrate → v5: inject fresh B2B metrics, preserve user-entered fields from any prior version
-    (function migrateToV5() {
-      if (localStorage.getItem(ADOPTION_STORAGE_KEY)) return; // v5 already exists
-      const prior = JSON.parse(
-        localStorage.getItem("launch_dashboard_adoption_v4") ||
-        localStorage.getItem("launch_dashboard_adoption_v3") || "{}"
-      );
-      const USER_FIELDS = ["launched", "launchStatus", "notes", "signal", "avgOrders", "avgGmv", "mo2Gmv", "mo1Gmv", "mo0Gmv", "qoqGrowth", "momGrowth"];
-      const migrated = {};
-      Object.keys(DEFAULT_ADOPTION).forEach(id => {
-        const fresh = DEFAULT_ADOPTION[id] || {};
-        const saved = prior[id] || {};
-        migrated[id] = Object.assign({}, fresh);
-        USER_FIELDS.forEach(f => { if (saved[f] !== undefined && saved[f] !== "") migrated[id][f] = saved[f]; });
-      });
-      localStorage.setItem(ADOPTION_STORAGE_KEY, JSON.stringify(migrated));
-    })();
+      // Rep Placeholder 2 — replace rep name, fill in real opps
+      { rep: "Rep Placeholder 2", id: "PLACEHOLDER_RP2_001", name: "— Account Placeholder —", closeDate: "2026-01-01", launchDate: "2026-04-01", shopType: "P", shopIds: [] },
 
-    /* ── Tab switching ── */
-    const REFRESH_KEY = "b2b-dashboard-last-refreshed";
+      // Rep Placeholder 3
+      { rep: "Rep Placeholder 3", id: "PLACEHOLDER_RP3_001", name: "— Account Placeholder —", closeDate: "2026-01-01", launchDate: "2026-04-01", shopType: "P", shopIds: [] },
 
-    function copyRefreshPrompt() {
-      const prompt = `Refresh the B2B launch dashboard — pull the latest Sidekick B2B signals (questions containing "b2b", "wholesale", "company", "companies") and B2B metrics (orders, GMV, last order date) for all accounts in the dashboard and update launch-dashboard.html.`;
-      navigator.clipboard.writeText(prompt).then(() => {
-        const el = document.getElementById("refresh-status");
-        el.textContent = "✓ Copied! Paste into Claude to refresh.";
-        el.classList.add("copied");
-        setTimeout(() => {
-          el.classList.remove("copied");
-          updateRefreshLabel();
-        }, 4000);
-      });
+      // Rep Placeholder 4
+      { rep: "Rep Placeholder 4", id: "PLACEHOLDER_RP4_001", name: "— Account Placeholder —", closeDate: "2026-01-01", launchDate: "2026-04-01", shopType: "P", shopIds: [] },
+
+      // Rep Placeholder 5
+      { rep: "Rep Placeholder 5", id: "PLACEHOLDER_RP5_001", name: "— Account Placeholder —", closeDate: "2026-01-01", launchDate: "2026-04-01", shopType: "P", shopIds: [] },
+    ];
+
+    const OPP_PBR = {
+      "006OG00000M9hFZYAZ": 42163.62,
+      "006OG00000Kicu5YAB": 0,
+      "006OG00000LkQHxYAN": 3150.30,
+      "006OG00000LW5gPYAT": 249920.10,
+      "006OG00000LY6dBYAT": 27387.59,
+      "006OG00000LCwLtYAL": 12734.07,
+      "006OG00000KwMizYAF": 75850.83,
+      "006OG00000KejcQYAR": 54456.83,
+      "006OG00000KSfuLYAT": 17329.17,
+      "PLACEHOLDER_RP2_001": 0,
+      "PLACEHOLDER_RP3_001": 0,
+      "PLACEHOLDER_RP4_001": 0,
+      "PLACEHOLDER_RP5_001": 0,
+    };
+
+    const DEFAULT_ADOPTION = {
+      "006OG00000M9hFZYAZ": { companies:"1",  catalogs:"2", orders:"0",  gmv:"$0",      lastOrder:"",         avgOrders:"",    avgGmv:"",        mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
+      "006OG00000Kicu5YAB": { companies:"0",  catalogs:"0", orders:"0",  gmv:"$0",      lastOrder:"",         avgOrders:"",    avgGmv:"",        mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
+      "006OG00000LkQHxYAN": { companies:"0",  catalogs:"0", orders:"0",  gmv:"$0",      lastOrder:"",         avgOrders:"",    avgGmv:"",        mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
+      "006OG00000LW5gPYAT": { companies:"2",  catalogs:"1", orders:"47", gmv:"$24,321", lastOrder:"03/22/26", avgOrders:"72",  avgGmv:"$37,021", mo2Gmv:"$0",  mo1Gmv:"$0",    mo0Gmv:"$24,321", qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
+      "006OG00000LY6dBYAT": { companies:"13", catalogs:"2", orders:"4",  gmv:"$20,558", lastOrder:"03/23/26", avgOrders:"5.3", avgGmv:"$27,194", mo2Gmv:"$0",  mo1Gmv:"$0",    mo0Gmv:"$20,558", qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
+      "006OG00000LCwLtYAL": { companies:"0",  catalogs:"0", orders:"0",  gmv:"$0",      lastOrder:"",         avgOrders:"",    avgGmv:"",        mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
+      "006OG00000KwMizYAF": { companies:"53", catalogs:"0", orders:"13", gmv:"$6,363",  lastOrder:"03/20/26", avgOrders:"8.8", avgGmv:"$4,305",  mo2Gmv:"$0",  mo1Gmv:"$5,850",mo0Gmv:"$513",    qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
+      "006OG00000KejcQYAR": { companies:"2",  catalogs:"2", orders:"2",  gmv:"$0",      lastOrder:"02/26/26", avgOrders:"1.2", avgGmv:"$0",      mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
+      "006OG00000KSfuLYAT": { companies:"0",  catalogs:"0", orders:"0",  gmv:"$0",      lastOrder:"",         avgOrders:"",    avgGmv:"",        mo2Gmv:"",    mo1Gmv:"",      mo0Gmv:"",        qoqGrowth:"", momGrowth:"", launched:false, notes:"" },
+      "PLACEHOLDER_RP2_001": { companies:"—", catalogs:"—", orders:"—",  gmv:"—",       lastOrder:"—",        avgOrders:"—",   avgGmv:"—",       mo2Gmv:"—",   mo1Gmv:"—",     mo0Gmv:"—",       qoqGrowth:"—",momGrowth:"—",launched:false, notes:"" },
+      "PLACEHOLDER_RP3_001": { companies:"—", catalogs:"—", orders:"—",  gmv:"—",       lastOrder:"—",        avgOrders:"—",   avgGmv:"—",       mo2Gmv:"—",   mo1Gmv:"—",     mo0Gmv:"—",       qoqGrowth:"—",momGrowth:"—",launched:false, notes:"" },
+      "PLACEHOLDER_RP4_001": { companies:"—", catalogs:"—", orders:"—",  gmv:"—",       lastOrder:"—",        avgOrders:"—",   avgGmv:"—",       mo2Gmv:"—",   mo1Gmv:"—",     mo0Gmv:"—",       qoqGrowth:"—",momGrowth:"—",launched:false, notes:"" },
+      "PLACEHOLDER_RP5_001": { companies:"—", catalogs:"—", orders:"—",  gmv:"—",       lastOrder:"—",        avgOrders:"—",   avgGmv:"—",       mo2Gmv:"—",   mo1Gmv:"—",     mo0Gmv:"—",       qoqGrowth:"—",momGrowth:"—",launched:false, notes:"" },
+    };
+
+    const B2B_DATA = {
+      "006OG00000M9hFZYAZ": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"1",  catalogs:"2" },
+      "006OG00000Kicu5YAB": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"0",  catalogs:"0" },
+      "006OG00000LkQHxYAN": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"0",  catalogs:"0" },
+      "006OG00000LW5gPYAT": { orders:"47", gmv:"$58,911",  lastOrder:"03/22/26", avgOrders:"15.7", avgGmv:"$19,637", mo0Gmv:"$58,911", mo1Gmv:"$0",      mo2Gmv:"$0",   qoqGrowth:"New", momGrowth:"New",      companies:"2",  catalogs:"1" },
+      "006OG00000LY6dBYAT": { orders:"15", gmv:"$21,009",  lastOrder:"03/23/26", avgOrders:"4.3",  avgGmv:"$7,003",  mo0Gmv:"$20,558", mo1Gmv:"$91",     mo2Gmv:"$360", qoqGrowth:"New", momGrowth:"+22,601%", companies:"13", catalogs:"2" },
+      "006OG00000LCwLtYAL": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"0",  catalogs:"0" },
+      "006OG00000KwMizYAF": { orders:"13", gmv:"$6,363",   lastOrder:"03/20/26", avgOrders:"4.3",  avgGmv:"$2,121",  mo0Gmv:"$513",    mo1Gmv:"$5,850",  mo2Gmv:"$0",   qoqGrowth:"New", momGrowth:"-91%",     companies:"53", catalogs:"0" },
+      "006OG00000KejcQYAR": { orders:"4",  gmv:"$0",       lastOrder:"02/26/26", avgOrders:"1.0",  avgGmv:"$0",      mo0Gmv:"$0",      mo1Gmv:"$0",      mo2Gmv:"$0",   qoqGrowth:"—",   momGrowth:"—",        companies:"2",  catalogs:"2" },
+      "006OG00000KSfuLYAT": { orders:"—",  gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"0",  catalogs:"0" },
+      "PLACEHOLDER_RP2_001": { orders:"—", gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"—",  catalogs:"—" },
+      "PLACEHOLDER_RP3_001": { orders:"—", gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"—",  catalogs:"—" },
+      "PLACEHOLDER_RP4_001": { orders:"—", gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"—",  catalogs:"—" },
+      "PLACEHOLDER_RP5_001": { orders:"—", gmv:"—",        lastOrder:"—",        avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",       mo2Gmv:"—",    qoqGrowth:"—",   momGrowth:"—",        companies:"—",  catalogs:"—" },
+    };
+
+    /* ════════════════════════════════════════════════
+       STATE & STORAGE
+    ════════════════════════════════════════════════ */
+
+    let currentRep = "All Reps";
+    const REFRESH_KEY = "b2b-team-dashboard-last-refreshed";
+
+    function slug(name) {
+      return name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
     }
 
-    function updateRefreshLabel() {
-      const ts = localStorage.getItem(REFRESH_KEY);
-      const el = document.getElementById("refresh-status");
-      if (!ts) { el.textContent = "Last refreshed: never"; return; }
-      const d = new Date(parseInt(ts));
-      el.textContent = `Last refreshed: ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })} at ${d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
+    function storageKey(rep)        { return `launch_dashboard_v1_${slug(rep)}`; }
+    function adoptionStorageKey(rep){ return `launch_dashboard_adoption_v3_${slug(rep)}`; }
+
+    // One-time migration: carry Kelly's existing single-rep data into namespaced key
+    (function migrateKelly() {
+      const kk = storageKey("Kelly Miles");
+      const ka = adoptionStorageKey("Kelly Miles");
+      if (!localStorage.getItem(kk)) {
+        const old = localStorage.getItem("launch_dashboard_v1");
+        if (old) localStorage.setItem(kk, old);
+      }
+      if (!localStorage.getItem(ka)) {
+        const old = localStorage.getItem("launch_dashboard_adoption_v3") ||
+                    localStorage.getItem("launch_dashboard_adoption_v2");
+        if (old) localStorage.setItem(ka, old);
+      }
+    })();
+
+    function loadData(rep) {
+      if (rep && rep !== "All Reps") {
+        try { return JSON.parse(localStorage.getItem(storageKey(rep))) || {}; }
+        catch { return {}; }
+      }
+      const merged = {};
+      REP_LIST.forEach(r => {
+        try { Object.assign(merged, JSON.parse(localStorage.getItem(storageKey(r))) || {}); }
+        catch {}
+      });
+      return merged;
     }
+
+    function loadAdoptionData(rep) {
+      if (rep && rep !== "All Reps") {
+        try { return JSON.parse(localStorage.getItem(adoptionStorageKey(rep))) || {}; }
+        catch { return {}; }
+      }
+      const merged = {};
+      REP_LIST.forEach(r => {
+        try { Object.assign(merged, JSON.parse(localStorage.getItem(adoptionStorageKey(r))) || {}); }
+        catch {}
+      });
+      return merged;
+    }
+
+    function isReadOnly()    { return currentRep === "All Reps"; }
+    function getFilteredOpps() {
+      return currentRep === "All Reps" ? OPPS : OPPS.filter(o => o.rep === currentRep);
+    }
+
+    /* ════════════════════════════════════════════════
+       REP FILTER
+    ════════════════════════════════════════════════ */
+
+    function onRepChange() {
+      currentRep = document.getElementById("rep-filter").value;
+      const ro = isReadOnly();
+
+      // Header
+      const subtitle = document.getElementById("header-subtitle");
+      if (ro) {
+        subtitle.textContent = "Track launch progress for all closed-won B2B opportunities · Full Team · Q1/Q2 2026";
+        document.title = "B2B Launch Dashboard — Team";
+        document.body.classList.add("all-reps-mode");
+      } else {
+        subtitle.textContent = `Track launch progress for all closed-won B2B opportunities · ${currentRep} · Q1/Q2 2026`;
+        document.title = `B2B Launch Dashboard — ${currentRep}`;
+        document.body.classList.remove("all-reps-mode");
+      }
+
+      // Save buttons: visible only in single-rep mode
+      ["save-btn-progress","save-btn-adoption","save-btn-active"].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.style.display = ro ? "none" : "";
+      });
+
+      renderAll();
+    }
+
+    /* ════════════════════════════════════════════════
+       TAB SWITCHING
+    ════════════════════════════════════════════════ */
 
     function switchMasterTab(name) {
       document.querySelectorAll(".master-tab").forEach(t => {
-        t.classList.toggle("active", t.textContent.toLowerCase().replace(/\s/g, "") === name.toLowerCase().replace(/\s/g, ""));
+        t.classList.toggle("active", t.id === `tab-${name}`);
       });
       document.querySelectorAll(".master-panel").forEach(p => {
         p.classList.toggle("active", p.id === `master-panel-${name}`);
@@ -699,14 +653,17 @@
 
     function switchTab(name) {
       document.querySelectorAll(".tab").forEach((t, i) => {
-        t.classList.toggle("active", ["adoption","active"][i] === name);
+        t.classList.toggle("active", ["progress","adoption","active"][i] === name);
       });
       document.querySelectorAll(".tab-panel").forEach(p => {
         p.classList.toggle("active", p.id === `panel-${name}`);
       });
     }
 
-    /* ── Shared helpers ── */
+    /* ════════════════════════════════════════════════
+       HELPERS
+    ════════════════════════════════════════════════ */
+
     function formatDate(dateStr) {
       const [y, m, d] = dateStr.split("-");
       return `${m}/${d}/${y.slice(2)}`;
@@ -719,193 +676,19 @@
 
     function flashSaved(statusId) {
       const el = document.getElementById(statusId);
+      if (!el) return;
       el.textContent = "Saved ✓";
       el.classList.add("saved");
-      setTimeout(() => {
-        el.textContent = "All changes auto-saved";
-        el.classList.remove("saved");
-      }, 2000);
-    }
-
-    /* ── Panel 1: Launch Progress ── */
-    function updateLaunchedCount() {
-      const adoptionData = loadAdoptionData();
-      let launchedCount = 0;
-      OPPS.forEach(opp => {
-        const s = adoptionData[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
-        if (s.launched) launchedCount++;
-      });
-      document.getElementById("stat-launched").textContent = launchedCount;
-      document.getElementById("launch-badge").textContent  = `${launchedCount} Launched`;
-      updateTabCounts(launchedCount);
-    }
-
-    function updateTabCounts(launchedCount) {
-      const total = OPPS.length;
-      const notLaunched = total - launchedCount;
-      document.getElementById("tab-q1").textContent       = `Q1 2026 (${total})`;
-      document.getElementById("tab-adoption").textContent = `Launch Progress (${notLaunched})`;
-      document.getElementById("tab-active").textContent   = `Active (${launchedCount})`;
-    }
-
-    /* ── PBR (Projected_Billed_Revenue__c from Salesforce, pulled 2026-03-26) ── */
-    const OPP_PBR = {
-      "006OG00000M9hFZYAZ": 42163.62,   // FHI Heat
-      "006OG00000Kicu5YAB": 0,           // Kala
-      "006OG00000LkQHxYAN": 3150.30,    // thedailyessentialco
-      "006OG00000LW5gPYAT": 249920.10,  // RAINIER
-      "006OG00000LY6dBYAT": 27387.59,   // COAST
-      "006OG00000LCwLtYAL": 12734.07,   // SABBI
-      "006OG00000KwMizYAF": 75850.83,   // PrimeFish
-      "006OG00000KejcQYAR": 54456.83,   // PMD Beauty
-      "006OG00000KSfuLYAT": 17329.17,   // We Norwegians
-    };
-    (function initPbr() {
-      const total = Object.values(OPP_PBR).reduce((s, v) => s + v, 0);
-      const el = document.getElementById("pbr-total");
-      if (el) el.textContent = "$" + total.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    })();
-
-    /* ── B2B metrics (BigQuery, read-only) ── */
-    const B2B_DATA = {
-      "006OG00000M9hFZYAZ": { orders:"—",  gmv:"—",        lastOrder:"—",       avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",      mo2Gmv:"—",    qoqGrowth:"—",    momGrowth:"—",       companies:"1",  catalogs:"2" },
-      "006OG00000Kicu5YAB": { orders:"—",  gmv:"—",        lastOrder:"—",       avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",      mo2Gmv:"—",    qoqGrowth:"—",    momGrowth:"—",       companies:"0",  catalogs:"0" },
-      "006OG00000LkQHxYAN": { orders:"—",  gmv:"—",        lastOrder:"—",       avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",      mo2Gmv:"—",    qoqGrowth:"—",    momGrowth:"—",       companies:"0",  catalogs:"0" },
-      "006OG00000LW5gPYAT": { orders:"47", gmv:"$58,911",  lastOrder:"03/22/26",avgOrders:"15.7", avgGmv:"$19,637", mo0Gmv:"$58,911", mo1Gmv:"$0",     mo2Gmv:"$0",   qoqGrowth:"New",  momGrowth:"New",     companies:"2",  catalogs:"1" },
-      "006OG00000LY6dBYAT": { orders:"15", gmv:"$21,009",  lastOrder:"03/23/26",avgOrders:"4.3",  avgGmv:"$7,003",  mo0Gmv:"$20,558", mo1Gmv:"$91",    mo2Gmv:"$360", qoqGrowth:"New",  momGrowth:"+22,601%",companies:"13", catalogs:"2" },
-      "006OG00000LCwLtYAL": { orders:"—",  gmv:"—",        lastOrder:"—",       avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",      mo2Gmv:"—",    qoqGrowth:"—",    momGrowth:"—",       companies:"0",  catalogs:"0" },
-      "006OG00000KwMizYAF": { orders:"13", gmv:"$6,363",   lastOrder:"03/20/26",avgOrders:"4.3",  avgGmv:"$2,121",  mo0Gmv:"$513",    mo1Gmv:"$5,850", mo2Gmv:"$0",   qoqGrowth:"New",  momGrowth:"-91%",    companies:"53", catalogs:"0" },
-      "006OG00000KejcQYAR": { orders:"6",  gmv:"$537",     lastOrder:"03/28/26",avgOrders:"1.0",  avgGmv:"$0",      mo0Gmv:"$537",    mo1Gmv:"$0",     mo2Gmv:"$0",   qoqGrowth:"—",    momGrowth:"—",       companies:"2",  catalogs:"2" },
-      "006OG00000KSfuLYAT": { orders:"—",  gmv:"—",        lastOrder:"—",       avgOrders:"—",    avgGmv:"—",       mo0Gmv:"—",       mo1Gmv:"—",      mo2Gmv:"—",    qoqGrowth:"—",    momGrowth:"—",       companies:"0",  catalogs:"0" },
-    };
-
-    /* ── Panel 2: B2B Adoption ── */
-    function loadAdoptionData() {
-      try { return JSON.parse(localStorage.getItem(ADOPTION_STORAGE_KEY)) || {}; }
-      catch { return {}; }
-    }
-
-    function saveAdoptionData(statusId) {
-      const existing = loadAdoptionData();
-      const data = Object.assign({}, existing);
-      OPPS.forEach(opp => {
-        const el = document.getElementById(`launched-${opp.id}`);
-        if (el) {
-          data[opp.id] = {
-            launched     : document.getElementById(`launched-${opp.id}`).checked,
-            launchStatus : document.getElementById(`status-dot-${opp.id}`)?.dataset.status ?? (existing[opp.id]?.launchStatus || "none"),
-            cadence      : document.getElementById(`adoption-cadence-${opp.id}`)?.checked ?? (existing[opp.id]?.cadence || false),
-            todo         : document.getElementById(`adoption-todo-${opp.id}`)?.checked ?? (existing[opp.id]?.todo || false),
-            kickoff      : document.getElementById(`adoption-kickoff-${opp.id}`)?.checked ?? (existing[opp.id]?.kickoff || false),
-            notes        : document.getElementById(`adoption-notes-${opp.id}`)?.value ?? (existing[opp.id]?.notes || ""),
-          };
-        }
-      });
-      localStorage.setItem(ADOPTION_STORAGE_KEY, JSON.stringify(data));
-      flashSaved(statusId || "save-status-adoption");
-      updateLaunchedCount();
-    }
-
-    function toggleLaunched(oppId) {
-      saveAdoptionData();
-      renderAdoption();
-      renderActive();
-      OPPS.forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
-    }
-
-    function cycleStatus(oppId) {
-      const dot = document.getElementById(`status-dot-${oppId}`);
-      if (!dot) return;
-      const order = ["none", "green", "yellow", "red"];
-      const current = dot.dataset.status || "none";
-      dot.dataset.status = order[(order.indexOf(current) + 1) % order.length];
-      saveAdoptionData();
+      setTimeout(() => { el.textContent = "All changes auto-saved"; el.classList.remove("saved"); }, 2000);
     }
 
     function launchBadge(launchDateStr) {
       if (!launchDateStr) return '';
       const days = Math.floor((new Date(launchDateStr + 'T00:00:00') - new Date()) / 86400000);
-      if (days < 0)  return `<span class="lbadge lbadge-overdue">${Math.abs(days)}d late</span>`;
-      if (days <= 7) return `<span class="lbadge lbadge-urgent">${days}d</span>`;
+      if (days < 0)   return `<span class="lbadge lbadge-overdue">${Math.abs(days)}d late</span>`;
+      if (days <= 7)  return `<span class="lbadge lbadge-urgent">${days}d</span>`;
       if (days <= 30) return `<span class="lbadge lbadge-soon">${days}d</span>`;
       return `<span class="lbadge lbadge-ok">${days}d</span>`;
-    }
-
-    function renderAdoption() {
-      // Seed cadence/todo/kickoff from old To Do storage if not yet saved in adoption data
-      const todoSaved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-      const saved = loadAdoptionData();
-      OPPS.forEach(opp => {
-        const td = todoSaved[opp.id] || {};
-        const ad = saved[opp.id] || {};
-        if (!("cadence" in ad) && "cadence" in td) { ad.cadence = td.cadence; ad.todo = td.todo; ad.kickoff = td.kickoff; saved[opp.id] = ad; }
-      });
-      const tbody = document.getElementById("adoption-table-body");
-      tbody.innerHTML = "";
-      const unlaunched = OPPS.filter(opp => {
-        const s = saved[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
-        return !s.launched;
-      }).sort((a, b) => new Date(a.launchDate) - new Date(b.launchDate));
-      let lastMonth = null;
-      unlaunched.forEach(opp => {
-        const monthKey = new Date(opp.launchDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        if (monthKey !== lastMonth) {
-          const hdr = document.createElement("tr");
-          hdr.classList.add("section-header");
-          hdr.innerHTML = `<td colspan="15">Target Launch: ${monthKey}</td>`;
-          tbody.appendChild(hdr);
-          lastMonth = monthKey;
-        }
-        const s = saved[opp.id] || {};
-        const b2b = B2B_DATA[opp.id] || {};
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td class="account-name">
-            <div class="account-name-wrap">
-              <input type="checkbox" id="launched-${opp.id}" ${s.launched ? "checked" : ""} onchange="toggleLaunched('${opp.id}')" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">
-              <div>
-                <div style="display:flex;align-items:center;gap:4px;">
-                  <span>${opp.name}</span>
-                </div>
-                <div class="account-sub">Closed ${formatDate(opp.closeDate)}</div>
-              </div>
-            </div>
-          </td>
-          <td class="metric-cell">${launchBadge(opp.launchDate)}</td>
-          <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
-          <td class="check-cell"><div class="check-wrapper"><label class="step-label"><input type="checkbox" id="adoption-cadence-${opp.id}" ${s.cadence ? "checked" : ""} onchange="saveAdoptionData()"><span class="step-circle"></span></label></div></td>
-          <td class="check-cell"><div class="check-wrapper"><label class="step-label"><input type="checkbox" id="adoption-todo-${opp.id}" ${s.todo ? "checked" : ""} onchange="saveAdoptionData()"><span class="step-circle"></span></label></div></td>
-          <td class="check-cell"><div class="check-wrapper"><label class="step-label"><input type="checkbox" id="adoption-kickoff-${opp.id}" ${s.kickoff ? "checked" : ""} onchange="saveAdoptionData()"><span class="step-circle"></span></label></div></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.companies ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.catalogs ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.orders ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.gmv ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.lastOrder ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.avgOrders ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.avgGmv ?? "—"}</span></td>
-          <td class="signal-cell">
-            ${(function() {
-              const sig = SIDEKICK_SIGNALS[opp.id];
-              if (!sig) return '<span class="signal-empty">—</span>';
-              return '<div class="signal-display">'
-                + '<div class="signal-text"><span class="signal-date">' + sig.date + '</span>' + sig.text + '</div>'
-                + '<a class="signal-link" href="' + sig.url + '" target="_blank">View conversation →</a>'
-                + '</div>';
-            })()}
-          </td>
-          <td class="notes-cell">
-            <textarea id="adoption-notes-${opp.id}" class="notes-input" placeholder="Add notes…"
-              oninput="autoResize(this); saveAdoptionData()"
-              onkeydown="if(event.key==='Tab'){event.preventDefault();this.blur();}"
-              rows="1">${s.notes || ""}</textarea>
-          </td>
-        `;
-        tbody.appendChild(tr);
-        requestAnimationFrame(() => {
-          const ta = document.getElementById(`adoption-notes-${opp.id}`);
-          if (ta && ta.value) autoResize(ta);
-        });
-      });
     }
 
     function growthSpan(val) {
@@ -925,61 +708,379 @@
       return `<span class="${cls}">${val}</span>`;
     }
 
-    function renderActive() {
-      const saved = loadAdoptionData();
-      const tbody = document.getElementById("active-table-body");
+    /* ════════════════════════════════════════════════
+       PANEL 1: TO DO
+    ════════════════════════════════════════════════ */
+
+    function renderProgress() {
+      const ro = isReadOnly();
+      const cg = document.getElementById("progress-colgroup");
+      const thead = document.getElementById("progress-thead");
+
+      if (ro) {
+        cg.innerHTML = `<col style="width:190px"><col class="col-rep" style="width:120px"><col style="width:90px"><col style="width:90px"><col style="width:75px"><col style="width:75px"><col style="width:75px"><col style="width:275px">`;
+        thead.innerHTML = `<tr>
+          <th style="text-align:left">Account</th>
+          <th style="text-align:left">Rep</th>
+          <th class="col-center col-sep">Close Date</th>
+          <th class="col-center">Target Launch</th>
+          <th class="center col-sep">Launch Cadence</th>
+          <th class="center">To Do List Sent</th>
+          <th class="center">Kick Off Scheduled</th>
+          <th class="col-sep">Notes</th>
+        </tr>`;
+      } else {
+        cg.innerHTML = `<col style="width:200px"><col style="width:90px"><col style="width:90px"><col style="width:75px"><col style="width:75px"><col style="width:75px"><col style="width:395px">`;
+        thead.innerHTML = `<tr>
+          <th style="text-align:left">Account</th>
+          <th class="col-center col-sep">Close Date</th>
+          <th class="col-center">Target Launch</th>
+          <th class="center col-sep">Launch Cadence</th>
+          <th class="center">To Do List Sent</th>
+          <th class="center">Kick Off Scheduled</th>
+          <th class="col-sep">Notes</th>
+        </tr>`;
+      }
+
+      const saved    = loadData(currentRep);
+      const filtered = getFilteredOpps();
+      const tbody    = document.getElementById("opp-table-body");
       tbody.innerHTML = "";
-      const activeOpps = OPPS.filter(opp => {
+      const colspan  = ro ? 8 : 7;
+      const sorted   = [...filtered].sort((a, b) => new Date(b.closeDate) - new Date(a.closeDate));
+      let lastMonth  = null;
+
+      sorted.forEach(opp => {
+        const monthKey = new Date(opp.closeDate + 'T00:00:00').toLocaleDateString('en-US', { month:'long', year:'numeric' });
+        if (monthKey !== lastMonth) {
+          const hdr = document.createElement("tr");
+          hdr.classList.add("section-header");
+          hdr.innerHTML = `<td colspan="${colspan}">${monthKey}</td>`;
+          tbody.appendChild(hdr);
+          lastMonth = monthKey;
+        }
+
+        const s  = saved[opp.id] || { cadence:false, todo:false, kickoff:false, notes:"" };
+        const tr = document.createElement("tr");
+        tr.id = `row-${opp.id}`;
+        if (s.cadence && s.todo) tr.classList.add("launched");
+
+        if (ro) {
+          tr.innerHTML = `
+            <td class="account-name">${opp.name}</td>
+            <td style="font-size:12.5px;color:#6b7280;white-space:nowrap">${opp.rep}</td>
+            <td class="close-date col-sep col-center">${formatDate(opp.closeDate)}</td>
+            <td class="close-date col-center">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
+            <td class="check-cell col-sep"><div class="check-wrapper"><span class="ro-circle ${s.cadence?'on':''}"></span></div></td>
+            <td class="check-cell"><div class="check-wrapper"><span class="ro-circle ${s.todo?'on':''}"></span></div></td>
+            <td class="check-cell"><div class="check-wrapper"><span class="ro-circle ${s.kickoff?'on':''}"></span></div></td>
+            <td class="notes-cell col-sep"><div class="ro-notes">${s.notes ? s.notes.replace(/\n/g,'<br>') : '<span style="color:#d1d5db">—</span>'}</div></td>
+          `;
+        } else {
+          tr.innerHTML = `
+            <td class="account-name">${opp.name}</td>
+            <td class="close-date col-sep col-center">${formatDate(opp.closeDate)}</td>
+            <td class="close-date col-center">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
+            <td class="check-cell col-sep">
+              <div class="check-wrapper"><label class="step-label">
+                <input type="checkbox" id="cadence-${opp.id}" ${s.cadence?"checked":""} onchange="saveData()">
+                <span class="step-circle"></span>
+              </label></div>
+            </td>
+            <td class="check-cell">
+              <div class="check-wrapper"><label class="step-label">
+                <input type="checkbox" id="todo-${opp.id}" ${s.todo?"checked":""} onchange="saveData()">
+                <span class="step-circle"></span>
+              </label></div>
+            </td>
+            <td class="check-cell">
+              <div class="check-wrapper"><label class="step-label">
+                <input type="checkbox" id="kickoff-${opp.id}" ${s.kickoff?"checked":""} onchange="saveData()">
+                <span class="step-circle"></span>
+              </label></div>
+            </td>
+            <td class="notes-cell col-sep">
+              <textarea id="notes-${opp.id}" class="notes-input" placeholder="Add notes…"
+                oninput="autoResize(this);saveData()"
+                onkeydown="if(event.key==='Tab'){event.preventDefault();this.blur();}"
+                rows="1">${s.notes||""}</textarea>
+            </td>
+          `;
+        }
+        tbody.appendChild(tr);
+        if (!ro) {
+          requestAnimationFrame(() => {
+            const ta = document.getElementById(`notes-${opp.id}`);
+            if (ta && ta.value) autoResize(ta);
+          });
+        }
+      });
+      updateStats();
+    }
+
+    function saveData() {
+      if (isReadOnly()) return;
+      const data = {};
+      getFilteredOpps().forEach(opp => {
+        const el = document.getElementById(`cadence-${opp.id}`);
+        if (el) data[opp.id] = {
+          cadence : el.checked,
+          todo    : document.getElementById(`todo-${opp.id}`).checked,
+          kickoff : document.getElementById(`kickoff-${opp.id}`).checked,
+          notes   : document.getElementById(`notes-${opp.id}`).value,
+        };
+      });
+      localStorage.setItem(storageKey(currentRep), JSON.stringify(data));
+      flashSaved("save-status");
+      updateStats();
+    }
+
+    /* ════════════════════════════════════════════════
+       PANEL 2: LAUNCH PROGRESS
+    ════════════════════════════════════════════════ */
+
+    function renderAdoption() {
+      const ro = isReadOnly();
+      const cg = document.getElementById("adoption-colgroup");
+      const th = document.getElementById("adoption-thead");
+      const repCol = ro ? `<col class="col-rep" style="width:110px">` : "";
+      const repTh  = ro ? `<th style="text-align:left;min-width:110px">Rep</th>` : "";
+      cg.innerHTML = `<col class="col-account">${repCol}<col style="width:90px"><col class="col-date"><col class="col-metric"><col class="col-metric"><col class="col-metric"><col class="col-metric"><col style="width:100px"><col style="width:100px"><col style="width:100px"><col class="col-signal"><col class="col-notes">`;
+      th.innerHTML = `<tr>
+        <th style="text-align:left">Account</th>${repTh}
+        <th>Status</th><th>Launch Date</th><th>Companies</th><th>Catalogs</th>
+        <th>B2B Orders</th><th>B2B GMV</th><th>Last B2B Order</th>
+        <th>Avg Mo Volume</th><th>Avg Mo GMV</th>
+        <th style="text-align:left">Sidekick / Help Center</th>
+        <th style="text-align:left">Notes</th>
+      </tr>`;
+
+      const saved    = loadAdoptionData(currentRep);
+      const filtered = getFilteredOpps();
+      const tbody    = document.getElementById("adoption-table-body");
+      tbody.innerHTML = "";
+      const colspan  = ro ? 13 : 12;
+
+      const unlaunched = filtered.filter(opp => {
+        const s = saved[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
+        return !s.launched;
+      }).sort((a, b) => new Date(a.launchDate) - new Date(b.launchDate));
+
+      let lastMonth = null;
+      unlaunched.forEach(opp => {
+        const monthKey = new Date(opp.launchDate + 'T00:00:00').toLocaleDateString('en-US', { month:'long', year:'numeric' });
+        if (monthKey !== lastMonth) {
+          const hdr = document.createElement("tr");
+          hdr.classList.add("section-header");
+          hdr.innerHTML = `<td colspan="${colspan}">Target Launch: ${monthKey}</td>`;
+          tbody.appendChild(hdr);
+          lastMonth = monthKey;
+        }
+        const s   = saved[opp.id] || {};
+        const b2b = B2B_DATA[opp.id] || {};
+        const tr  = document.createElement("tr");
+        const sig = SIDEKICK_SIGNALS[opp.id];
+        const sigHtml = sig
+          ? `<div class="signal-display"><div class="signal-text"><span class="signal-date">${sig.date}</span>${sig.text}</div><a class="signal-link" href="${sig.url}" target="_blank">View conversation →</a></div>`
+          : `<span class="signal-empty">—</span>`;
+
+        const repCell = ro ? `<td style="font-size:12px;color:#6b7280;white-space:nowrap">${opp.rep}</td>` : "";
+
+        if (ro) {
+          tr.innerHTML = `
+            <td class="account-name"><div>${opp.name}</div><div class="account-sub">Closed ${formatDate(opp.closeDate)}</div></td>
+            ${repCell}
+            <td class="metric-cell">${launchBadge(opp.launchDate)}</td>
+            <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
+            <td class="metric-cell"><span class="metric-val">${b2b.companies??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.catalogs??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.orders??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.gmv??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.lastOrder??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.avgOrders??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.avgGmv??"—"}</span></td>
+            <td class="signal-cell">${sigHtml}</td>
+            <td class="notes-cell"><div class="ro-notes">${s.notes ? s.notes.replace(/\n/g,'<br>') : '<span style="color:#d1d5db">—</span>'}</div></td>
+          `;
+        } else {
+          const statusDot = s.launchStatus || "none";
+          tr.innerHTML = `
+            <td class="account-name">
+              <div class="account-name-wrap">
+                <input type="checkbox" id="launched-${opp.id}" ${s.launched?"checked":""} onchange="toggleLaunched('${opp.id}')" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">
+                <div>
+                  <div style="display:flex;align-items:center;gap:4px;"><span>${opp.name}</span></div>
+                  <div class="account-sub">Closed ${formatDate(opp.closeDate)}</div>
+                </div>
+              </div>
+            </td>
+            <td class="metric-cell">
+              <span class="status-dot" id="status-dot-${opp.id}" data-status="${statusDot}" onclick="cycleStatus('${opp.id}')" title="Click to cycle status"></span>
+              ${launchBadge(opp.launchDate)}
+            </td>
+            <td class="close-date">${opp.launchDate ? formatDate(opp.launchDate) : "—"}</td>
+            <td class="metric-cell"><span class="metric-val">${b2b.companies??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.catalogs??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.orders??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.gmv??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.lastOrder??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.avgOrders??"—"}</span></td>
+            <td class="metric-cell"><span class="metric-val">${b2b.avgGmv??"—"}</span></td>
+            <td class="signal-cell">${sigHtml}</td>
+            <td class="notes-cell">
+              <textarea id="adoption-notes-${opp.id}" class="notes-input" placeholder="Add notes…"
+                oninput="autoResize(this);saveAdoptionData()"
+                onkeydown="if(event.key==='Tab'){event.preventDefault();this.blur();}"
+                rows="1">${s.notes||""}</textarea>
+            </td>
+          `;
+        }
+        tbody.appendChild(tr);
+        if (!ro) {
+          requestAnimationFrame(() => {
+            const ta = document.getElementById(`adoption-notes-${opp.id}`);
+            if (ta && ta.value) autoResize(ta);
+          });
+        }
+      });
+    }
+
+    function saveAdoptionData(statusId) {
+      if (isReadOnly()) return;
+      const existing = loadAdoptionData(currentRep);
+      const data = Object.assign({}, existing);
+      getFilteredOpps().forEach(opp => {
+        const el = document.getElementById(`launched-${opp.id}`);
+        if (el) data[opp.id] = {
+          launched     : el.checked,
+          launchStatus : document.getElementById(`status-dot-${opp.id}`)?.dataset.status ?? (existing[opp.id]?.launchStatus || "none"),
+          notes        : document.getElementById(`adoption-notes-${opp.id}`)?.value ?? (existing[opp.id]?.notes || ""),
+        };
+      });
+      localStorage.setItem(adoptionStorageKey(currentRep), JSON.stringify(data));
+      flashSaved(statusId || "save-status-adoption");
+      updateLaunchedCount();
+    }
+
+    function toggleLaunched(oppId) {
+      saveAdoptionData();
+      renderAdoption();
+      renderActive();
+      getFilteredOpps().forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
+    }
+
+    function cycleStatus(oppId) {
+      if (isReadOnly()) return;
+      const dot = document.getElementById(`status-dot-${oppId}`);
+      if (!dot) return;
+      const order = ["none","green","yellow","red"];
+      dot.dataset.status = order[(order.indexOf(dot.dataset.status || "none") + 1) % order.length];
+      saveAdoptionData();
+    }
+
+    /* ════════════════════════════════════════════════
+       PANEL 3: ACTIVE
+    ════════════════════════════════════════════════ */
+
+    function renderActive() {
+      const ro = isReadOnly();
+      const cg = document.getElementById("active-colgroup");
+      const th = document.getElementById("active-thead");
+      const repCol = ro ? `<col class="col-rep" style="width:110px">` : "";
+      const repTh  = ro ? `<th style="text-align:left">Rep</th>` : "";
+      cg.innerHTML = `<col style="width:200px">${repCol}<col style="width:165px"><col style="width:85px"><col style="width:85px"><col style="width:95px"><col style="width:95px"><col style="width:95px"><col style="width:85px"><col style="width:85px"><col style="width:95px">`;
+      th.innerHTML = `<tr>
+        <th style="text-align:left">Account</th>${repTh}
+        <th class="center">Monthly GMV Trend</th>
+        <th>B2B Orders</th><th>B2B GMV</th><th>Last B2B Order</th>
+        <th>Avg Mo Volume</th><th>Avg Mo GMV</th>
+        <th>QoQ Growth</th><th>MoM Growth</th><th>Close Date</th>
+      </tr>`;
+
+      const saved    = loadAdoptionData(currentRep);
+      const filtered = getFilteredOpps();
+      const tbody    = document.getElementById("active-table-body");
+      tbody.innerHTML = "";
+      const colspan  = ro ? 11 : 10;
+
+      const activeOpps = filtered.filter(opp => {
         const s = saved[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
         return !!s.launched;
       });
+
       if (activeOpps.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center;color:#9ca3af;padding:32px 16px;font-size:13px;">No launched accounts yet — check "Launched?" in Launch Progress to move accounts here.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${colspan}" style="text-align:center;color:#9ca3af;padding:32px 16px;font-size:13px;">No launched accounts yet — check "Launched?" in Launch Progress to move accounts here.</td></tr>`;
         return;
       }
+
       activeOpps.forEach(opp => {
-        const s = saved[opp.id] || {};
         const b2b = B2B_DATA[opp.id] || {};
-        const tr = document.createElement("tr");
+        const tr  = document.createElement("tr");
         tr.id = `active-row-${opp.id}`;
         tr.classList.add("launched");
+        const repCell = ro ? `<td style="font-size:12px;color:#6b7280;white-space:nowrap">${opp.rep}</td>` : "";
+        const checkbox = ro ? "" : `<input type="checkbox" id="launched-${opp.id}" checked onchange="toggleLaunched('${opp.id}')" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">`;
+
         tr.innerHTML = `
           <td class="account-name">
             <div class="account-name-wrap">
-              <input type="checkbox" id="launched-${opp.id}" checked onchange="toggleLaunched('${opp.id}')" style="width:15px;height:15px;accent-color:#059669;cursor:pointer;flex-shrink:0;margin-right:8px;">
+              ${checkbox}
               <div>
                 <div>${opp.name}</div>
                 <div class="account-sub">Launched ${formatDate(opp.launchDate)}</div>
               </div>
             </div>
           </td>
+          ${repCell}
           <td class="metric-cell">
             <div class="trend-group">
-              <div class="trend-row-item">
-                <span class="trend-lbl">This mo</span>
-                ${trendSpan(b2b.mo0Gmv, b2b.mo1Gmv)}
-              </div>
-              <div class="trend-row-item">
-                <span class="trend-lbl">Last mo</span>
-                ${trendSpan(b2b.mo1Gmv, b2b.mo2Gmv)}
-              </div>
-              <div class="trend-row-item">
-                <span class="trend-lbl">2 mo ago</span>
-                <span class="trend-flat">${b2b.mo2Gmv ?? "—"}</span>
-              </div>
+              <div class="trend-row-item"><span class="trend-lbl">This mo</span>${trendSpan(b2b.mo0Gmv, b2b.mo1Gmv)}</div>
+              <div class="trend-row-item"><span class="trend-lbl">Last mo</span>${trendSpan(b2b.mo1Gmv, b2b.mo2Gmv)}</div>
+              <div class="trend-row-item"><span class="trend-lbl">2 mo ago</span><span class="trend-flat">${b2b.mo2Gmv??"—"}</span></div>
             </div>
           </td>
-          <td class="metric-cell"><span class="metric-val">${b2b.orders ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.gmv ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.lastOrder ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.avgOrders ?? "—"}</span></td>
-          <td class="metric-cell"><span class="metric-val">${b2b.avgGmv ?? "—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.orders??"—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.gmv??"—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.lastOrder??"—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.avgOrders??"—"}</span></td>
+          <td class="metric-cell"><span class="metric-val">${b2b.avgGmv??"—"}</span></td>
           <td class="metric-cell">${growthSpan(b2b.qoqGrowth)}</td>
           <td class="metric-cell">${growthSpan(b2b.momGrowth)}</td>
           <td class="close-date">${formatDate(opp.closeDate)}</td>
         `;
         tbody.appendChild(tr);
       });
+    }
+
+    /* ════════════════════════════════════════════════
+       STATS
+    ════════════════════════════════════════════════ */
+
+    function updateStats() { updateLaunchedCount(); }
+
+    function updateLaunchedCount() {
+      const adoptionData = loadAdoptionData(currentRep);
+      const filtered     = getFilteredOpps();
+      let launchedCount  = 0;
+      filtered.forEach(opp => {
+        const s = adoptionData[opp.id] || DEFAULT_ADOPTION[opp.id] || {};
+        if (s.launched) launchedCount++;
+      });
+      document.getElementById("stat-total").textContent    = filtered.length;
+      document.getElementById("stat-launched").textContent = launchedCount;
+      document.getElementById("launch-badge").textContent  = `${launchedCount} Launched`;
+      const pct = filtered.length > 0 ? Math.round((launchedCount / filtered.length) * 100) : 0;
+      document.getElementById("progress-fill").style.width  = pct + "%";
+      document.getElementById("progress-label").textContent = `${launchedCount} of ${filtered.length} fully launched`;
+      updateTabCounts(launchedCount, filtered.length);
+    }
+
+    function updateTabCounts(launchedCount, total) {
+      const notLaunched = total - launchedCount;
+      document.getElementById("tab-q1").textContent       = `Q1 2026 (${total})`;
+      document.getElementById("tab-progress").textContent = `To Do (${total})`;
+      document.getElementById("tab-adoption").textContent = `Launch Progress (${notLaunched})`;
+      document.getElementById("tab-active").textContent   = `Active (${launchedCount})`;
     }
 
     function checkChurnedStatus(oppId) {
@@ -990,18 +1091,12 @@
       const parts = val.split("/");
       const d = parts.length === 3 ? new Date(`20${parts[2]}-${parts[0]}-${parts[1]}`) : new Date(NaN);
       if (isNaN(d)) { tr.classList.remove("churned-flag"); updateChurnedCount(); return; }
-      const days = Math.floor((new Date() - d) / 86400000);
-      tr.classList.toggle("churned-flag", days >= 180);
+      tr.classList.toggle("churned-flag", Math.floor((new Date() - d) / 86400000) >= 180);
       updateChurnedCount();
     }
 
     function updateChurnedCount() {
-      const count = document.querySelectorAll("#active-table-body tr.churned-flag").length;
-      document.getElementById("stat-churned").textContent = count;
-    }
-
-    function updateRiskStats() {
-      OPPS.forEach(opp => checkChurnedStatus(opp.id));
+      document.getElementById("stat-churned").textContent = document.querySelectorAll("#active-table-body tr.churned-flag").length;
     }
 
     function checkAtRiskTrend(oppId) {
@@ -1009,30 +1104,67 @@
       if (!tr) return;
       const parseGmv = v => parseFloat((v || "").replace(/[^0-9.]/g, ""));
       const b2b = B2B_DATA[oppId] || {};
-      const mo2 = parseGmv(b2b.mo2Gmv);
-      const mo1 = parseGmv(b2b.mo1Gmv);
-      const mo0 = parseGmv(b2b.mo0Gmv);
-      const isAtRisk = !isNaN(mo2) && !isNaN(mo1) && !isNaN(mo0) &&
-                       mo2 > 0 && mo1 <= mo2 * 0.75 && mo0 <= mo1 * 0.75;
+      const mo2 = parseGmv(b2b.mo2Gmv), mo1 = parseGmv(b2b.mo1Gmv), mo0 = parseGmv(b2b.mo0Gmv);
+      const isAtRisk = !isNaN(mo2) && !isNaN(mo1) && !isNaN(mo0) && mo2 > 0 && mo1 <= mo2 * 0.75 && mo0 <= mo1 * 0.75;
       tr.classList.toggle("at-risk-flag", isAtRisk);
       updateAtRiskCount();
     }
 
     function updateAtRiskCount() {
-      const count = document.querySelectorAll("#active-table-body tr.at-risk-flag").length;
-      document.getElementById("stat-at-risk").textContent = count;
+      document.getElementById("stat-at-risk").textContent = document.querySelectorAll("#active-table-body tr.at-risk-flag").length;
     }
 
-    /* ── Init ── */
-    renderAdoption();
-    renderActive();
-    OPPS.forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
-    updateLaunchedCount();
+    /* ════════════════════════════════════════════════
+       PBR
+    ════════════════════════════════════════════════ */
+
+    function initPbr() {
+      const total = getFilteredOpps().reduce((s, opp) => s + (OPP_PBR[opp.id] || 0), 0);
+      const el = document.getElementById("pbr-total");
+      if (el) el.textContent = "$" + total.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 });
+    }
+
+    /* ════════════════════════════════════════════════
+       REFRESH
+    ════════════════════════════════════════════════ */
+
+    function copyRefreshPrompt() {
+      const ctx = currentRep === "All Reps" ? "all reps on the team" : currentRep;
+      const prompt = `Refresh the B2B team launch dashboard — pull the latest Sidekick B2B signals (questions containing "b2b", "wholesale", "company", "companies") and B2B metrics (orders, GMV, last order date) for all accounts for ${ctx} and update team-launch-dashboard.html.`;
+      navigator.clipboard.writeText(prompt).then(() => {
+        const el = document.getElementById("refresh-status");
+        el.textContent = "✓ Copied! Paste into Claude to refresh.";
+        el.classList.add("copied");
+        setTimeout(() => { el.classList.remove("copied"); updateRefreshLabel(); }, 4000);
+      });
+    }
+
+    function updateRefreshLabel() {
+      const ts = localStorage.getItem(REFRESH_KEY);
+      const el = document.getElementById("refresh-status");
+      if (!ts) { el.textContent = "Last refreshed: never"; return; }
+      const d = new Date(parseInt(ts));
+      el.textContent = `Last refreshed: ${d.toLocaleDateString("en-US",{month:"short",day:"numeric"})} at ${d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}`;
+    }
+
+    /* ════════════════════════════════════════════════
+       RENDER ALL + INIT
+    ════════════════════════════════════════════════ */
+
+    function renderAll() {
+      renderProgress();
+      renderAdoption();
+      renderActive();
+      getFilteredOpps().forEach(opp => { checkAtRiskTrend(opp.id); checkChurnedStatus(opp.id); });
+      updateLaunchedCount();
+      initPbr();
+    }
+
+    renderAll();
     if (!localStorage.getItem(REFRESH_KEY)) {
       localStorage.setItem(REFRESH_KEY, "1743033600000"); // Mar 26, 2026
     }
     updateRefreshLabel();
   </script>
-  </div><!-- /main-content -->
 </body>
 </html>
