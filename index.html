@@ -39,26 +39,6 @@
       gap: 8px;
     }
 
-    .rep-select {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 9px 28px 9px 12px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-      cursor: pointer;
-      font-family: inherit;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%236b7280' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-    }
-    .rep-select:hover { border-color: #d1d5db; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
-    .rep-select:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.08); }
-
     .refresh-btn {
       display: flex;
       align-items: center;
@@ -330,24 +310,15 @@
     body.all-reps-mode .readonly-banner { display: block; }
   </style>
 </head>
-<body class="all-reps-mode">
+<body>
 
   <header>
     <div class="header-left">
       <h1>B2B Launch Dashboard <span class="badge" id="launch-badge">0 Launched</span></h1>
-      <p id="header-subtitle">Track launch progress for all closed-won B2B opportunities · Full Team · Q1/Q2 2026</p>
+      <p id="header-subtitle">Track launch progress for all closed-won B2B opportunities · Kelly Miles · Q1/Q2 2026</p>
     </div>
     <div class="refresh-wrap">
       <div class="refresh-controls">
-        <select class="rep-select" id="rep-filter" onchange="onRepChange()">
-          <option value="All Reps">All Reps</option>
-          <option value="Kelly Miles">Kelly Miles</option>
-          <!-- TODO: Replace placeholder names below with actual rep names -->
-          <option value="Rep Placeholder 2">Rep Placeholder 2</option>
-          <option value="Rep Placeholder 3">Rep Placeholder 3</option>
-          <option value="Rep Placeholder 4">Rep Placeholder 4</option>
-          <option value="Rep Placeholder 5">Rep Placeholder 5</option>
-        </select>
         <button class="refresh-btn" onclick="copyRefreshPrompt()">
           <span class="icon">↻</span> Refresh Data
         </button>
@@ -553,7 +524,7 @@
        STATE & STORAGE
     ════════════════════════════════════════════════ */
 
-    let currentRep = "All Reps";
+    let currentRep = "Kelly Miles";
     const REFRESH_KEY = "b2b-team-dashboard-last-refreshed";
 
     function slug(name) {
@@ -604,38 +575,9 @@
       return merged;
     }
 
-    function isReadOnly()    { return currentRep === "All Reps"; }
+    function isReadOnly()    { return false; }
     function getFilteredOpps() {
-      return currentRep === "All Reps" ? OPPS : OPPS.filter(o => o.rep === currentRep);
-    }
-
-    /* ════════════════════════════════════════════════
-       REP FILTER
-    ════════════════════════════════════════════════ */
-
-    function onRepChange() {
-      currentRep = document.getElementById("rep-filter").value;
-      const ro = isReadOnly();
-
-      // Header
-      const subtitle = document.getElementById("header-subtitle");
-      if (ro) {
-        subtitle.textContent = "Track launch progress for all closed-won B2B opportunities · Full Team · Q1/Q2 2026";
-        document.title = "B2B Launch Dashboard — Team";
-        document.body.classList.add("all-reps-mode");
-      } else {
-        subtitle.textContent = `Track launch progress for all closed-won B2B opportunities · ${currentRep} · Q1/Q2 2026`;
-        document.title = `B2B Launch Dashboard — ${currentRep}`;
-        document.body.classList.remove("all-reps-mode");
-      }
-
-      // Save buttons: visible only in single-rep mode
-      ["save-btn-progress","save-btn-adoption","save-btn-active"].forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn) btn.style.display = ro ? "none" : "";
-      });
-
-      renderAll();
+      return OPPS.filter(o => o.rep === currentRep);
     }
 
     /* ════════════════════════════════════════════════
@@ -1129,7 +1071,7 @@
     ════════════════════════════════════════════════ */
 
     function copyRefreshPrompt() {
-      const ctx = currentRep === "All Reps" ? "all reps on the team" : currentRep;
+      const ctx = currentRep;
       const prompt = `Refresh the B2B team launch dashboard — pull the latest Sidekick B2B signals (questions containing "b2b", "wholesale", "company", "companies") and B2B metrics (orders, GMV, last order date) for all accounts for ${ctx} and update team-launch-dashboard.html.`;
       navigator.clipboard.writeText(prompt).then(() => {
         const el = document.getElementById("refresh-status");
